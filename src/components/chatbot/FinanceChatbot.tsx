@@ -5,7 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Bot, Send, Mic, MicOff, MessageSquareText } from "lucide-react";
+import { Bot, Send, Mic, MicOff, MessageSquareText, HelpCircle, BookText, FileText } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type Message = {
   id: string;
@@ -23,8 +27,46 @@ const botResponses: Record<string, string> = {
   "cash flow": "Cash flow is the net amount of cash moving in and out of your business. Positive cash flow indicates more money coming in than going out, which is essential for financial stability.",
   "depreciation": "Depreciation is an accounting method to allocate the cost of a tangible asset over its useful life. It represents how much of an asset's value has been used up over time.",
   "invoice": "I can help you create and manage invoices through our invoicing system. Would you like me to show you how to create a new invoice?",
-  "balance sheet": "A balance sheet provides a snapshot of your company's financial position at a specific point in time, showing assets, liabilities, and equity."
+  "balance sheet": "A balance sheet provides a snapshot of your company's financial position at a specific point in time, showing assets, liabilities, and equity.",
+  "deductions": "Common business deductions include office expenses, travel costs, employee benefits, insurance premiums, and professional development. Do you have a specific category you'd like to explore?",
+  "reconcile": "To reconcile a bank statement, compare your financial records with the bank's statement, identify and explain any differences, and make adjustments as needed. Would you like me to guide you through this process step by step?",
+  "generate report": "I can generate various financial reports based on your data. Would you like a profit and loss statement, balance sheet, cash flow report, or something else?",
+  "create invoice": "I can help create an invoice for you. Please provide the client name, services/products, amounts, and any additional details you'd like to include."
 };
+
+// Expanded categories for the Help dialog
+const helpCategories = [
+  {
+    name: "Tax",
+    icon: <FileText className="h-5 w-5 text-blue-500" />,
+    questions: [
+      "When is my tax deadline?",
+      "What tax deductions can I claim?",
+      "How do I file for a tax extension?",
+      "What is the difference between tax credits and deductions?"
+    ]
+  },
+  {
+    name: "Accounting",
+    icon: <BookText className="h-5 w-5 text-green-500" />,
+    questions: [
+      "How do I reconcile my bank statement?",
+      "What is depreciation?",
+      "How do I calculate profit margin?",
+      "What should be included in a balance sheet?"
+    ]
+  },
+  {
+    name: "Cash Flow",
+    icon: <HelpCircle className="h-5 w-5 text-purple-500" />,
+    questions: [
+      "How do I improve my cash flow?",
+      "What's the difference between profit and cash flow?",
+      "How do I forecast my cash flow?",
+      "What are accounts receivable best practices?"
+    ]
+  }
+];
 
 // Get response based on user input
 const getResponse = (input: string): string => {
@@ -58,8 +100,11 @@ const FinanceChatbot = () => {
   ]);
   const [input, setInput] = useState("");
   const [isListening, setIsListening] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   // Auto-scroll to bottom of messages
   useEffect(() => {
@@ -79,6 +124,7 @@ const FinanceChatbot = () => {
     
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
+    setIsProcessing(true);
     
     // Simulate AI thinking
     setTimeout(() => {
@@ -90,7 +136,8 @@ const FinanceChatbot = () => {
       };
       
       setMessages((prev) => [...prev, botMessage]);
-    }, 1000);
+      setIsProcessing(false);
+    }, 1500);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -140,9 +187,43 @@ const FinanceChatbot = () => {
     }
   };
 
+  const handleUseQuestion = (question: string) => {
+    setInput(question);
+    setShowHelp(false);
+  };
+
+  const HelpContent = () => (
+    <div className="space-y-6 py-2">
+      <p className="text-sm text-muted-foreground">
+        Here are some questions you can ask me:
+      </p>
+      {helpCategories.map((category) => (
+        <div key={category.name} className="space-y-2">
+          <div className="flex items-center gap-2">
+            {category.icon}
+            <h3 className="font-medium">{category.name} Questions</h3>
+          </div>
+          <ul className="space-y-2 ml-7">
+            {category.questions.map((question) => (
+              <li key={question}>
+                <Button 
+                  variant="link" 
+                  className="p-0 h-auto text-muted-foreground hover:text-primary justify-start"
+                  onClick={() => handleUseQuestion(question)}
+                >
+                  {question}
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <Card className="border-border shadow-sm h-full flex flex-col">
-      <CardHeader>
+      <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="flex items-center">
@@ -156,9 +237,48 @@ const FinanceChatbot = () => {
               Ask anything about your finances or accounting
             </CardDescription>
           </div>
+          {isMobile ? (
+            <Drawer>
+              <DrawerTrigger asChild>
+                <Button size="sm" variant="outline" className="h-8">
+                  <HelpCircle className="h-4 w-4 mr-1" />
+                  Help
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>Help & Suggestions</DrawerTitle>
+                  <DrawerDescription>
+                    Try asking one of these questions
+                  </DrawerDescription>
+                </DrawerHeader>
+                <div className="px-4 pb-4">
+                  <HelpContent />
+                </div>
+              </DrawerContent>
+            </Drawer>
+          ) : (
+            <>
+              <Button size="sm" variant="outline" className="h-8" onClick={() => setShowHelp(true)}>
+                <HelpCircle className="h-4 w-4 mr-1" />
+                Help
+              </Button>
+              <Dialog open={showHelp} onOpenChange={setShowHelp}>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Help & Suggestions</DialogTitle>
+                    <DialogDescription>
+                      Try asking one of these questions
+                    </DialogDescription>
+                  </DialogHeader>
+                  <HelpContent />
+                </DialogContent>
+              </Dialog>
+            </>
+          )}
         </div>
       </CardHeader>
-      <CardContent className="flex-grow overflow-hidden">
+      <CardContent className="flex-grow overflow-hidden p-4">
         <div className="h-[300px] overflow-y-auto pr-2 space-y-4">
           {messages.map((message) => (
             <div
@@ -184,6 +304,16 @@ const FinanceChatbot = () => {
               </div>
             </div>
           ))}
+          {isProcessing && (
+            <div className="flex justify-start">
+              <div className="max-w-[80%] rounded-lg px-4 py-2 bg-muted">
+                <div className="flex items-center space-x-2">
+                  <div className="text-sm">Thinking</div>
+                  <Progress className="w-16 h-2" value={90} />
+                </div>
+              </div>
+            </div>
+          )}
           <div ref={messagesEndRef} />
         </div>
       </CardContent>
@@ -203,8 +333,9 @@ const FinanceChatbot = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
             className="flex-grow"
+            disabled={isProcessing}
           />
-          <Button size="icon" onClick={handleSendMessage} disabled={!input.trim()}>
+          <Button size="icon" onClick={handleSendMessage} disabled={!input.trim() || isProcessing}>
             <Send className="h-4 w-4" />
           </Button>
         </div>
