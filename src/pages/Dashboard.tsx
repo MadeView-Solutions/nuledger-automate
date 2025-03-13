@@ -9,6 +9,7 @@ import RecentActivity from "@/components/dashboard/RecentActivity";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import FraudDetection from "@/components/security/FraudDetection";
 import FinanceChatbot from "@/components/chatbot/FinanceChatbot";
+import SecurityMeasures from "@/components/security/SecurityMeasures";
 
 const Dashboard = () => {
   return (
@@ -39,6 +40,8 @@ const Dashboard = () => {
               <FraudDetection />
               <FinanceChatbot />
             </div>
+
+            <SecurityMeasures />
 
             <TransactionsList />
           </div>
