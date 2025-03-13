@@ -141,9 +141,7 @@ const TaxForms = () => {
         return "Ready to File";
       case "in-progress":
         return "In Progress";
-      case "not-starte
-
-d":
+      case "not-started":
         return "Not Started";
       default:
         return status;
