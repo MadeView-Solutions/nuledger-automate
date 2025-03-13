@@ -1,9 +1,8 @@
-
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { SearchIcon, BellIcon, Menu, Settings, LogOut, User, HelpCircle, Home, BarChart3, FileText, CreditCard, Users, PieChart, ShieldCheck } from "lucide-react";
+import { SearchIcon, BellIcon, Menu, Settings, LogOut, User, HelpCircle, Home, BarChart3, FileText, CreditCard, Users, PieChart, ShieldCheck, Calculator } from "lucide-react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -16,6 +15,7 @@ const navigation = [
   { name: "Payments", href: "/payments", icon: CreditCard },
   { name: "Clients", href: "/clients", icon: Users },
   { name: "Reports", href: "/reports", icon: PieChart },
+  { name: "Tax Compliance", href: "/tax-compliance", icon: Calculator },
   { name: "API Keys", href: "/settings", icon: ShieldCheck },
 ];
 

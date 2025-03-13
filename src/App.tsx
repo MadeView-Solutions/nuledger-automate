@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import AIBookkeeping from "./pages/AIBookkeeping";
 import Invoicing from "./pages/Invoicing";
+import TaxCompliance from "./pages/TaxCompliance";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/settings" element={<Settings />} />
           <Route path="/ai-bookkeeping" element={<AIBookkeeping />} />
           <Route path="/invoicing" element={<Invoicing />} />
+          <Route path="/tax-compliance" element={<TaxCompliance />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
