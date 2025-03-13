@@ -5,6 +5,7 @@ import PayrollAutomation from "@/components/payroll/PayrollAutomation";
 import FinanceChatbot from "@/components/chatbot/FinanceChatbot";
 import IntegrationsSummary from "@/components/integrations/IntegrationsSummary";
 
+// This component is now distributed across specific feature pages
 const AIFeaturesSection = () => {
   return (
     <>

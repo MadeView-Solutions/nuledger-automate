@@ -7,6 +7,8 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import TransactionManager from "@/components/bookkeeping/TransactionManager";
 import JournalEntries from "@/components/bookkeeping/JournalEntries";
 import AccountSync from "@/components/bookkeeping/AccountSync";
+import SmartFormulaGenerator from "@/components/ai/SmartFormulaGenerator";
+import FinanceChatbot from "@/components/chatbot/FinanceChatbot";
 
 const AIBookkeeping = () => {
   return (
@@ -17,6 +19,13 @@ const AIBookkeeping = () => {
           <div className="flex space-x-3">
             <Button variant="outline">Export Data</Button>
             <Button>Sync Accounts</Button>
+          </div>
+        </div>
+
+        <div className="space-y-8 mb-8">
+          <SmartFormulaGenerator />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+            <FinanceChatbot />
           </div>
         </div>
 

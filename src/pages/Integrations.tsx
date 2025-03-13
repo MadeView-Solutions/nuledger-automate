@@ -8,6 +8,7 @@ import AccountingSoftware from "@/components/integrations/AccountingSoftware";
 import BankingPayments from "@/components/integrations/BankingPayments";
 import TaxCompliance from "@/components/integrations/TaxComplianceAPIs";
 import AIProcessing from "@/components/integrations/AIProcessing";
+import IntegrationsSummary from "@/components/integrations/IntegrationsSummary";
 
 const Integrations = () => {
   return (
@@ -19,6 +20,10 @@ const Integrations = () => {
             <Button variant="outline">View Documentation</Button>
             <Button>Add New Integration</Button>
           </div>
+        </div>
+
+        <div className="mb-8">
+          <IntegrationsSummary />
         </div>
 
         <Tabs defaultValue="accounting" className="w-full">

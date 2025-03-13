@@ -10,8 +10,6 @@ import { Plus, Download } from "lucide-react";
 import Overview from "@/components/dashboard/Overview";
 import TransactionSection from "@/components/dashboard/TransactionSection";
 import FinancialOverviewSection from "@/components/dashboard/FinancialOverviewSection";
-import AIFeaturesSection from "@/components/dashboard/AIFeaturesSection";
-import SecuritySection from "@/components/dashboard/SecuritySection";
 
 const Dashboard = () => {
   const isMobile = useIsMobile();
@@ -40,12 +38,6 @@ const Dashboard = () => {
             
             {/* Financial Overview Section with Stats and Activity */}
             <FinancialOverviewSection />
-            
-            {/* AI Features Section */}
-            <AIFeaturesSection />
-            
-            {/* Security Section */}
-            <SecuritySection />
             
             {/* Transactions Section */}
             <TransactionSection />
