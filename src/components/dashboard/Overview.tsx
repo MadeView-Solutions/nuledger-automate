@@ -1,6 +1,9 @@
+
 import React from "react";
 import { BarChart3, ArrowUp, ArrowDown, DollarSign, CreditCard, TrendingUp, RefreshCcw, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { NavLink } from "react-router-dom";
 
 const metrics = [
   {
@@ -92,13 +95,13 @@ const Overview = () => {
             Transactions awaiting reconciliation
           </p>
           <div className="mt-3">
-            <Link 
+            <NavLink 
               to="/bank-reconciliation"
               className="text-xs text-primary flex items-center"
             >
               <ArrowRight className="h-3 w-3 mr-1" />
               Run AI reconciliation
-            </Link>
+            </NavLink>
           </div>
         </CardContent>
       </Card>
