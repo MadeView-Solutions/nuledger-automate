@@ -71,14 +71,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                     className={cn(
                       "group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition ease-in-out",
                       isCurrentRoute
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                        ? "bg-gradient-to-r from-sidebar-primary to-sidebar-primary/80 text-sidebar-primary-foreground shadow-md"
                         : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     )}
                   >
                     <item.icon
                       className={cn("mr-3 h-5 w-5 flex-shrink-0", 
                       isCurrentRoute 
-                        ? "text-sidebar-primary-foreground" 
+                        ? "text-sidebar-primary-foreground drop-shadow-sm" 
                         : "text-sidebar-foreground/70 group-hover:text-sidebar-accent-foreground")}
                     />
                     {item.name}
@@ -141,14 +141,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             <div className="flex items-center space-x-3">
               <Button variant="ghost" size="icon" className="h-9 w-9 relative text-white hover:bg-white/10">
                 <BellIcon className="h-5 w-5" />
-                <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
+                <span className="absolute top-1 right-1 h-2.5 w-2.5 bg-red-500 rounded-full border border-header"></span>
               </Button>
               <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-white/10">
                 <HelpCircle className="h-5 w-5" />
               </Button>
               <Link to="/settings">
-                <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-white/10">
+                <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-white/10 relative">
                   <Settings className="h-5 w-5" />
+                  {location.pathname === "/settings" && (
+                    <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full"></span>
+                  )}
                 </Button>
               </Link>
             </div>

@@ -133,6 +133,19 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  
+  .highlight-item {
+    @apply relative overflow-hidden;
+  }
+  
+  .highlight-item::after {
+    @apply content-[''] absolute -bottom-0 left-0 w-full h-0.5 bg-white transform scale-x-0 origin-bottom-right transition-transform duration-300;
+  }
+  
+  .highlight-item:hover::after,
+  .highlight-item.active::after {
+    @apply transform scale-x-100 origin-bottom-left;
+  }
 }
 
 .page-transition-enter {
