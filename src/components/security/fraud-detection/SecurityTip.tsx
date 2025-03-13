@@ -1,40 +1,26 @@
 
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Shield } from "lucide-react";
 
-// Array of security tips
 const securityTips = [
-  "Enable two-factor authentication for all financial accounts to significantly enhance your security posture.",
-  "Regularly update your passwords and use a password manager to maintain strong, unique credentials for each service.",
-  "Monitor your accounts for suspicious activity and set up transaction alerts for unusual spending.",
-  "Be cautious of phishing attempts - financial institutions will never ask for sensitive information via email.",
-  "Use a secure, private network for financial transactions and avoid public Wi-Fi for sensitive operations.",
-  "Keep your software updated to protect against known security vulnerabilities.",
-  "Enable login notifications to be alerted when someone accesses your account from a new device.",
-  "Review third-party app permissions regularly and revoke access for unused applications.",
+  "Enable two-factor authentication for all financial accounts",
+  "Regularly review and update access permissions for team members",
+  "Monitor login locations and times for unusual activity",
+  "Implement strong password policies and use a password manager",
+  "Keep all software and systems updated with the latest security patches",
 ];
 
 const SecurityTip: React.FC = () => {
-  const [currentTip, setCurrentTip] = useState("");
-
-  // Select a random tip
-  const getRandomTip = () => {
-    const randomIndex = Math.floor(Math.random() * securityTips.length);
-    return securityTips[randomIndex];
-  };
-
-  // Set initial tip on component mount
-  useEffect(() => {
-    setCurrentTip(getRandomTip());
-  }, []);
+  // Get a random tip from the array
+  const tip = securityTips[Math.floor(Math.random() * securityTips.length)];
 
   return (
-    <Alert>
-      <Shield className="h-4 w-4" />
-      <AlertTitle>Security Tip</AlertTitle>
-      <AlertDescription>
-        {currentTip}
+    <Alert variant="default" className="bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
+      <AlertCircle className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+      <AlertTitle className="text-blue-700 dark:text-blue-400 ml-2">Security Tip</AlertTitle>
+      <AlertDescription className="text-blue-700/80 dark:text-blue-400/80 ml-6">
+        {tip}
       </AlertDescription>
     </Alert>
   );

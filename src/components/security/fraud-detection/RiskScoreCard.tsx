@@ -1,66 +1,134 @@
 
 import React from "react";
-import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Card, CardContent } from "@/components/ui/card";
 import { RiskScoreData } from "./types";
+import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 interface RiskScoreCardProps {
   riskScoreData: RiskScoreData;
 }
 
 const RiskScoreCard: React.FC<RiskScoreCardProps> = ({ riskScoreData }) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="bg-card border rounded-lg p-4">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-sm font-medium">Overall Risk Score</h3>
-          <Badge
-            className={
-              riskScoreData.overall > 80
-                ? "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
-                : riskScoreData.overall > 50
-                ? "bg-amber-100 text-amber-800 dark:bg-amber-900/20 dark:text-amber-400"
-                : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
-            }
-          >
-            {riskScoreData.overall}/100
-          </Badge>
-        </div>
-        <div className="relative pt-1">
-          <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-200 dark:bg-gray-700">
-            <div
-              style={{ width: `${riskScoreData.overall}%` }}
-              className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-green-500 dark:bg-green-400"
-            ></div>
-          </div>
-        </div>
-        <p className="text-xs text-muted-foreground mt-2">
-          <span className="text-green-600 dark:text-green-400">
-            ↑ {riskScoreData.overall - riskScoreData.previousScore}%
-          </span>{" "}
-          improvement from previous assessment
-        </p>
-      </div>
+  const { overall, previousScore, categories } = riskScoreData;
+  const scoreDifference = overall - previousScore;
+  const isScoreImproved = scoreDifference > 0;
 
-      <div className="grid grid-cols-2 gap-2">
-        {Object.entries(riskScoreData.categories).map(([key, value]) => (
-          <div key={key} className="bg-muted/50 rounded-lg p-3">
-            <p className="text-xs text-muted-foreground capitalize">
-              {key.replace(/([A-Z])/g, " $1").trim()}
-            </p>
-            <div className="flex items-center justify-between">
-              <p className="text-lg font-semibold">{value}%</p>
-              <div
-                className={`h-2 w-2 rounded-full ${
-                  value > 80
-                    ? "bg-green-500"
-                    : value > 50
-                    ? "bg-amber-500"
-                    : "bg-red-500"
-                }`}
-              ></div>
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return "bg-green-500";
+    if (score >= 60) return "bg-amber-500";
+    return "bg-red-500";
+  };
+
+  return (
+    <div>
+      <h3 className="text-sm font-medium mb-3">Security Risk Score</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="md:col-span-1 bg-card">
+          <CardContent className="p-6">
+            <div className="text-center">
+              <div className="mb-2 text-sm text-muted-foreground">Overall Score</div>
+              <div className="relative inline-flex items-center justify-center">
+                <svg className="w-24 h-24">
+                  <circle
+                    cx="48"
+                    cy="48"
+                    r="36"
+                    fill="none"
+                    strokeWidth="8"
+                    stroke="currentColor"
+                    className="text-muted/20"
+                  />
+                  <circle
+                    cx="48"
+                    cy="48"
+                    r="36"
+                    fill="none"
+                    strokeWidth="8"
+                    stroke="currentColor"
+                    strokeDasharray={36 * 2 * Math.PI}
+                    strokeDashoffset={36 * 2 * Math.PI * (1 - overall / 100)}
+                    className={
+                      overall >= 80
+                        ? "text-green-500"
+                        : overall >= 60
+                        ? "text-amber-500"
+                        : "text-red-500"
+                    }
+                    strokeLinecap="round"
+                    transform="rotate(-90 48 48)"
+                  />
+                </svg>
+                <span className="absolute text-2xl font-bold">{overall}</span>
+              </div>
+              <div className="mt-2 flex items-center justify-center">
+                {isScoreImproved ? (
+                  <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
+                ) : (
+                  <ArrowDownRight className="h-4 w-4 text-red-500 mr-1" />
+                )}
+                <span
+                  className={`text-sm ${
+                    isScoreImproved ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {Math.abs(scoreDifference)} points {isScoreImproved ? "up" : "down"}
+                </span>
+              </div>
             </div>
-          </div>
-        ))}
+          </CardContent>
+        </Card>
+
+        <Card className="md:col-span-2">
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between mb-1 text-sm">
+                  <span>Transaction Security</span>
+                  <span className="font-medium">{categories.transactionSecurity}</span>
+                </div>
+                <Progress
+                  value={categories.transactionSecurity}
+                  className="h-2"
+                  indicatorClassName={getScoreColor(categories.transactionSecurity)}
+                />
+              </div>
+              <div>
+                <div className="flex justify-between mb-1 text-sm">
+                  <span>User Authentication</span>
+                  <span className="font-medium">{categories.userAuthentication}</span>
+                </div>
+                <Progress
+                  value={categories.userAuthentication}
+                  className="h-2"
+                  indicatorClassName={getScoreColor(categories.userAuthentication)}
+                />
+              </div>
+              <div>
+                <div className="flex justify-between mb-1 text-sm">
+                  <span>Data Protection</span>
+                  <span className="font-medium">{categories.dataProtection}</span>
+                </div>
+                <Progress
+                  value={categories.dataProtection}
+                  className="h-2"
+                  indicatorClassName={getScoreColor(categories.dataProtection)}
+                />
+              </div>
+              <div>
+                <div className="flex justify-between mb-1 text-sm">
+                  <span>Vendor Risk</span>
+                  <span className="font-medium">{categories.vendorRisk}</span>
+                </div>
+                <Progress
+                  value={categories.vendorRisk}
+                  className="h-2"
+                  indicatorClassName={getScoreColor(categories.vendorRisk)}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

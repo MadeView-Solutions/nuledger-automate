@@ -1,73 +1,74 @@
 
-// Data for budget recommendations
-export type Recommendation = {
-  id: number;
-  category: string;
-  currentSpend: number;
-  recommendedSpend: number;
+export interface Recommendation {
+  id: string;
+  title: string;
+  description: string;
+  impact: 'high' | 'medium' | 'low';
+  category: 'expense' | 'revenue' | 'cash flow';
   potentialSavings: number;
-  impact: "low" | "medium" | "high";
-  reasoning: string;
-  status: "recommendation" | "opportunity" | "warning";
-  icon: any;
-};
-
-import { TrendingDown, TrendingUp, AlertTriangle } from "lucide-react";
+  status: 'recommendation' | 'opportunity' | 'warning';
+  implementationTimeframe: string;
+}
 
 export const recommendations: Recommendation[] = [
   {
-    id: 1,
-    category: "Office Supplies",
-    currentSpend: 2500,
-    recommendedSpend: 1800,
-    potentialSavings: 700,
-    impact: "low",
-    reasoning: "Based on your usage patterns, you're overspending on office supplies by approximately 28%. AI suggests implementing better inventory management.",
-    status: "recommendation",
-    icon: TrendingDown,
-  },
-  {
-    id: 2,
-    category: "Marketing",
-    currentSpend: 8500,
-    recommendedSpend: 10000,
-    potentialSavings: -1500,
+    id: "rec1",
+    title: "Reduce Software Subscription Costs",
+    description: "Several duplicate or underutilized software subscriptions were identified. Consolidating these tools could save significantly without impacting operations.",
     impact: "high",
-    reasoning: "Your marketing ROI analysis suggests increasing budget by 18% could generate 30% more leads based on current conversion rates.",
-    status: "opportunity",
-    icon: TrendingUp,
-  },
-  {
-    id: 3,
-    category: "Software Subscriptions",
-    currentSpend: 4200,
-    recommendedSpend: 3600,
-    potentialSavings: 600,
-    impact: "medium",
-    reasoning: "AI detected 3 redundant SaaS tools and 2 underutilized subscriptions that could be consolidated or downgraded.",
+    category: "expense",
+    potentialSavings: 1250,
     status: "recommendation",
-    icon: TrendingDown,
+    implementationTimeframe: "1-2 weeks",
   },
   {
-    id: 4,
-    category: "Utilities",
-    currentSpend: 3200,
-    recommendedSpend: 2800,
-    potentialSavings: 400,
+    id: "rec2",
+    title: "Renegotiate Supplier Terms",
+    description: "Based on your payment history and volume, AI analysis suggests three key vendors may offer better terms. Potential for extended payment terms and volume discounts.",
     impact: "medium",
-    reasoning: "Energy usage patterns suggest potential savings by optimizing HVAC schedules and switching to energy-efficient appliances.",
+    category: "expense",
+    potentialSavings: 875,
     status: "recommendation",
-    icon: TrendingDown,
+    implementationTimeframe: "1 month",
   },
   {
-    id: 5,
-    category: "Staff Training",
-    currentSpend: 1500,
-    recommendedSpend: 2500,
-    potentialSavings: -1000,
+    id: "rec3",
+    title: "Optimize Inventory Levels",
+    description: "Current inventory levels exceed projected demand by 22%. Reducing excess inventory would free up cash flow without affecting fulfillment rates.",
     impact: "high",
-    reasoning: "Increased investment in staff training could reduce turnover by an estimated 15% based on industry benchmarks.",
+    category: "cash flow",
+    potentialSavings: 3500,
+    status: "recommendation",
+    implementationTimeframe: "2-3 months",
+  },
+  {
+    id: "rec4",
+    title: "Implement Early Payment Discounts",
+    description: "Offering a 2% discount for payments received within 10 days could accelerate cash flow and reduce days sales outstanding by an estimated 35%.",
+    impact: "medium",
+    category: "cash flow",
+    potentialSavings: 950,
     status: "opportunity",
-    icon: TrendingUp,
+    implementationTimeframe: "2 weeks",
+  },
+  {
+    id: "rec5",
+    title: "Marketing Spend Reallocation",
+    description: "ROI analysis indicates that reallocating budget from channel A to channel B could increase customer acquisition efficiency by 28%.",
+    impact: "high",
+    category: "revenue",
+    potentialSavings: -1800,
+    status: "opportunity",
+    implementationTimeframe: "1 month",
+  },
+  {
+    id: "rec6",
+    title: "Impending Cash Flow Gap",
+    description: "Seasonal patterns and outstanding receivables indicate a potential cash flow gap in Q3. Consider preparing additional working capital or credit line.",
+    impact: "high",
+    category: "cash flow",
+    potentialSavings: 0,
+    status: "warning",
+    implementationTimeframe: "2 months",
   },
 ];

@@ -1,72 +1,76 @@
 
 import React from "react";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { Check, TrendingDown, TrendingUp, AlertTriangle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { 
+  ArrowRightCircle, 
+  DollarSign, 
+  TrendingUp, 
+  AlertTriangle, 
+  Clock,
+} from "lucide-react";
 import { Recommendation } from "./data/recommendationsData";
-import { getImpactColor } from "./utils/budgetUtils";
+import { getImpactColor, getStatusIcon } from "./utils/budgetUtils";
 
 interface RecommendationItemProps {
   recommendation: Recommendation;
 }
 
 const RecommendationItem: React.FC<RecommendationItemProps> = ({ recommendation }) => {
-  const getStatusIcon = (status: string) => {
-    if (status === "recommendation") {
-      return <TrendingDown className="h-5 w-5 text-red-500" />;
-    } else if (status === "opportunity") {
-      return <TrendingUp className="h-5 w-5 text-green-500" />;
-    } else if (status === "warning") {
-      return <AlertTriangle className="h-5 w-5 text-amber-500" />;
-    }
-    return <Check className="h-5 w-5 text-blue-500" />;
-  };
-
+  const iconClassName = getStatusIcon(recommendation.status);
+  const impactClassName = getImpactColor(recommendation.impact);
+  
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-muted mr-3">
-            {getStatusIcon(recommendation.status)}
+    <div className="border rounded-lg overflow-hidden hover:shadow-md transition-all">
+      <div className="border-l-4 pl-4 py-4 pr-6" 
+        style={{ borderLeftColor: `var(--${recommendation.status === 'warning' ? 'amber' : recommendation.status === 'opportunity' ? 'blue' : 'red'}-500)` }}
+      >
+        <div className="flex justify-between items-start">
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-base font-medium">{recommendation.title}</h3>
+              <div className={`text-xs px-2 py-0.5 rounded-full ${impactClassName}`}>
+                {recommendation.impact.charAt(0).toUpperCase() + recommendation.impact.slice(1)} Impact
+              </div>
+            </div>
+            <p className="mt-1 text-sm text-muted-foreground">{recommendation.description}</p>
+            
+            <div className="flex items-center gap-6 mt-3">
+              <div className="flex items-center text-sm">
+                <DollarSign className="h-4 w-4 mr-1 text-muted-foreground" />
+                <span className={recommendation.potentialSavings >= 0 ? "text-green-600 dark:text-green-400" : "text-blue-600 dark:text-blue-400"}>
+                  {recommendation.potentialSavings >= 0 
+                    ? `Save $${recommendation.potentialSavings.toLocaleString()}`
+                    : `Invest $${Math.abs(recommendation.potentialSavings).toLocaleString()}`}
+                </span>
+              </div>
+              <div className="flex items-center text-sm">
+                <Clock className="h-4 w-4 mr-1 text-muted-foreground" />
+                <span>{recommendation.implementationTimeframe}</span>
+              </div>
+            </div>
           </div>
-          <span className="font-medium">{recommendation.category}</span>
+          
+          <div>
+            {recommendation.status === 'recommendation' && (
+              <AlertTriangle className={`h-5 w-5 ${iconClassName}`} />
+            )}
+            {recommendation.status === 'opportunity' && (
+              <TrendingUp className={`h-5 w-5 ${iconClassName}`} />
+            )}
+            {recommendation.status === 'warning' && (
+              <AlertTriangle className={`h-5 w-5 ${iconClassName}`} />
+            )}
+          </div>
         </div>
-        <Badge 
-          variant="secondary" 
-          className={getImpactColor(recommendation.impact)}
-        >
-          {recommendation.impact === "high" ? "High Impact" : recommendation.impact === "medium" ? "Medium Impact" : "Low Impact"}
-        </Badge>
       </div>
       
-      <div className="pl-11">
-        <div className="grid grid-cols-3 gap-2 text-sm mb-2">
-          <div>
-            <div className="text-muted-foreground">Current</div>
-            <div className="font-medium">${recommendation.currentSpend.toLocaleString()}</div>
-          </div>
-          <div>
-            <div className="text-muted-foreground">Recommended</div>
-            <div className="font-medium">${recommendation.recommendedSpend.toLocaleString()}</div>
-          </div>
-          <div>
-            <div className="text-muted-foreground">
-              {recommendation.potentialSavings > 0 ? "Savings" : "Investment"}
-            </div>
-            <div className={`font-medium ${recommendation.potentialSavings > 0 ? "text-green-600 dark:text-green-400" : "text-blue-600 dark:text-blue-400"}`}>
-              ${Math.abs(recommendation.potentialSavings).toLocaleString()}
-            </div>
-          </div>
-        </div>
-        
-        <Progress 
-          value={(recommendation.recommendedSpend / recommendation.currentSpend) * 100} 
-          className={`h-2 ${recommendation.potentialSavings > 0 ? "bg-red-100 dark:bg-red-900/20" : "bg-blue-100 dark:bg-blue-900/20"}`}
-        />
-        
-        <p className="text-sm text-muted-foreground mt-2">
-          {recommendation.reasoning}
-        </p>
+      <div className="bg-muted/30 px-4 py-2 flex justify-between items-center">
+        <span className="text-xs text-muted-foreground">
+          Category: {recommendation.category.charAt(0).toUpperCase() + recommendation.category.slice(1)}
+        </span>
+        <Button variant="ghost" size="sm" className="text-xs">
+          Take Action <ArrowRightCircle className="ml-1 h-3 w-3" />
+        </Button>
       </div>
     </div>
   );

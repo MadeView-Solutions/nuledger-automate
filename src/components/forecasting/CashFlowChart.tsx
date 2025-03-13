@@ -1,52 +1,107 @@
 
 import React from "react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine,
+} from "recharts";
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+
+interface DataPoint {
+  name: string;
+  revenue: number;
+  expenses: number;
+  cashFlow: number;
+}
 
 interface CashFlowChartProps {
-  data: Array<{
-    name: string;
-    revenue: number;
-    expenses: number;
-    cashFlow: number;
-  }>;
+  data: DataPoint[];
 }
 
 const CashFlowChart: React.FC<CashFlowChartProps> = ({ data }) => {
+  const chartConfig = {
+    revenue: {
+      label: "Revenue",
+      theme: { light: "#4ade80", dark: "#4ade80" },
+    },
+    expenses: {
+      label: "Expenses",
+      theme: { light: "#f87171", dark: "#f87171" },
+    },
+    cashFlow: {
+      label: "Cash Flow",
+      theme: { light: "#60a5fa", dark: "#60a5fa" },
+    },
+  };
+
+  // Calculate the index where forecast data starts (assuming the last 3 entries are forecast)
+  const forecastStartIndex = data.length - 3;
+
   return (
-    <div className="h-[400px] mt-4">
+    <ChartContainer config={chartConfig} className="aspect-[4/2]">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0,
+          }}
         >
-          <defs>
-            <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
-            </linearGradient>
-            <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#ef4444" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#ef4444" stopOpacity={0.1}/>
-            </linearGradient>
-            <linearGradient id="colorCashFlow" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="#10b981" stopOpacity={0.1}/>
-            </linearGradient>
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip 
-            formatter={(value) => [`$${value.toLocaleString()}`, undefined]}
-            contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', borderRadius: '6px', border: '1px solid #e2e8f0' }}
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+          <YAxis 
+            tickFormatter={(value) => `$${value.toLocaleString()}`}
+            tick={{ fontSize: 12 }}
           />
-          <Legend />
-          <Area type="monotone" dataKey="revenue" stroke="#3b82f6" fillOpacity={1} fill="url(#colorRevenue)" name="Revenue" />
-          <Area type="monotone" dataKey="expenses" stroke="#ef4444" fillOpacity={1} fill="url(#colorExpenses)" name="Expenses" />
-          <Area type="monotone" dataKey="cashFlow" stroke="#10b981" fillOpacity={1} fill="url(#colorCashFlow)" name="Cash Flow" />
+          <Tooltip content={<ChartTooltipContent />} />
+          
+          {/* Add a reference line to separate historical from forecast data */}
+          {forecastStartIndex > 0 && (
+            <ReferenceLine 
+              x={data[forecastStartIndex - 1].name} 
+              stroke="#888" 
+              strokeDasharray="3 3"
+              label={{ value: "Forecast →", position: "insideTopRight", fill: "#888", fontSize: 12 }}
+            />
+          )}
+          
+          <Area
+            type="monotone"
+            dataKey="revenue"
+            stroke="var(--color-revenue)"
+            fill="var(--color-revenue)"
+            fillOpacity={0.2}
+            activeDot={{ r: 8 }}
+            isAnimationActive={true}
+          />
+          <Area
+            type="monotone"
+            dataKey="expenses"
+            stroke="var(--color-expenses)"
+            fill="var(--color-expenses)"
+            fillOpacity={0.2}
+            activeDot={{ r: 8 }}
+            isAnimationActive={true}
+          />
+          <Area
+            type="monotone"
+            dataKey="cashFlow"
+            stroke="var(--color-cashFlow)"
+            fill="var(--color-cashFlow)"
+            fillOpacity={0.4}
+            activeDot={{ r: 8 }}
+            isAnimationActive={true}
+          />
         </AreaChart>
       </ResponsiveContainer>
-    </div>
+    </ChartContainer>
   );
 };
 
