@@ -1,34 +1,38 @@
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import AIBookkeeping from "./pages/AIBookkeeping";
-import Invoicing from "./pages/Invoicing";
-import ReceiptProcessing from "./pages/ReceiptProcessing";
-import Integrations from "./pages/Integrations";
-import Settings from "./pages/Settings";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import TaxCompliance from "./pages/TaxCompliance";
-import FinancialForecasting from "./pages/FinancialForecasting";
-import Payroll from "./pages/Payroll";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
+import Index from "@/pages/Index";
+import Dashboard from "@/pages/Dashboard";
+import Invoicing from "@/pages/Invoicing";
+import TaxCompliance from "@/pages/TaxCompliance";
+import FinancialForecasting from "@/pages/FinancialForecasting";
+import ReceiptProcessing from "@/pages/ReceiptProcessing";
+import Payroll from "@/pages/Payroll";
+import AIBookkeeping from "@/pages/AIBookkeeping";
+import Integrations from "@/pages/Integrations";
+import Settings from "@/pages/Settings";
+import NotFound from "@/pages/NotFound";
+import BankReconciliation from "@/pages/BankReconciliation";
 
 function App() {
   return (
-    <Router>
+    <div className="App">
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/bookkeeping" element={<AIBookkeeping />} />
         <Route path="/invoicing" element={<Invoicing />} />
-        <Route path="/receipt-processing" element={<ReceiptProcessing />} />
         <Route path="/tax-compliance" element={<TaxCompliance />} />
         <Route path="/financial-forecasting" element={<FinancialForecasting />} />
+        <Route path="/receipt-processing" element={<ReceiptProcessing />} />
         <Route path="/payroll" element={<Payroll />} />
+        <Route path="/ai-bookkeeping" element={<AIBookkeeping />} />
+        <Route path="/bank-reconciliation" element={<BankReconciliation />} />
         <Route path="/integrations" element={<Integrations />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </Router>
+      <Toaster />
+    </div>
   );
 }
 

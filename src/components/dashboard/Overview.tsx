@@ -1,6 +1,5 @@
-
 import React from "react";
-import { BarChart3, ArrowUp, ArrowDown, DollarSign, CreditCard, TrendingUp } from "lucide-react";
+import { BarChart3, ArrowUp, ArrowDown, DollarSign, CreditCard, TrendingUp, RefreshCcw, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const metrics = [
@@ -40,7 +39,7 @@ const metrics = [
 
 const Overview = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {metrics.map((metric) => (
         <div
           key={metric.title}
@@ -79,6 +78,30 @@ const Overview = () => {
           </div>
         </div>
       ))}
+      
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            Reconciliation Status
+          </CardTitle>
+          <RefreshCcw className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">42</div>
+          <p className="text-xs text-muted-foreground">
+            Transactions awaiting reconciliation
+          </p>
+          <div className="mt-3">
+            <Link 
+              to="/bank-reconciliation"
+              className="text-xs text-primary flex items-center"
+            >
+              <ArrowRight className="h-3 w-3 mr-1" />
+              Run AI reconciliation
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
