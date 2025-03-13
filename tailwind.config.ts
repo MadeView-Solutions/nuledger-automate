@@ -63,6 +63,9 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
+				header: {
+					DEFAULT: 'hsl(var(--header-background))',
+				},
 				nuledger: {
 					50: '#f0f7ff',
 					100: '#e0efff',

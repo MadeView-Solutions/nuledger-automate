@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -37,22 +38,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:h-screen lg:flex-shrink-0",
+          "fixed inset-y-0 left-0 z-50 w-64 bg-sidebar border-r border-sidebar-border transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:h-screen lg:flex-shrink-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between h-16 px-4 border-b border-border">
+          <div className="flex items-center justify-between h-16 px-4 border-b border-sidebar-border bg-gradient-to-r from-nuledger-600 to-nuledger-700">
             <Link to="/" className="flex items-center space-x-2">
-              <span className="h-8 w-8 rounded-lg bg-gradient-to-br from-nuledger-500 to-nuledger-700 flex items-center justify-center text-white font-medium">
+              <span className="h-8 w-8 rounded-lg bg-white/90 flex items-center justify-center text-nuledger-700 font-medium">
                 Nu
               </span>
-              <span className="font-semibold text-lg tracking-tight">NuLedger</span>
+              <span className="font-semibold text-lg tracking-tight text-white">NuLedger</span>
             </Link>
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="lg:hidden text-white hover:bg-white/10"
               onClick={() => setSidebarOpen(false)}
             >
               <Menu className="h-5 w-5" />
@@ -71,11 +72,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                       "group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition ease-in-out",
                       isCurrentRoute
                         ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     )}
                   >
                     <item.icon
-                      className={cn("mr-3 h-5 w-5 flex-shrink-0", isCurrentRoute ? "text-primary-foreground" : "text-muted-foreground group-hover:text-foreground")}
+                      className={cn("mr-3 h-5 w-5 flex-shrink-0", 
+                      isCurrentRoute 
+                        ? "text-primary-foreground" 
+                        : "text-sidebar-foreground group-hover:text-sidebar-accent-foreground")}
                     />
                     {item.name}
                   </Link>
@@ -84,9 +88,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             </nav>
           </div>
 
-          <div className="p-4 border-t border-border">
+          <div className="p-4 border-t border-sidebar-border bg-sidebar-accent/50">
             <div className="flex items-center">
-              <div className="h-9 w-9 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+              <div className="h-9 w-9 rounded-full bg-nuledger-100 flex items-center justify-center text-nuledger-700">
                 <User className="h-5 w-5" />
               </div>
               <div className="ml-3">
@@ -94,7 +98,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 <p className="text-xs text-muted-foreground">john@example.com</p>
               </div>
               <div className="ml-auto">
-                <Button variant="ghost" size="icon" className="h-8 w-8">
+                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-sidebar-border hover:text-nuledger-600">
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
@@ -106,7 +110,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Main content */}
       <div className="flex flex-col flex-1 overflow-hidden">
         {/* Top navigation */}
-        <header className="z-10 h-16 flex items-center bg-card border-b border-border px-4">
+        <header className="z-10 h-16 flex items-center bg-header border-b border-border px-4 shadow-sm">
           <Button
             variant="ghost"
             size="icon"
@@ -128,22 +132,22 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                 </div>
                 <input
                   type="text"
-                  className="block w-full pl-10 pr-3 py-2 border border-border rounded-lg bg-muted/50 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-border rounded-lg bg-white shadow-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm"
                   placeholder="Search..."
                 />
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="icon" className="h-9 w-9 relative">
+              <Button variant="ghost" size="icon" className="h-9 w-9 relative hover:bg-nuledger-100">
                 <BellIcon className="h-5 w-5" />
                 <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
               </Button>
-              <Button variant="ghost" size="icon" className="h-9 w-9">
+              <Button variant="ghost" size="icon" className="h-9 w-9 hover:bg-nuledger-100">
                 <HelpCircle className="h-5 w-5" />
               </Button>
               <Link to="/settings">
-                <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Button variant="ghost" size="icon" className="h-9 w-9 hover:bg-nuledger-100">
                   <Settings className="h-5 w-5" />
                 </Button>
               </Link>
