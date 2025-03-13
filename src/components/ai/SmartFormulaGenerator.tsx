@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { TabsList, TabsTrigger, Tabs, TabsContent } from "@/components/ui/tabs";
-import { Loader2, Calculator, Check, ClipboardCopy, AlertCircle, ArrowRight, FileSpreadsheet, BarChart2, Code2, Lightbulb, FileCode, Check2, Link } from "lucide-react";
+import { Loader2, Calculator, Check, ClipboardCopy, AlertCircle, ArrowRight, FileSpreadsheet, BarChart2, Code2, Lightbulb, FileCode, Link } from "lucide-react";
 
 type FormulaType = "excel" | "sheets" | "powerbi" | "sql";
 type AnalysisType = "report" | "insights" | "errors" | "optimization";
@@ -21,7 +20,6 @@ interface GeneratedFormula {
   timestamp: Date;
 }
 
-// Mock formulas for demo purposes
 const demoFormulas: Record<string, string> = {
   "Calculate monthly revenue growth": "=IFERROR((B2-B1)/B1, 0)",
   "Sum all expenses for Q1": "=SUM(B2:B4)",
@@ -59,13 +57,10 @@ const SmartFormulaGenerator = () => {
 
     setIsGenerating(true);
 
-    // Simulate AI processing delay
     setTimeout(() => {
-      // For demo purposes, check if the prompt contains any of our demo formula keys
       let matchedFormula = "";
       let explanation = "";
       
-      // Find closest match in our demo formulas
       const promptLower = prompt.toLowerCase();
       const demoKeys = Object.keys(demoFormulas);
       
@@ -77,7 +72,6 @@ const SmartFormulaGenerator = () => {
       if (matchedKey) {
         matchedFormula = demoFormulas[matchedKey];
         
-        // Generate an explanation
         if (matchedFormula === "Complex formula - see explanation") {
           matchedFormula = "=FORECAST.ETS(A30, A1:A29, B1:B29)";
           explanation = "This formula uses Excel's FORECAST.ETS function which applies exponential triple smoothing algorithm to predict future values based on historical data.";
@@ -85,7 +79,6 @@ const SmartFormulaGenerator = () => {
           explanation = `This ${activeFormulaType.toUpperCase()} formula ${getFormulaExplanation(matchedFormula)}`;
         }
       } else {
-        // Generate a generic formula if no match is found
         matchedFormula = activeFormulaType === "sql" 
           ? "SELECT SUM(amount) FROM transactions WHERE date BETWEEN '2023-01-01' AND '2023-03-31'" 
           : "=SUMIFS(amount_column, date_column, \">=\"&DATE(2023,1,1), date_column, \"<=\"&DATE(2023,3,31))";
@@ -148,7 +141,6 @@ const SmartFormulaGenerator = () => {
   const handleTabChange = (type: FormulaType) => {
     setActiveFormulaType(type);
     if (generatedFormula) {
-      // Convert formula to the selected format
       let convertedFormula = generatedFormula.formula;
       
       if (type === "sql" && generatedFormula.type !== "sql") {
