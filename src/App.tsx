@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import TaxCompliance from "./pages/TaxCompliance";
 import FinancialForecasting from "./pages/FinancialForecasting";
+import Payroll from "./pages/Payroll";
 
 function App() {
   return (
@@ -21,9 +22,10 @@ function App() {
         <Route path="/invoicing" element={<Invoicing />} />
         <Route path="/receipt-processing" element={<ReceiptProcessing />} />
         <Route path="/tax-compliance" element={<TaxCompliance />} />
+        <Route path="/financial-forecasting" element={<FinancialForecasting />} />
+        <Route path="/payroll" element={<Payroll />} />
         <Route path="/integrations" element={<Integrations />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/financial-forecasting" element={<FinancialForecasting />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
