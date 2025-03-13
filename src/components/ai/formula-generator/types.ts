@@ -10,3 +10,15 @@ export interface GeneratedFormula {
   explanation: string;
   timestamp: Date;
 }
+
+export interface ExportFormat {
+  filename: string;
+  extension: string;
+}
+
+export const exportFormats: Record<FormulaType, ExportFormat> = {
+  excel: { filename: 'Excel_Formula', extension: 'xlsx' },
+  sheets: { filename: 'Google_Sheets_Formula', extension: 'xlsx' },
+  powerbi: { filename: 'PowerBI_Formula', extension: 'xlsx' },
+  sql: { filename: 'SQL_Query', extension: 'xlsx' }
+};

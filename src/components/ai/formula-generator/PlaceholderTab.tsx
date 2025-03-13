@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { FileSpreadsheet, BarChart2, Lightbulb } from "lucide-react";
+import { FileSpreadsheet, BarChart2, Lightbulb, Download } from "lucide-react";
 
 interface PlaceholderTabProps {
   icon: "report" | "analysis" | "insights";
@@ -31,9 +31,17 @@ const PlaceholderTab: React.FC<PlaceholderTabProps> = ({ icon, title, descriptio
       <p className="text-sm text-muted-foreground mb-4">
         {description}
       </p>
-      <Button className="mx-auto">
-        {buttonText}
-      </Button>
+      <div className="space-y-2">
+        <Button className="mx-auto">
+          {buttonText}
+        </Button>
+        {icon === "report" && (
+          <p className="text-xs text-muted-foreground mt-4">
+            <Download className="h-3 w-3 inline mr-1" />
+            Reports can be exported to Excel, PDF, or CSV formats
+          </p>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,10 +1,10 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ClipboardCopy } from "lucide-react";
+import { ClipboardCopy, Download } from "lucide-react";
 import { GeneratedFormula, FormulaType } from "./types";
+import { exportFormulaToSpreadsheet } from "./formula-utils";
 
 interface FormulaResultProps {
   generatedFormula: GeneratedFormula;
@@ -22,6 +22,10 @@ const FormulaResult: React.FC<FormulaResultProps> = ({
   formulaRef,
 }) => {
   if (!generatedFormula) return null;
+
+  const handleExportFormula = () => {
+    exportFormulaToSpreadsheet(generatedFormula);
+  };
 
   return (
     <div className="space-y-4 mt-4">
@@ -53,7 +57,16 @@ const FormulaResult: React.FC<FormulaResultProps> = ({
         >
           {generatedFormula.formula}
         </div>
-        <div className="flex justify-end mt-2">
+        <div className="flex justify-end mt-2 gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleExportFormula}
+            className="text-xs"
+          >
+            <Download className="h-3 w-3 mr-1" />
+            Export
+          </Button>
           <Button 
             variant="outline" 
             size="sm" 

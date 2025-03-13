@@ -1,4 +1,7 @@
 
+import * as XLSX from 'xlsx';
+import { GeneratedFormula, exportFormats } from './types';
+
 export const demoFormulas: Record<string, string> = {
   "Calculate monthly revenue growth": "=IFERROR((B2-B1)/B1, 0)",
   "Sum all expenses for Q1": "=SUM(B2:B4)",
@@ -44,3 +47,39 @@ export const suggestedPrompts = [
   "Find top 5 expenses and create a chart",
   "Fix errors in =SUM(A1:A10)/COUNT(B1:B10)",
 ];
+
+export const exportFormulaToSpreadsheet = (formula: GeneratedFormula): void => {
+  try {
+    // Create workbook and worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheetData = [
+      ['Formula Type', formula.type.toUpperCase()],
+      ['Prompt', formula.prompt],
+      ['Generated Formula', formula.formula],
+      ['Explanation', formula.explanation],
+      ['Generated On', formula.timestamp.toLocaleString()]
+    ];
+
+    // Convert data to worksheet
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+    // Set column widths
+    const cols = [
+      { wch: 20 }, // Column A width
+      { wch: 80 }  // Column B width
+    ];
+    worksheet['!cols'] = cols;
+
+    // Add worksheet to workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Formula Details');
+
+    // Generate filename
+    const { filename, extension } = exportFormats[formula.type];
+    const fullFilename = `${filename}_${Date.now()}.${extension}`;
+
+    // Write and download file
+    XLSX.writeFile(workbook, fullFilename);
+  } catch (error) {
+    console.error('Error exporting formula:', error);
+  }
+};
