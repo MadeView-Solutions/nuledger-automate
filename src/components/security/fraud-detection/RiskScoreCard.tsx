@@ -4,6 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { RiskScoreData } from "./types";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface RiskScoreCardProps {
   riskScoreData: RiskScoreData;
@@ -89,8 +90,7 @@ const RiskScoreCard: React.FC<RiskScoreCardProps> = ({ riskScoreData }) => {
                 </div>
                 <Progress
                   value={categories.transactionSecurity}
-                  className="h-2"
-                  indicatorClassName={getScoreColor(categories.transactionSecurity)}
+                  className={cn("h-2", getScoreColor(categories.transactionSecurity))}
                 />
               </div>
               <div>
@@ -100,8 +100,7 @@ const RiskScoreCard: React.FC<RiskScoreCardProps> = ({ riskScoreData }) => {
                 </div>
                 <Progress
                   value={categories.userAuthentication}
-                  className="h-2"
-                  indicatorClassName={getScoreColor(categories.userAuthentication)}
+                  className={cn("h-2", getScoreColor(categories.userAuthentication))}
                 />
               </div>
               <div>
@@ -111,8 +110,7 @@ const RiskScoreCard: React.FC<RiskScoreCardProps> = ({ riskScoreData }) => {
                 </div>
                 <Progress
                   value={categories.dataProtection}
-                  className="h-2"
-                  indicatorClassName={getScoreColor(categories.dataProtection)}
+                  className={cn("h-2", getScoreColor(categories.dataProtection))}
                 />
               </div>
               <div>
@@ -122,8 +120,7 @@ const RiskScoreCard: React.FC<RiskScoreCardProps> = ({ riskScoreData }) => {
                 </div>
                 <Progress
                   value={categories.vendorRisk}
-                  className="h-2"
-                  indicatorClassName={getScoreColor(categories.vendorRisk)}
+                  className={cn("h-2", getScoreColor(categories.vendorRisk))}
                 />
               </div>
             </div>
