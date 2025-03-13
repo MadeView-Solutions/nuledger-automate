@@ -7,6 +7,8 @@ import TransactionsList from "@/components/dashboard/TransactionsList";
 import Stats from "@/components/dashboard/Stats";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import FraudDetection from "@/components/security/FraudDetection";
+import FinanceChatbot from "@/components/chatbot/FinanceChatbot";
 
 const Dashboard = () => {
   return (
@@ -31,6 +33,11 @@ const Dashboard = () => {
               <div>
                 <RecentActivity />
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <FraudDetection />
+              <FinanceChatbot />
             </div>
 
             <TransactionsList />
