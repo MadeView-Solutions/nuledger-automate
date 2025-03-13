@@ -12,16 +12,16 @@ interface SidebarProps {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  Home: <Home className="size-5 text-primary" />,
-  FileText: <FileText className="size-5 text-primary" />,
-  FileCheck: <FileCheck className="size-5 text-primary" />,
-  TrendingUp: <TrendingUp className="size-5 text-primary" />,
-  Receipt: <Receipt className="size-5 text-primary" />,
-  Users: <Users className="size-5 text-primary" />,
-  BookText: <BookText className="size-5 text-primary" />,
-  RefreshCcw: <RefreshCcw className="size-5 text-primary" />,
-  Link: <LinkIcon className="size-5 text-primary" />,
-  Settings: <Settings className="size-5 text-primary" />,
+  Home: <Home className="size-5 text-blue-500" />,
+  FileText: <FileText className="size-5 text-indigo-500" />,
+  FileCheck: <FileCheck className="size-5 text-green-500" />,
+  TrendingUp: <TrendingUp className="size-5 text-purple-500" />,
+  Receipt: <Receipt className="size-5 text-pink-500" />,
+  Users: <Users className="size-5 text-yellow-500" />,
+  BookText: <BookText className="size-5 text-teal-500" />,
+  RefreshCcw: <RefreshCcw className="size-5 text-orange-500" />,
+  Link: <LinkIcon className="size-5 text-cyan-500" />,
+  Settings: <Settings className="size-5 text-gray-500" />,
 };
 
 const Sidebar = ({ links }: SidebarProps) => {
