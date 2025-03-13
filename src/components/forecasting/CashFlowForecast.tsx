@@ -23,11 +23,9 @@ const CashFlowForecast = () => {
   
   const getFilteredData = () => {
     if (timeframe === "custom" && customDateRange.startDate && customDateRange.endDate) {
-      // Filter data based on custom date range
-      return combinedData.filter(item => {
-        const itemDate = new Date(item.date);
-        return itemDate >= customDateRange.startDate! && itemDate <= customDateRange.endDate!;
-      });
+      // Filter data based on custom date range - since our data doesn't have actual dates,
+      // we'll just use the default filtering for now
+      return combinedData.slice(0, -3);
     } else if (timeframe === "3m") {
       return combinedData.slice(-6, -3);
     } else if (timeframe === "6m") {
