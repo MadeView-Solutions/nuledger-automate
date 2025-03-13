@@ -45,7 +45,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between h-16 px-4 border-b border-sidebar-border bg-gradient-to-r from-sidebar-accent to-sidebar-background">
             <Link to="/" className="flex items-center space-x-2">
-              <span className="h-8 w-8 rounded-lg bg-white/90 flex items-center justify-center text-sidebar-background font-medium">
+              <span className="h-9 w-9 rounded-full bg-sidebar-primary flex items-center justify-center text-sidebar-primary-foreground font-semibold">
                 Nu
               </span>
               <span className="font-semibold text-lg tracking-tight text-white">NuLedger</span>
