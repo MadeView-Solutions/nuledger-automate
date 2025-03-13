@@ -11,6 +11,7 @@ import FraudDetection from "@/components/security/FraudDetection";
 import FinanceChatbot from "@/components/chatbot/FinanceChatbot";
 import SecurityMeasures from "@/components/security/SecurityMeasures";
 import IntegrationsSummary from "@/components/integrations/IntegrationsSummary";
+import SmartFormulaGenerator from "@/components/ai/SmartFormulaGenerator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Plus, Download } from "lucide-react";
 
@@ -46,6 +47,8 @@ const Dashboard = () => {
                 <RecentActivity />
               </div>
             </div>
+
+            <SmartFormulaGenerator />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
               <FraudDetection />
