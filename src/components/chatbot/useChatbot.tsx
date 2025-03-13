@@ -10,6 +10,7 @@ export const useChatbot = () => {
       content: "Hello! I'm your AI financial assistant. How can I help with your finances today?",
       sender: "bot",
       timestamp: new Date(),
+      isTyping: false, // Added isTyping flag
     },
   ]);
   const [input, setInput] = useState("");
@@ -33,24 +34,64 @@ export const useChatbot = () => {
       content: input,
       sender: "user",
       timestamp: new Date(),
+      isTyping: false,
     };
     
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsProcessing(true);
     
-    // Simulate AI thinking
+    // First add a temporary bot message with the isTyping flag
+    const tempBotMessageId = (Date.now() + 1).toString();
+    const response = getResponse(input);
+    
+    // Add empty message with typing indicator
     setTimeout(() => {
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: getResponse(input),
-        sender: "bot",
-        timestamp: new Date(),
-      };
+      setMessages((prev) => [
+        ...prev, 
+        {
+          id: tempBotMessageId,
+          content: "", 
+          sender: "bot",
+          timestamp: new Date(),
+          isTyping: true,
+          fullContent: response // Store the full content to be animated
+        }
+      ]);
       
-      setMessages((prev) => [...prev, botMessage]);
-      setIsProcessing(false);
-    }, 1500);
+      // Start animating the typing effect
+      let currentLength = 0;
+      const typingInterval = setInterval(() => {
+        if (!response) {
+          clearInterval(typingInterval);
+          return;
+        }
+        
+        currentLength += 1;
+        
+        if (currentLength > response.length) {
+          clearInterval(typingInterval);
+          // Mark message as done typing
+          setMessages(prev => 
+            prev.map(msg => 
+              msg.id === tempBotMessageId 
+                ? { ...msg, isTyping: false, content: response } 
+                : msg
+            )
+          );
+          setIsProcessing(false);
+        } else {
+          // Update the message with more characters
+          setMessages(prev => 
+            prev.map(msg => 
+              msg.id === tempBotMessageId 
+                ? { ...msg, content: response.substring(0, currentLength) } 
+                : msg
+            )
+          );
+        }
+      }, 15); // Adjust typing speed here
+    }, 500);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

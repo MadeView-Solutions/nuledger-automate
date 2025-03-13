@@ -4,6 +4,8 @@ export type Message = {
   content: string;
   sender: "user" | "bot";
   timestamp: Date;
+  isTyping?: boolean;
+  fullContent?: string; // Store the full message content for typing animation
 };
 
 // Sample pre-defined responses

@@ -20,7 +20,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
             : "bg-muted"
         }`}
       >
-        <p className="text-sm">{message.content}</p>
+        <p className="text-sm">
+          {message.content}
+          {message.isTyping && <span className="typing-cursor">|</span>}
+        </p>
         <p className="text-xs mt-1 opacity-70">
           {message.timestamp.toLocaleTimeString([], {
             hour: "2-digit",
