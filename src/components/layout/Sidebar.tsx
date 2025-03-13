@@ -12,16 +12,16 @@ interface SidebarProps {
 }
 
 const iconMap: Record<string, React.ReactNode> = {
-  Home: <Home className="size-5" />,
-  FileText: <FileText className="size-5" />,
-  FileCheck: <FileCheck className="size-5" />,
-  TrendingUp: <TrendingUp className="size-5" />,
-  Receipt: <Receipt className="size-5" />,
-  Users: <Users className="size-5" />,
-  BookText: <BookText className="size-5" />,
-  RefreshCcw: <RefreshCcw className="size-5" />,
-  Link: <LinkIcon className="size-5" />,
-  Settings: <Settings className="size-5" />,
+  Home: <Home className="size-5 text-sidebar-foreground" />,
+  FileText: <FileText className="size-5 text-sidebar-foreground" />,
+  FileCheck: <FileCheck className="size-5 text-sidebar-foreground" />,
+  TrendingUp: <TrendingUp className="size-5 text-sidebar-foreground" />,
+  Receipt: <Receipt className="size-5 text-sidebar-foreground" />,
+  Users: <Users className="size-5 text-sidebar-foreground" />,
+  BookText: <BookText className="size-5 text-sidebar-foreground" />,
+  RefreshCcw: <RefreshCcw className="size-5 text-sidebar-foreground" />,
+  Link: <LinkIcon className="size-5 text-sidebar-foreground" />,
+  Settings: <Settings className="size-5 text-sidebar-foreground" />,
 };
 
 const Sidebar = ({ links }: SidebarProps) => {
@@ -41,7 +41,7 @@ const Sidebar = ({ links }: SidebarProps) => {
             }
           >
             {iconMap[link.icon]}
-            <span>{link.label}</span>
+            <span className="text-sidebar-foreground">{link.label}</span>
           </NavLink>
         ))}
       </nav>
