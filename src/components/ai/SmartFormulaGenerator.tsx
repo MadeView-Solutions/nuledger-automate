@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { TabsList, TabsTrigger, Tabs, TabsContent } from "@/components/ui/tabs";
-import { Calculator, AlertCircle, Code2, FileSpreadsheet, BarChart2, Lightbulb, FileCode } from "lucide-react";
+import { Calculator, AlertCircle, Code2, FileSpreadsheet, BarChart2, Lightbulb, FileCode, CloudUpload } from "lucide-react";
 import { FormulaType, GeneratedFormula } from "./formula-generator/types";
 import { demoFormulas, getFormulaExplanation } from "./formula-generator/formula-utils";
 import FormulaTab from "./formula-generator/FormulaTab";
 import PlaceholderTab from "./formula-generator/PlaceholderTab";
 import ExcelAddinTab from "./formula-generator/ExcelAddinTab";
+import CloudConnector from "./formula-generator/CloudConnector";
 
 const SmartFormulaGenerator = () => {
   const [prompt, setPrompt] = useState("");
@@ -139,15 +140,19 @@ const SmartFormulaGenerator = () => {
           </Badge>
         </CardTitle>
         <CardDescription>
-          Generate formulas, reports, and financial insights using natural language - now with Excel integration
+          Generate formulas, reports, and financial insights using natural language - now with Excel and Cloud AI integration
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs defaultValue="formula" className="w-full">
-          <TabsList className="grid grid-cols-5 mb-4">
+          <TabsList className="grid grid-cols-6 mb-4">
             <TabsTrigger value="formula">
               <Calculator className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Formula</span>
+            </TabsTrigger>
+            <TabsTrigger value="cloud">
+              <CloudUpload className="h-4 w-4 mr-2" />
+              <span className="hidden sm:inline">Cloud AI</span>
             </TabsTrigger>
             <TabsTrigger value="report">
               <FileSpreadsheet className="h-4 w-4 mr-2" />
@@ -182,6 +187,10 @@ const SmartFormulaGenerator = () => {
               history={history}
               setGeneratedFormula={setGeneratedFormula}
             />
+          </TabsContent>
+
+          <TabsContent value="cloud">
+            <CloudConnector />
           </TabsContent>
 
           <TabsContent value="report">
@@ -222,7 +231,7 @@ const SmartFormulaGenerator = () => {
       <CardFooter className="flex justify-between border-t bg-muted/50 px-6 py-3">
         <div className="flex items-center text-xs text-muted-foreground">
           <AlertCircle className="h-3 w-3 mr-1" />
-          Formulas are optimized based on common accounting standards
+          AI features powered by OpenAI, Pandas, and Power BI integration
         </div>
         <Button variant="outline" size="sm">
           View Documentation

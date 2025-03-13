@@ -22,3 +22,12 @@ export const exportFormats: Record<FormulaType, ExportFormat> = {
   powerbi: { filename: 'PowerBI_Formula', extension: 'xlsx' },
   sql: { filename: 'SQL_Query', extension: 'xlsx' }
 };
+
+export interface FileAnalysisResult {
+  id: string;
+  originalFileName: string;
+  errorCount: number;
+  optimizedFormulas: number;
+  insights: string[];
+  timestamp: Date;
+}
