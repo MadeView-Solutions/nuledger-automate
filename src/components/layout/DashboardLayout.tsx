@@ -38,14 +38,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 bg-nuledger-900 text-white transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:h-screen lg:flex-shrink-0",
+          "fixed inset-y-0 left-0 z-50 w-64 bg-sidebar text-sidebar-foreground transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:h-screen lg:flex-shrink-0",
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between h-16 px-4 border-b border-nuledger-800 bg-gradient-to-r from-nuledger-700 to-nuledger-800">
+          <div className="flex items-center justify-between h-16 px-4 border-b border-sidebar-border bg-gradient-to-r from-sidebar-accent to-sidebar-background">
             <Link to="/" className="flex items-center space-x-2">
-              <span className="h-8 w-8 rounded-lg bg-white/90 flex items-center justify-center text-nuledger-700 font-medium">
+              <span className="h-8 w-8 rounded-lg bg-white/90 flex items-center justify-center text-sidebar-background font-medium">
                 Nu
               </span>
               <span className="font-semibold text-lg tracking-tight text-white">NuLedger</span>
@@ -71,15 +71,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                     className={cn(
                       "group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition ease-in-out",
                       isCurrentRoute
-                        ? "bg-nuledger-600 text-white"
-                        : "text-nuledger-100 hover:bg-nuledger-800 hover:text-white"
+                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     )}
                   >
                     <item.icon
                       className={cn("mr-3 h-5 w-5 flex-shrink-0", 
                       isCurrentRoute 
-                        ? "text-white" 
-                        : "text-nuledger-300 group-hover:text-white")}
+                        ? "text-sidebar-primary-foreground" 
+                        : "text-sidebar-foreground/70 group-hover:text-sidebar-accent-foreground")}
                     />
                     {item.name}
                   </Link>
@@ -88,17 +88,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             </nav>
           </div>
 
-          <div className="p-4 border-t border-nuledger-800 bg-nuledger-800/50">
+          <div className="p-4 border-t border-sidebar-border bg-sidebar-accent/50">
             <div className="flex items-center">
-              <div className="h-9 w-9 rounded-full bg-nuledger-100 flex items-center justify-center text-nuledger-700">
+              <div className="h-9 w-9 rounded-full bg-sidebar-foreground flex items-center justify-center text-sidebar-background">
                 <User className="h-5 w-5" />
               </div>
               <div className="ml-3">
-                <p className="text-sm font-medium text-white">John Doe</p>
-                <p className="text-xs text-nuledger-300">john@example.com</p>
+                <p className="text-sm font-medium text-sidebar-foreground">John Doe</p>
+                <p className="text-xs text-sidebar-foreground/70">john@example.com</p>
               </div>
               <div className="ml-auto">
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-nuledger-200 hover:bg-nuledger-700 hover:text-white">
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground">
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
@@ -110,11 +110,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       {/* Main content */}
       <div className="flex flex-col flex-1 overflow-hidden">
         {/* Top navigation */}
-        <header className="z-10 h-16 flex items-center bg-nuledger-600 text-white shadow-md">
+        <header className="z-10 h-16 flex items-center bg-header text-white shadow-md">
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden mr-2 ml-4 text-white hover:bg-nuledger-500"
+            className="lg:hidden mr-2 ml-4 text-white hover:bg-white/10"
             onClick={() => setSidebarOpen(true)}
           >
             <Menu className="h-5 w-5" />
@@ -128,26 +128,26 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             <div className="hidden lg:flex lg:flex-1 lg:items-center lg:space-x-4">
               <div className="relative max-w-md">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <SearchIcon className="h-5 w-5 text-nuledger-200" />
+                  <SearchIcon className="h-5 w-5 text-white/60" />
                 </div>
                 <input
                   type="text"
-                  className="block w-full pl-10 pr-3 py-2 border border-nuledger-400 rounded-lg bg-nuledger-500/50 text-white placeholder-nuledger-200 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-white/20 rounded-lg bg-white/10 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent sm:text-sm"
                   placeholder="Search..."
                 />
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="icon" className="h-9 w-9 relative text-white hover:bg-nuledger-500">
+              <Button variant="ghost" size="icon" className="h-9 w-9 relative text-white hover:bg-white/10">
                 <BellIcon className="h-5 w-5" />
                 <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
               </Button>
-              <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-nuledger-500">
+              <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-white/10">
                 <HelpCircle className="h-5 w-5" />
               </Button>
               <Link to="/settings">
-                <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-nuledger-500">
+                <Button variant="ghost" size="icon" className="h-9 w-9 text-white hover:bg-white/10">
                   <Settings className="h-5 w-5" />
                 </Button>
               </Link>
