@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { SearchIcon, BellIcon, Menu, Settings, LogOut, User, HelpCircle, Home, BarChart3, FileText, CreditCard, Users, PieChart, ShieldCheck, Calculator } from "lucide-react";
+import { SearchIcon, BellIcon, Menu, Settings, LogOut, User, HelpCircle, Home, BarChart3, FileText, CreditCard, Users, PieChart, ShieldCheck, Calculator, TrendingUp } from "lucide-react";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -18,6 +18,7 @@ const iconColors = {
   "Clients": "#8B5CF6", // Vivid Purple
   "Reports": "#F97316", // Bright Orange
   "Tax Compliance": "#D946EF", // Magenta Pink
+  "Financial Forecasting": "#10B981", // Emerald Green
   "API Keys": "#0EA5E9", // Ocean Blue
 };
 
@@ -29,6 +30,7 @@ const navigation = [
   { name: "Clients", href: "/clients", icon: Users },
   { name: "Reports", href: "/reports", icon: PieChart },
   { name: "Tax Compliance", href: "/tax-compliance", icon: Calculator },
+  { name: "Financial Forecasting", href: "/financial-forecasting", icon: TrendingUp },
   { name: "API Keys", href: "/settings", icon: ShieldCheck },
 ];
 
