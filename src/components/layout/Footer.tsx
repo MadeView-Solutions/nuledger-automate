@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const Footer = ({ className }: { className?: string }) => {
   return (
-    <footer className={cn("border-t border-border bg-background py-12", className)}>
+    <footer className={cn("bg-header text-white py-12", className)}>
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           <div className="lg:col-span-2">
@@ -16,7 +16,7 @@ const Footer = ({ className }: { className?: string }) => {
               </span>
               <span className="font-semibold text-lg tracking-tight">NuLedger</span>
             </Link>
-            <p className="text-muted-foreground text-sm max-w-sm">
+            <p className="text-white/80 text-sm max-w-sm">
               Advanced AI-driven financial automation platform for businesses of all sizes. Simplify accounting, maximize insights.
             </p>
             <div className="mt-6 flex space-x-5">
@@ -46,50 +46,50 @@ const Footer = ({ className }: { className?: string }) => {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Product</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">Product</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Features</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Pricing</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Integrations</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Documentation</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Release Notes</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Features</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Pricing</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Integrations</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Documentation</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Release Notes</a></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Company</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">Company</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">About</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Careers</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Blog</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Press</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Contact</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">About</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Careers</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Blog</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Press</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Contact</a></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-4">Legal</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">Legal</h3>
             <ul className="space-y-3">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Privacy Policy</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Terms of Service</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Security</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-foreground">Compliance</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Privacy Policy</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Terms of Service</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Security</a></li>
+              <li><a href="#" className="text-sm text-white/70 hover:text-white">Compliance</a></li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">
+        <div className="mt-12 pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-sm text-white/70">
             &copy; {new Date().getFullYear()} NuLedger. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0 flex items-center space-x-6">
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
+            <a href="#" className="text-sm text-white/70 hover:text-white">
               Privacy Policy
             </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
+            <a href="#" className="text-sm text-white/70 hover:text-white">
               Terms of Service
             </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground">
+            <a href="#" className="text-sm text-white/70 hover:text-white">
               Cookies
             </a>
           </div>
