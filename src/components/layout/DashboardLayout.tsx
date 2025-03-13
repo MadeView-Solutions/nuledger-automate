@@ -9,6 +9,18 @@ interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
+// Custom colors for each icon to make them more visually distinct
+const iconColors = {
+  "Dashboard": "#9b87f5", // Primary Purple
+  "Transactions": "#F97316", // Bright Orange
+  "Invoices": "#D946EF", // Magenta Pink
+  "Payments": "#0EA5E9", // Ocean Blue
+  "Clients": "#8B5CF6", // Vivid Purple
+  "Reports": "#F97316", // Bright Orange
+  "Tax Compliance": "#D946EF", // Magenta Pink
+  "API Keys": "#0EA5E9", // Ocean Blue
+};
+
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
   { name: "Transactions", href: "/transactions", icon: BarChart3 },
@@ -64,6 +76,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             <nav className="space-y-1">
               {navigation.map((item) => {
                 const isCurrentRoute = location.pathname === item.href;
+                const iconColor = iconColors[item.name as keyof typeof iconColors] || "#9b87f5";
+                
                 return (
                   <Link
                     key={item.name}
@@ -75,12 +89,18 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
                         : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                     )}
                   >
-                    <item.icon
-                      className={cn("mr-3 h-5 w-5 flex-shrink-0", 
+                    <div className={cn(
+                      "mr-3 flex-shrink-0",
                       isCurrentRoute 
-                        ? "text-white drop-shadow-sm" 
-                        : "text-white/90 group-hover:text-white")}
-                    />
+                        ? "drop-shadow-glow" 
+                        : ""
+                    )}>
+                      <item.icon
+                        className="h-5 w-5"
+                        color={isCurrentRoute ? "white" : iconColor}
+                        strokeWidth={isCurrentRoute ? 2.5 : 2}
+                      />
+                    </div>
                     <span className={isCurrentRoute ? "font-semibold" : ""}>
                       {item.name}
                     </span>
