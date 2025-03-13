@@ -70,6 +70,11 @@ const Navbar = () => {
               <Link to="/signup">
                 <Button size="sm">Sign up</Button>
               </Link>
+              <Link to="/dashboard">
+                <Button variant="outline" size="sm">
+                  Dashboard
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -117,6 +122,9 @@ const Navbar = () => {
                 </Link>
                 <Link to="/signup" onClick={() => setIsOpen(false)}>
                   <Button className="w-full">Sign up</Button>
+                </Link>
+                <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                  <Button variant="outline" className="w-full">Dashboard</Button>
                 </Link>
               </div>
             </div>

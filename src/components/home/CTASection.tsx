@@ -1,56 +1,66 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
 import Container from "@/components/ui/Container";
 import { Button } from "@/components/ui/button";
-import { CheckCircle } from "lucide-react";
-
-const benefits = [
-  "14-day free trial, no credit card required",
-  "Full access to all features during trial",
-  "Easy setup and onboarding process",
-  "Dedicated support during trial period",
-  "No commitment, cancel anytime",
-];
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
-    <section className="section-padding bg-gradient-to-b from-background to-secondary/50">
+    <section className="py-20 bg-primary/5" id="contact">
       <Container>
-        <div className="relative overflow-hidden rounded-3xl border border-border bg-card">
-          <div className="absolute inset-0 bg-gradient-to-br from-nuledger-500/5 to-nuledger-700/5"></div>
-          
-          <div className="relative px-6 py-16 sm:px-12 lg:px-16">
-            <div className="mx-auto max-w-4xl text-center">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-                Ready to Transform Your Financial Operations?
-              </h2>
-              <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-                Join thousands of businesses that have streamlined their financial processes with NuLedger. Start your journey today.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-                <Link to="/signup">
-                  <Button size="lg" className="w-full sm:w-auto">
-                    Start Your Free Trial
-                  </Button>
-                </Link>
-                <Link to="/demo">
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    Schedule a Demo
-                  </Button>
-                </Link>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 max-w-3xl mx-auto">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-nuledger-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm sm:text-base">{benefit}</span>
-                  </div>
-                ))}
-              </div>
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-primary to-primary-foreground p-10 md:p-16">
+          <div className="max-w-3xl relative z-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Ready to modernize your accounting workflow?
+            </h2>
+            <p className="text-white/80 text-lg mb-8">
+              Join thousands of businesses that trust NuLedger for their
+              financial management. Get started today.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link to="/dashboard">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="text-primary font-medium"
+                >
+                  Go to Dashboard
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border-white text-white hover:bg-white/10"
+              >
+                Contact Sales
+              </Button>
             </div>
+          </div>
+          
+          {/* Background pattern */}
+          <div className="absolute top-0 right-0 w-full h-full opacity-10">
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 400 400"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <pattern
+                  id="pattern"
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <circle cx="20" cy="20" r="2" fill="white" />
+                </pattern>
+              </defs>
+              <rect x="0" y="0" width="100%" height="100%" fill="url(#pattern)" />
+            </svg>
           </div>
         </div>
       </Container>
