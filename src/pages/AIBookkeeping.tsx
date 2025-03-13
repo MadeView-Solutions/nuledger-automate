@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Container from "@/components/ui/container";
+import Container from "@/components/ui/Container";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import TransactionManager from "@/components/bookkeeping/TransactionManager";
 import JournalEntries from "@/components/bookkeeping/JournalEntries";
