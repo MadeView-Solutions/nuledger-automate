@@ -12,6 +12,7 @@ import Invoicing from "./pages/Invoicing";
 import TaxCompliance from "./pages/TaxCompliance";
 import FinancialForecasting from "./pages/FinancialForecasting";
 import Integrations from "./pages/Integrations";
+import ReceiptProcessing from "./pages/ReceiptProcessing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="/tax-compliance" element={<TaxCompliance />} />
           <Route path="/financial-forecasting" element={<FinancialForecasting />} />
           <Route path="/integrations" element={<Integrations />} />
+          <Route path="/receipt-processing" element={<ReceiptProcessing />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
