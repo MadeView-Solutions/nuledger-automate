@@ -53,7 +53,7 @@ const Overview = () => {
               <p className="text-sm font-medium text-muted-foreground mb-1">
                 {metric.title}
               </p>
-              <h3 className="text-2xl font-bold">{metric.value}</h3>
+              <h3 className="text-2xl font-bold text-foreground">{metric.value}</h3>
               <div className="flex items-center mt-2">
                 {metric.trend === "up" ? (
                   <ArrowUp className="h-4 w-4 text-green-500 mr-1" />
@@ -90,7 +90,7 @@ const Overview = () => {
           <RefreshCcw className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">42</div>
+          <div className="text-2xl font-bold text-foreground">42</div>
           <p className="text-xs text-muted-foreground">
             Transactions awaiting reconciliation
           </p>
