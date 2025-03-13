@@ -16,7 +16,7 @@ import {
   Shield, 
   CircleX, 
   Plus,
-  Bank,
+  Building2,
   CreditCard,
   Wallet,
   Briefcase
@@ -123,7 +123,7 @@ const AccountSync = () => {
   const getAccountIcon = (type) => {
     switch (type) {
       case "bank":
-        return <Bank className="h-5 w-5" />;
+        return <Building2 className="h-5 w-5" />;
       case "card":
         return <CreditCard className="h-5 w-5" />;
       case "payment":
@@ -131,7 +131,7 @@ const AccountSync = () => {
       case "investment":
         return <Briefcase className="h-5 w-5" />;
       default:
-        return <Bank className="h-5 w-5" />;
+        return <Building2 className="h-5 w-5" />;
     }
   };
 
