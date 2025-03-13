@@ -7,38 +7,43 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import TaxCalculator from "@/components/tax/TaxCalculator";
 import TaxForms from "@/components/tax/TaxForms";
 import AuditTrail from "@/components/tax/AuditTrail";
+import TaxComplianceHeader from "@/components/tax/TaxComplianceHeader";
+import TaxComplianceStats from "@/components/tax/TaxComplianceStats";
+import TaxLawTracker from "@/components/tax/TaxLawTracker";
 
 const TaxCompliance = () => {
   return (
     <DashboardLayout>
       <Container className="p-6 max-w-full">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-semibold">AI-Driven Tax Compliance & Filing</h1>
-          <div className="flex space-x-3">
-            <Button variant="outline">Export Data</Button>
-            <Button>Start New Filing</Button>
-          </div>
+        <TaxComplianceHeader />
+        <div className="space-y-8">
+          <TaxComplianceStats />
+          
+          <Tabs defaultValue="calculator" className="w-full">
+            <TabsList className="grid grid-cols-4 mb-8">
+              <TabsTrigger value="calculator">Tax Calculator</TabsTrigger>
+              <TabsTrigger value="laws">Tax Law Updates</TabsTrigger>
+              <TabsTrigger value="forms">Tax Forms</TabsTrigger>
+              <TabsTrigger value="audit">Audit Trail</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="calculator">
+              <TaxCalculator />
+            </TabsContent>
+            
+            <TabsContent value="laws">
+              <TaxLawTracker />
+            </TabsContent>
+            
+            <TabsContent value="forms">
+              <TaxForms />
+            </TabsContent>
+            
+            <TabsContent value="audit">
+              <AuditTrail />
+            </TabsContent>
+          </Tabs>
         </div>
-
-        <Tabs defaultValue="calculator" className="w-full">
-          <TabsList className="grid grid-cols-3 mb-8">
-            <TabsTrigger value="calculator">Tax Calculator</TabsTrigger>
-            <TabsTrigger value="forms">Tax Forms</TabsTrigger>
-            <TabsTrigger value="audit">Audit Trail</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="calculator">
-            <TaxCalculator />
-          </TabsContent>
-          
-          <TabsContent value="forms">
-            <TaxForms />
-          </TabsContent>
-          
-          <TabsContent value="audit">
-            <AuditTrail />
-          </TabsContent>
-        </Tabs>
       </Container>
     </DashboardLayout>
   );
