@@ -1,8 +1,8 @@
+
 import React from "react";
 import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
 import Footer from "@/components/layout/Footer";
-import { BookText, FileCheck, FileText, Home, Link, Receipt, RefreshCcw, Settings, TrendingUp, Users } from "lucide-react";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
