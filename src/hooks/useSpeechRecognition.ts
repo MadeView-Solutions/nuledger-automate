@@ -47,11 +47,11 @@ interface SpeechRecognition extends EventTarget {
   abort(): void;
 }
 
-// Declare global browser APIs
+// Declare global browser APIs without redeclaring Window properties
 declare global {
   interface Window {
-    SpeechRecognition: new () => SpeechRecognition;
-    webkitSpeechRecognition: new () => SpeechRecognition;
+    SpeechRecognition?: typeof SpeechRecognition;
+    webkitSpeechRecognition?: typeof SpeechRecognition;
   }
 }
 
@@ -72,6 +72,15 @@ export function useSpeechRecognition() {
     }
 
     const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognitionAPI) {
+      toast({
+        title: "Speech Recognition Not Available",
+        description: "Speech recognition is not available in your browser.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     recognitionRef.current = new SpeechRecognitionAPI();
     recognitionRef.current.continuous = true;
     recognitionRef.current.interimResults = true;
