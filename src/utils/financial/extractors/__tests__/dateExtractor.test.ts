@@ -8,9 +8,15 @@ describe('dateExtractor', () => {
   beforeAll(() => {
     // Mock the current date to be 2023-10-15
     const mockDate = new Date(2023, 9, 15); // Note: month is 0-indexed
-    global.Date = class extends Date {
+    
+    // Properly extend the Date class with a super() call
+    global.Date = class extends originalDate {
       constructor(date) {
-        return date ? new originalDate(date) : mockDate;
+        if (date) {
+          super(date);
+        } else {
+          super(mockDate.getTime());
+        }
       }
     } as any;
   });
