@@ -1,114 +1,21 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Mic, MicOff, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { parseFinancialEntry, FinancialEntry } from "@/utils/voiceUtils";
-
-// Define SpeechRecognition types locally in this component
-interface SpeechRecognitionEvent extends Event {
-  results: SpeechRecognitionResultList;
-  error?: any;
-}
-
-interface SpeechRecognitionResultList {
-  length: number;
-  item(index: number): SpeechRecognitionResult;
-}
-
-interface SpeechRecognitionResult {
-  length: number;
-  item(index: number): SpeechRecognitionAlternative;
-}
-
-interface SpeechRecognitionAlternative {
-  transcript: string;
-  confidence: number;
-}
-
-interface SpeechRecognition extends EventTarget {
-  continuous: boolean;
-  interimResults: boolean;
-  lang: string;
-  start(): void;
-  stop(): void;
-  abort(): void;
-  onresult: (event: SpeechRecognitionEvent) => void;
-  onerror: (event: SpeechRecognitionEvent) => void;
-  onend: () => void;
-  onstart: () => void;
-}
-
-// Declare global browser APIs
-declare global {
-  interface Window {
-    SpeechRecognition: {
-      new (): SpeechRecognition;
-    };
-    webkitSpeechRecognition: {
-      new (): SpeechRecognition;
-    };
-  }
-}
+import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
+import VoiceControl from "./voice/VoiceControl";
+import TranscriptDisplay from "./voice/TranscriptDisplay";
+import ProcessingIndicator from "./voice/ProcessingIndicator";
+import ParsedEntryDisplay from "./voice/ParsedEntryDisplay";
+import VoiceHelp from "./voice/VoiceHelp";
 
 const VoiceToAccounting = () => {
-  const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
+  const { isListening, transcript, startListening, stopListening, setTranscript } = useSpeechRecognition();
   const [isProcessing, setIsProcessing] = useState(false);
   const [parsedEntry, setParsedEntry] = useState<FinancialEntry | null>(null);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
   const { toast } = useToast();
-
-  const startListening = () => {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      toast({
-        title: "Speech Recognition Not Supported",
-        description: "Your browser doesn't support speech recognition. Please try a different browser.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognitionRef.current = new SpeechRecognition();
-    recognitionRef.current.continuous = true;
-    recognitionRef.current.interimResults = true;
-    recognitionRef.current.lang = 'en-US';
-
-    recognitionRef.current.onstart = () => {
-      setIsListening(true);
-      setTranscript("");
-      setParsedEntry(null);
-    };
-
-    recognitionRef.current.onresult = (event) => {
-      const currentTranscript = Array.from(event.results)
-        .map((result) => result[0].transcript)
-        .join("");
-      
-      setTranscript(currentTranscript);
-    };
-
-    recognitionRef.current.onerror = (event) => {
-      console.error("Speech recognition error", event.error);
-      toast({
-        title: "Recognition Error",
-        description: `Error: ${event.error}. Please try again.`,
-        variant: "destructive",
-      });
-      stopListening();
-    };
-
-    recognitionRef.current.start();
-  };
-
-  const stopListening = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-      setIsListening(false);
-    }
-  };
 
   const processTranscript = async () => {
     if (!transcript.trim()) {
@@ -123,8 +30,6 @@ const VoiceToAccounting = () => {
     setIsProcessing(true);
 
     try {
-      // In a real implementation, this would call the OpenAI API or similar service
-      // For now, we'll use a mock implementation
       const parsedResult = await parseFinancialEntry(transcript);
       setParsedEntry(parsedResult);
       
@@ -170,119 +75,29 @@ const VoiceToAccounting = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex justify-center">
-          <Button
-            onClick={isListening ? stopListening : startListening}
-            className={isListening ? "bg-red-500 hover:bg-red-600" : ""}
-            size="lg"
-            disabled={isProcessing}
-          >
-            {isListening ? (
-              <>
-                <MicOff className="mr-2 h-5 w-5" />
-                Stop Listening
-              </>
-            ) : (
-              <>
-                <Mic className="mr-2 h-5 w-5" />
-                Start Listening
-              </>
-            )}
-          </Button>
-        </div>
+        <VoiceControl 
+          isListening={isListening}
+          isProcessing={isProcessing}
+          onStartListening={startListening}
+          onStopListening={stopListening}
+        />
 
-        {transcript && (
-          <div className="mt-4">
-            <h3 className="text-sm font-medium mb-2">Transcript:</h3>
-            <div className="bg-muted p-3 rounded-md text-muted-foreground">
-              {transcript}
-            </div>
-            
-            {!isProcessing && !parsedEntry && (
-              <div className="mt-2 flex justify-end">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={processTranscript}
-                  disabled={isProcessing || !transcript}
-                >
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Process Entry
-                </Button>
-              </div>
-            )}
-          </div>
-        )}
+        <TranscriptDisplay 
+          transcript={transcript}
+          isProcessing={isProcessing}
+          parsedEntry={parsedEntry}
+          onProcessTranscript={processTranscript}
+        />
 
-        {isProcessing && (
-          <div className="flex justify-center py-4">
-            <div className="animate-pulse flex space-x-2">
-              <div className="h-2 w-2 bg-primary rounded-full"></div>
-              <div className="h-2 w-2 bg-primary rounded-full"></div>
-              <div className="h-2 w-2 bg-primary rounded-full"></div>
-            </div>
-          </div>
-        )}
+        <ProcessingIndicator isProcessing={isProcessing} />
 
-        {parsedEntry && (
-          <div className="border rounded-lg p-4 mt-4">
-            <h3 className="font-medium mb-2">Processed Entry:</h3>
-            <dl className="grid grid-cols-2 gap-2 text-sm">
-              <dt className="text-muted-foreground">Type:</dt>
-              <dd className="font-medium capitalize">{parsedEntry.type}</dd>
-              
-              <dt className="text-muted-foreground">Amount:</dt>
-              <dd className="font-medium">${parsedEntry.amount.toFixed(2)}</dd>
-              
-              {parsedEntry.category && (
-                <>
-                  <dt className="text-muted-foreground">Category:</dt>
-                  <dd className="font-medium">{parsedEntry.category}</dd>
-                </>
-              )}
-              
-              {parsedEntry.source && (
-                <>
-                  <dt className="text-muted-foreground">Source:</dt>
-                  <dd className="font-medium">{parsedEntry.source}</dd>
-                </>
-              )}
-              
-              {parsedEntry.destination && (
-                <>
-                  <dt className="text-muted-foreground">Destination:</dt>
-                  <dd className="font-medium">{parsedEntry.destination}</dd>
-                </>
-              )}
-              
-              {parsedEntry.date && (
-                <>
-                  <dt className="text-muted-foreground">Date:</dt>
-                  <dd className="font-medium">{parsedEntry.date.toLocaleDateString()}</dd>
-                </>
-              )}
-              
-              <dt className="text-muted-foreground">Description:</dt>
-              <dd className="font-medium">{parsedEntry.description}</dd>
-            </dl>
-            
-            <div className="mt-4 flex justify-end">
-              <Button variant="default" size="sm" onClick={saveEntry}>
-                Save Entry
-              </Button>
-            </div>
-          </div>
-        )}
+        <ParsedEntryDisplay 
+          parsedEntry={parsedEntry}
+          onSaveEntry={saveEntry}
+        />
       </CardContent>
       <CardFooter className="bg-muted/50 border-t px-6 py-3">
-        <div className="text-xs text-muted-foreground">
-          <p>Try saying phrases like:</p>
-          <ul className="list-disc list-inside mt-1 space-y-1">
-            <li>"Log a $200 office expense from Staples on March 5th."</li>
-            <li>"Transfer $5,000 from checking to payroll account."</li>
-            <li>"Record $1,500 revenue from client XYZ for consulting."</li>
-          </ul>
-        </div>
+        <VoiceHelp />
       </CardFooter>
     </Card>
   );
