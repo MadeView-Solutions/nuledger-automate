@@ -10,6 +10,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         <Sidebar
           links={[
             { href: "/dashboard", label: "Dashboard", icon: "Home" },
+            { href: "/clients", label: "Clients", icon: "Briefcase" },
             { href: "/invoicing", label: "Invoicing", icon: "FileText" },
             { href: "/tax-compliance", label: "Tax Compliance", icon: "FileCheck" },
             { href: "/financial-forecasting", label: "Financial Forecasting", icon: "TrendingUp" },

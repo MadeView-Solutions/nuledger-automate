@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
@@ -13,6 +14,7 @@ import Integrations from "@/pages/Integrations";
 import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
 import BankReconciliation from "@/pages/BankReconciliation";
+import Clients from "@/pages/Clients";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/payroll" element={<Payroll />} />
         <Route path="/ai-bookkeeping" element={<AIBookkeeping />} />
         <Route path="/bank-reconciliation" element={<BankReconciliation />} />
+        <Route path="/clients" element={<Clients />} />
+        <Route path="/clients/:id" element={<Clients />} />
         <Route path="/integrations" element={<Integrations />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />
