@@ -1,7 +1,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { MoreHorizontal, ArrowUpRight, ArrowDownLeft } from "lucide-react";
+import { MoreHorizontal, ArrowUpRight, ArrowDownLeft, Users, Building } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // Mock transaction data
@@ -14,6 +14,7 @@ const transactions = [
     type: "income",
     category: "Sales",
     status: "completed",
+    accountType: "client" // External client transaction
   },
   {
     id: "TX123457",
@@ -23,6 +24,7 @@ const transactions = [
     type: "expense",
     category: "Office Expenses",
     status: "completed",
+    accountType: "internal" // Internal firm transaction
   },
   {
     id: "TX123458",
@@ -32,6 +34,7 @@ const transactions = [
     type: "expense",
     category: "Software",
     status: "completed",
+    accountType: "internal" // Internal firm transaction
   },
   {
     id: "TX123459",
@@ -41,6 +44,7 @@ const transactions = [
     type: "income",
     category: "Sales",
     status: "completed",
+    accountType: "client" // External client transaction
   },
   {
     id: "TX123460",
@@ -50,6 +54,7 @@ const transactions = [
     type: "expense",
     category: "Marketing",
     status: "pending",
+    accountType: "internal" // Internal firm transaction
   },
 ];
 
@@ -90,7 +95,10 @@ const TransactionsList = () => {
             {transactions.map((transaction) => (
               <tr
                 key={transaction.id}
-                className="hover:bg-muted/50 transition-colors"
+                className={cn(
+                  "hover:bg-muted/50 transition-colors",
+                  transaction.accountType === "client" ? "bg-green-50/30 dark:bg-green-950/10" : "bg-blue-50/30 dark:bg-blue-950/10"
+                )}
               >
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
@@ -109,13 +117,29 @@ const TransactionsList = () => {
                       )}
                     </div>
                     <div>
-                      <div className="font-medium">{transaction.description}</div>
+                      <div className="flex items-center">
+                        <span className="font-medium">{transaction.description}</span>
+                        {transaction.accountType === "client" ? (
+                          <span className="ml-2">
+                            <Users className="h-3.5 w-3.5 text-green-600" />
+                          </span>
+                        ) : (
+                          <span className="ml-2">
+                            <Building className="h-3.5 w-3.5 text-blue-600" />
+                          </span>
+                        )}
+                      </div>
                       <div className="text-xs text-muted-foreground">{transaction.id}</div>
                     </div>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 py-1 text-xs rounded-full bg-secondary">
+                  <span className={cn(
+                    "px-2 py-1 text-xs rounded-full bg-secondary",
+                    transaction.accountType === "client" 
+                      ? "border-green-200 dark:border-green-800 border" 
+                      : "border-blue-200 dark:border-blue-800 border"
+                  )}>
                     {transaction.category}
                   </span>
                 </td>

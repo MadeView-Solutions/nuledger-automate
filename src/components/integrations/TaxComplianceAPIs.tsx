@@ -5,7 +5,7 @@ import IntegrationCard from "./IntegrationCard";
 import AvalaraLogo from "./logos/AvalaraLogo";
 import TurboTaxLogo from "./logos/TurboTaxLogo";
 import IRSLogo from "./logos/IRSLogo";
-import { Users, Globe } from "lucide-react";
+import { Users, Globe, Briefcase, Building } from "lucide-react";
 
 const TaxComplianceAPIs = () => {
   return (
@@ -20,8 +20,8 @@ const TaxComplianceAPIs = () => {
         <CardContent>
           <div className="mb-6">
             <div className="flex items-center gap-2 mb-3 border-b pb-2">
-              <Users className="h-5 w-5 text-blue-600" />
-              <h3 className="font-medium text-lg text-blue-700">Client Tax Services</h3>
+              <Users className="h-5 w-5 text-green-600" />
+              <h3 className="font-medium text-lg text-green-700">External Client Services</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <IntegrationCard
@@ -29,7 +29,7 @@ const TaxComplianceAPIs = () => {
                 description="Simplify tax preparation by syncing financial data with TurboTax for client returns."
                 icon={<TurboTaxLogo />}
                 status="available"
-                className="border-blue-200 hover:border-blue-300 dark:border-blue-900 dark:hover:border-blue-800"
+                className="border-green-200 hover:border-green-300 dark:border-green-900 dark:hover:border-green-800"
               />
               
               <IntegrationCard
@@ -37,12 +37,12 @@ const TaxComplianceAPIs = () => {
                 description="Submit client tax returns electronically directly to the IRS with proper authentication."
                 icon={<IRSLogo />}
                 status="available"
-                className="border-blue-200 hover:border-blue-300 dark:border-blue-900 dark:hover:border-blue-800"
+                className="border-green-200 hover:border-green-300 dark:border-green-900 dark:hover:border-green-800"
               />
             </div>
           </div>
           
-          <div>
+          <div className="mb-6">
             <div className="flex items-center gap-2 mb-3 border-b pb-2">
               <Globe className="h-5 w-5 text-purple-600" />
               <h3 className="font-medium text-lg text-purple-700">International Tax Services</h3>
@@ -63,6 +63,23 @@ const TaxComplianceAPIs = () => {
                 icon={<Globe className="h-10 w-10 text-purple-600" />}
                 status="available"
                 className="border-purple-200 hover:border-purple-300 dark:border-purple-900 dark:hover:border-purple-800"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <div className="flex items-center gap-2 mb-3 border-b pb-2">
+              <Building className="h-5 w-5 text-blue-600" />
+              <h3 className="font-medium text-lg text-blue-700">Internal Firm Accounts</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <IntegrationCard
+                title="Firm Tax Management"
+                description="Manage the firm's own tax obligations, compliance tracking, and filing deadlines."
+                icon={<Briefcase className="h-10 w-10 text-blue-600" />}
+                status="connected"
+                lastSync="2023-07-15T12:45:00Z"
+                className="border-blue-200 hover:border-blue-300 dark:border-blue-900 dark:hover:border-blue-800"
               />
             </div>
           </div>
