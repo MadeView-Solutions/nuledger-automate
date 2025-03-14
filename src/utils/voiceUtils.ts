@@ -1,4 +1,3 @@
-
 // Define types for the financial entries
 export interface FinancialEntry {
   type: "expense" | "income" | "transfer";

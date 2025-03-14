@@ -6,15 +6,27 @@ import { Mic, MicOff, Sparkles } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { parseFinancialEntry, FinancialEntry } from "@/utils/voiceUtils";
 
-// Use the Window interface which already has the SpeechRecognition declaration
-declare global {
-  interface Window {
-    SpeechRecognition: new () => SpeechRecognition;
-    webkitSpeechRecognition: new () => SpeechRecognition;
-  }
+// Define SpeechRecognition types locally in this component
+interface SpeechRecognitionEvent extends Event {
+  results: SpeechRecognitionResultList;
+  error?: any;
 }
 
-// Define SpeechRecognition for local use only if needed
+interface SpeechRecognitionResultList {
+  length: number;
+  item(index: number): SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionResult {
+  length: number;
+  item(index: number): SpeechRecognitionAlternative;
+}
+
+interface SpeechRecognitionAlternative {
+  transcript: string;
+  confidence: number;
+}
+
 interface SpeechRecognition extends EventTarget {
   continuous: boolean;
   interimResults: boolean;
@@ -28,16 +40,16 @@ interface SpeechRecognition extends EventTarget {
   onstart: () => void;
 }
 
-interface SpeechRecognitionEvent extends Event {
-  results: {
-    item(index: number): {
-      item(index: number): {
-        transcript: string;
-      };
+// Declare global browser APIs
+declare global {
+  interface Window {
+    SpeechRecognition: {
+      new (): SpeechRecognition;
     };
-    length: number;
-  };
-  error?: any;
+    webkitSpeechRecognition: {
+      new (): SpeechRecognition;
+    };
+  }
 }
 
 const VoiceToAccounting = () => {
