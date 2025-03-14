@@ -4,16 +4,40 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Mic, MicOff, Sparkles } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { parseFinancialEntry } from "@/utils/voiceUtils";
+import { parseFinancialEntry, FinancialEntry } from "@/utils/voiceUtils";
 
-interface FinancialEntry {
-  type: "expense" | "income" | "transfer";
-  amount: number;
-  source?: string;
-  destination?: string;
-  date?: Date;
-  category?: string;
-  description: string;
+// Use the Window interface which already has the SpeechRecognition declaration
+declare global {
+  interface Window {
+    SpeechRecognition: new () => SpeechRecognition;
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
+}
+
+// Define SpeechRecognition for local use only if needed
+interface SpeechRecognition extends EventTarget {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  start(): void;
+  stop(): void;
+  abort(): void;
+  onresult: (event: SpeechRecognitionEvent) => void;
+  onerror: (event: SpeechRecognitionEvent) => void;
+  onend: () => void;
+  onstart: () => void;
+}
+
+interface SpeechRecognitionEvent extends Event {
+  results: {
+    item(index: number): {
+      item(index: number): {
+        transcript: string;
+      };
+    };
+    length: number;
+  };
+  error?: any;
 }
 
 const VoiceToAccounting = () => {
