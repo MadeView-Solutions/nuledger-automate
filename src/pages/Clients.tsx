@@ -5,6 +5,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import ClientsList from "@/components/clients/ClientsList";
 import ClientDetails from "@/components/clients/ClientDetails";
 import { Client } from "@/types/client";
+import { mockClients } from "@/data/mockClients";
 
 const Clients = () => {
   const { id } = useParams();
