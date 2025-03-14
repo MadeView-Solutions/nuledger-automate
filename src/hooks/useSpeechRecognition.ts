@@ -47,11 +47,16 @@ interface SpeechRecognition extends EventTarget {
   abort(): void;
 }
 
+// Define the SpeechRecognition constructor types
+interface SpeechRecognitionConstructor {
+  new (): SpeechRecognition;
+}
+
 // Declare global browser APIs
 declare global {
   interface Window {
-    SpeechRecognition: new () => SpeechRecognition;
-    webkitSpeechRecognition: new () => SpeechRecognition;
+    SpeechRecognition: SpeechRecognitionConstructor;
+    webkitSpeechRecognition: SpeechRecognitionConstructor;
   }
 }
 
