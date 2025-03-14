@@ -9,6 +9,7 @@ import JournalEntries from "@/components/bookkeeping/JournalEntries";
 import AccountSync from "@/components/bookkeeping/AccountSync";
 import SmartFormulaGenerator from "@/components/ai/SmartFormulaGenerator";
 import FinanceChatbot from "@/components/chatbot/FinanceChatbot";
+import VoiceToAccounting from "@/components/bookkeeping/VoiceToAccounting";
 
 const AIBookkeeping = () => {
   return (
@@ -26,6 +27,7 @@ const AIBookkeeping = () => {
           <SmartFormulaGenerator />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
             <FinanceChatbot />
+            <VoiceToAccounting />
           </div>
         </div>
 
