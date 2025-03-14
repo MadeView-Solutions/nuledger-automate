@@ -3,6 +3,7 @@ import React, { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, Link2, Power } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface IntegrationCardProps {
   title: string;
@@ -11,6 +12,7 @@ interface IntegrationCardProps {
   status: "connected" | "available" | "maintenance";
   lastSync?: string;
   maintenanceMsg?: string;
+  className?: string; // Added className prop
 }
 
 const IntegrationCard: React.FC<IntegrationCardProps> = ({
@@ -20,6 +22,7 @@ const IntegrationCard: React.FC<IntegrationCardProps> = ({
   status,
   lastSync,
   maintenanceMsg,
+  className,
 }) => {
   const renderStatusBadge = () => {
     switch (status) {
@@ -40,7 +43,7 @@ const IntegrationCard: React.FC<IntegrationCardProps> = ({
   };
 
   return (
-    <div className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+    <div className={cn("border rounded-lg p-4 hover:shadow-md transition-shadow", className)}>
       <div className="flex items-start space-x-4">
         <div className="w-12 h-12 flex items-center justify-center text-primary">
           {icon}
