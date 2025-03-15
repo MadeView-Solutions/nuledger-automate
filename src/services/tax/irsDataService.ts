@@ -171,7 +171,7 @@ export const mapIRSDataToTaxForms = (irsData: any[]): Partial<TaxForm>[] => {
 export const fetchAllAvailableTaxForms = async (
   category?: string
 ): Promise<AvailableFormsResult> => {
-  console.log("Fetching all available tax forms...");
+  console.log(`Fetching all available tax forms${category ? ` in category: ${category}` : ''}`);
   
   // Add artificial delay to simulate API call
   await new Promise(resolve => setTimeout(resolve, 1500));

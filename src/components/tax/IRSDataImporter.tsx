@@ -40,7 +40,7 @@ const IRSDataImporter: React.FC<IRSDataImporterProps> = ({
   const [activeTab, setActiveTab] = useState("import");
   const [isFetchingForms, setIsFetchingForms] = useState(false);
   const [availableForms, setAvailableForms] = useState<Array<{id: string; name: string; category: string}>>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
   
   const categories = getTaxFormCategories();
@@ -65,7 +65,7 @@ const IRSDataImporter: React.FC<IRSDataImporterProps> = ({
     setIsFetchingForms(true);
     
     try {
-      const result = await fetchAllAvailableTaxForms(selectedCategory || undefined);
+      const result = await fetchAllAvailableTaxForms(selectedCategory !== "all" ? selectedCategory : undefined);
       setAvailableForms(result.forms);
     } catch (error) {
       console.error("Error fetching available forms:", error);
@@ -171,7 +171,7 @@ const IRSDataImporter: React.FC<IRSDataImporterProps> = ({
                       <SelectValue placeholder="All Categories" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Categories</SelectItem>
+                      <SelectItem value="all">All Categories</SelectItem>
                       {categories.map(category => (
                         <SelectItem key={category} value={category}>
                           {category.charAt(0).toUpperCase() + category.slice(1)}
