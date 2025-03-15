@@ -7,6 +7,8 @@ import ClientTasks from "./ClientTasks";
 import ClientDocuments from "./ClientDocuments";
 import ClientWorkflow from "./ClientWorkflow";
 import ClientQuickBooksSync from "./ClientQuickBooksSync";
+import BusinessAdvisoryDashboard from "../advisory/BusinessAdvisoryDashboard";
+import AuditPreparationDashboard from "../audit/AuditPreparationDashboard";
 
 interface ClientDetailsProps {
   client: Client;
@@ -60,10 +62,12 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ client }) => {
           <ClientQuickBooksSync client={client} />
 
           <Tabs defaultValue="tasks" className="mt-6">
-            <TabsList className="grid grid-cols-3 mb-6">
+            <TabsList className="grid grid-cols-5 mb-6">
               <TabsTrigger value="tasks">Tasks</TabsTrigger>
               <TabsTrigger value="documents">Documents</TabsTrigger>
               <TabsTrigger value="workflow">Workflow</TabsTrigger>
+              <TabsTrigger value="advisory">Advisory</TabsTrigger>
+              <TabsTrigger value="audit">Audit Prep</TabsTrigger>
             </TabsList>
             <TabsContent value="tasks">
               <ClientTasks client={client} />
@@ -73,6 +77,12 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ client }) => {
             </TabsContent>
             <TabsContent value="workflow">
               <ClientWorkflow client={client} />
+            </TabsContent>
+            <TabsContent value="advisory">
+              <BusinessAdvisoryDashboard />
+            </TabsContent>
+            <TabsContent value="audit">
+              <AuditPreparationDashboard />
             </TabsContent>
           </Tabs>
         </CardContent>
