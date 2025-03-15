@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, List, Loader2, Filter } from "lucide-react";
@@ -21,6 +20,14 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { 
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow
+} from "@/components/ui/table";
 import { importIRSData, fetchAllAvailableTaxForms, getTaxFormCategories } from "@/services/tax/irsDataService";
 
 interface IRSDataImporterProps {
@@ -52,7 +59,6 @@ const IRSDataImporter: React.FC<IRSDataImporterProps> = ({
       const result = await importIRSData(taxId, clientId);
       onImportComplete(true, result.formCount);
       setDialogOpen(false);
-      // Reset form
       setTaxId("");
       setClientId("");
     } catch (error) {
@@ -192,36 +198,36 @@ const IRSDataImporter: React.FC<IRSDataImporterProps> = ({
                 </div>
               ) : (
                 <div className="border rounded-md">
-                  <div className="max-h-[300px] overflow-y-auto">
-                    <table className="w-full">
-                      <thead className="bg-muted/50 sticky top-0">
-                        <tr>
-                          <th className="text-left p-3 text-sm">Form ID</th>
-                          <th className="text-left p-3 text-sm">Name</th>
-                          <th className="text-left p-3 text-sm">Category</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y">
+                  <Table>
+                    <TableHeader className="bg-muted/50">
+                      <TableRow>
+                        <TableHead className="w-[100px]">Form ID</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead className="w-[100px]">Category</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <ScrollArea className="h-[300px]">
+                      <TableBody>
                         {filteredForms.length > 0 ? (
                           filteredForms.map((form) => (
-                            <tr key={form.id} className="hover:bg-muted/40">
+                            <TableRow key={form.id} className="hover:bg-muted/40">
                               <td className="p-3 text-sm font-medium">{form.id}</td>
                               <td className="p-3 text-sm">{form.name}</td>
                               <td className="p-3 text-sm capitalize">{form.category}</td>
-                            </tr>
+                            </TableRow>
                           ))
                         ) : (
-                          <tr>
+                          <TableRow>
                             <td colSpan={3} className="p-8 text-center text-muted-foreground">
                               {availableForms.length === 0 
                                 ? "Click 'Filter' to load available forms" 
                                 : "No forms match your search criteria"}
                             </td>
-                          </tr>
+                          </TableRow>
                         )}
-                      </tbody>
-                    </table>
-                  </div>
+                      </TableBody>
+                    </ScrollArea>
+                  </Table>
                 </div>
               )}
             </div>
