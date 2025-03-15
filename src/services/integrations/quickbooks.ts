@@ -17,7 +17,7 @@ const defaultConfig: AccountingConfig = {
 };
 
 export class QuickBooksService extends AccountingIntegrationService {
-  private authState: QuickBooksAuthState;
+  protected authState: QuickBooksAuthState;
 
   constructor(config: Partial<AccountingConfig> = {}) {
     super({ ...defaultConfig, ...config }, 'qb');
