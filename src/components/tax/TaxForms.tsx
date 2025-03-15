@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { 
   Card, 
   CardContent,
@@ -17,9 +17,11 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { taxForms } from "./taxFormsData";
 import { FormTableRow } from "./FormTableRow";
+import IRSDataImporter from "./IRSDataImporter";
 
 const TaxForms = () => {
   const { toast } = useToast();
+  const [isImporting, setIsImporting] = useState(false);
   
   const handleGenerateForm = (formId: string) => {
     toast({
@@ -35,13 +37,42 @@ const TaxForms = () => {
     });
   };
 
+  const handleImportIRSData = (clientId: string) => {
+    setIsImporting(true);
+  };
+
+  const handleImportComplete = (success: boolean, formCount: number) => {
+    setIsImporting(false);
+    if (success) {
+      toast({
+        title: "IRS Data Import Complete",
+        description: `Successfully imported data for ${formCount} tax forms`,
+      });
+    } else {
+      toast({
+        title: "Import Failed",
+        description: "Could not retrieve data from the IRS. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Tax Forms</CardTitle>
-        <CardDescription>
-          AI-powered form generation and e-filing system
-        </CardDescription>
+        <div className="flex justify-between items-start">
+          <div>
+            <CardTitle>Tax Forms</CardTitle>
+            <CardDescription>
+              AI-powered form generation and e-filing system
+            </CardDescription>
+          </div>
+          <IRSDataImporter 
+            onImportStart={handleImportIRSData} 
+            onImportComplete={handleImportComplete} 
+            isImporting={isImporting}
+          />
+        </div>
       </CardHeader>
       <CardContent>
         <Table>

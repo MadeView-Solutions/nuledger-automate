@@ -1,6 +1,5 @@
 
 import React from "react";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Container from "@/components/ui/Container";
 import DashboardLayout from "@/components/layout/DashboardLayout";
@@ -10,6 +9,7 @@ import AuditTrail from "@/components/tax/AuditTrail";
 import TaxComplianceHeader from "@/components/tax/TaxComplianceHeader";
 import TaxComplianceStats from "@/components/tax/TaxComplianceStats";
 import TaxLawTracker from "@/components/tax/TaxLawTracker";
+import TaxComplianceAPIs from "@/components/integrations/TaxComplianceAPIs";
 
 const TaxCompliance = () => {
   return (
@@ -19,13 +19,18 @@ const TaxCompliance = () => {
         <div className="space-y-8">
           <TaxComplianceStats />
           
-          <Tabs defaultValue="calculator" className="w-full">
-            <TabsList className="grid grid-cols-4 mb-8">
+          <Tabs defaultValue="forms" className="w-full">
+            <TabsList className="grid grid-cols-5 mb-8">
+              <TabsTrigger value="forms">Tax Forms</TabsTrigger>
               <TabsTrigger value="calculator">Tax Calculator</TabsTrigger>
               <TabsTrigger value="laws">Tax Law Updates</TabsTrigger>
-              <TabsTrigger value="forms">Tax Forms</TabsTrigger>
               <TabsTrigger value="audit">Audit Trail</TabsTrigger>
+              <TabsTrigger value="integrations">IRS Connect</TabsTrigger>
             </TabsList>
+            
+            <TabsContent value="forms">
+              <TaxForms />
+            </TabsContent>
             
             <TabsContent value="calculator">
               <TaxCalculator />
@@ -35,12 +40,12 @@ const TaxCompliance = () => {
               <TaxLawTracker />
             </TabsContent>
             
-            <TabsContent value="forms">
-              <TaxForms />
-            </TabsContent>
-            
             <TabsContent value="audit">
               <AuditTrail />
+            </TabsContent>
+            
+            <TabsContent value="integrations">
+              <TaxComplianceAPIs />
             </TabsContent>
           </Tabs>
         </div>
