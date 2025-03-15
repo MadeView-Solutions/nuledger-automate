@@ -3,21 +3,12 @@ import React, { useState } from "react";
 import { 
   Card, 
   CardContent,
-  CardDescription, 
-  CardHeader, 
-  CardTitle 
+  CardHeader
 } from "@/components/ui/card";
-import { 
-  Table, 
-  TableBody, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { taxForms } from "./taxFormsData";
-import { FormTableRow } from "./FormTableRow";
-import IRSDataImporter from "./IRSDataImporter";
+import TaxFormsHeader from "./TaxFormsHeader";
+import TaxFormsTable from "./TaxFormsTable";
 
 const TaxForms = () => {
   const { toast } = useToast();
@@ -60,42 +51,18 @@ const TaxForms = () => {
   return (
     <Card>
       <CardHeader>
-        <div className="flex justify-between items-start">
-          <div>
-            <CardTitle>Tax Forms</CardTitle>
-            <CardDescription>
-              AI-powered form generation and e-filing system
-            </CardDescription>
-          </div>
-          <IRSDataImporter 
-            onImportStart={handleImportIRSData} 
-            onImportComplete={handleImportComplete} 
-            isImporting={isImporting}
-          />
-        </div>
+        <TaxFormsHeader
+          onImportStart={handleImportIRSData}
+          onImportComplete={handleImportComplete}
+          isImporting={isImporting}
+        />
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Form</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Due Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {taxForms.map((form) => (
-              <FormTableRow 
-                key={form.id}
-                form={form}
-                onGenerateForm={handleGenerateForm}
-                onFileForm={handleFileForm}
-              />
-            ))}
-          </TableBody>
-        </Table>
+        <TaxFormsTable 
+          taxForms={taxForms}
+          onGenerateForm={handleGenerateForm}
+          onFileForm={handleFileForm}
+        />
       </CardContent>
     </Card>
   );
