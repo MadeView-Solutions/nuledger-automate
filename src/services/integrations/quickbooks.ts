@@ -24,7 +24,7 @@ export class QuickBooksService extends AccountingIntegrationService {
     
     // Initialize QuickBooks specific auth state
     this.authState = {
-      ...this.authState,
+      ...this.authState as AccountingAuthState,
       realmId: localStorage.getItem('qb_realm_id'),
     };
   }
