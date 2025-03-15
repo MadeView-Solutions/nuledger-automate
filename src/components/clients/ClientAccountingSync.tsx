@@ -36,8 +36,21 @@ interface ClientAccountingSyncProps {
   client: Client;
 }
 
+// Define type for accounting platform
+interface AccountingPlatform {
+  id: string;
+  name: string;
+  logo: React.ComponentType;
+  available: boolean;
+}
+
+interface CustomPlatform {
+  id: string;
+  name: string;
+}
+
 // Define available accounting platforms
-const accountingPlatforms = [
+const accountingPlatforms: AccountingPlatform[] = [
   { id: "quickbooks", name: "QuickBooks Online", logo: QuickbooksLogo, available: true },
   { id: "quickbooks-desktop", name: "QuickBooks Desktop", logo: QuickBooksDesktopLogo, available: false },
   { id: "xero", name: "Xero", logo: XeroLogo, available: false },
@@ -53,23 +66,24 @@ const ClientAccountingSync: React.FC<ClientAccountingSyncProps> = ({ client }) =
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
   const [selectedPlatform, setSelectedPlatform] = useState("quickbooks");
-  const [customPlatforms, setCustomPlatforms] = useState<{id: string, name: string}[]>([]);
+  const [customPlatforms, setCustomPlatforms] = useState<CustomPlatform[]>([]);
   const [newPlatformName, setNewPlatformName] = useState("");
   const [isAddingPlatform, setIsAddingPlatform] = useState(false);
 
   // Get the currently selected platform details
-  const currentPlatform = [...accountingPlatforms, ...customPlatforms].find(p => p.id === selectedPlatform) || accountingPlatforms[0];
+  const currentPlatform = accountingPlatforms.find(p => p.id === selectedPlatform) || 
+    (customPlatforms.find(p => p.id === selectedPlatform) ? 
+      { name: customPlatforms.find(p => p.id === selectedPlatform)?.name || "", available: false } : 
+      accountingPlatforms[0]);
   
-  const PlatformLogo = 'logo' in currentPlatform ? currentPlatform.logo : QuickbooksLogo;
-  const platformAvailable = 'available' in currentPlatform ? currentPlatform.available : false;
-
   // Handle platform change
   const handlePlatformChange = (value: string) => {
     setSelectedPlatform(value);
     
     if (value !== "quickbooks" && value !== "custom-platform") {
       toast({
-        title: `${[...accountingPlatforms, ...customPlatforms].find(p => p.id === value)?.name} Integration`,
+        title: `${accountingPlatforms.find(p => p.id === value)?.name || 
+                customPlatforms.find(p => p.id === value)?.name} Integration`,
         description: "This integration is coming soon. Currently only QuickBooks Online is fully supported.",
         variant: "default",
       });
@@ -137,6 +151,33 @@ const ClientAccountingSync: React.FC<ClientAccountingSyncProps> = ({ client }) =
       setIsSyncing(false);
     }
   };
+
+  // Determine which logo to render
+  const renderLogo = () => {
+    if (selectedPlatform.startsWith('custom-')) {
+      // For custom platforms, use the QuickBooks logo as a fallback
+      return <QuickbooksLogo />;
+    }
+    
+    const platform = accountingPlatforms.find(p => p.id === selectedPlatform);
+    if (platform) {
+      const Logo = platform.logo;
+      return <Logo />;
+    }
+    
+    return <QuickbooksLogo />;
+  };
+
+  const getPlatformAvailability = () => {
+    if (selectedPlatform.startsWith('custom-')) {
+      return false;
+    }
+    
+    const platform = accountingPlatforms.find(p => p.id === selectedPlatform);
+    return platform ? platform.available : false;
+  };
+  
+  const platformAvailable = getPlatformAvailability();
 
   return (
     <div className="p-4 border rounded-lg bg-muted/20">
@@ -212,7 +253,7 @@ const ClientAccountingSync: React.FC<ClientAccountingSyncProps> = ({ client }) =
       
       <div className="flex items-center mb-3 gap-2">
         <div className="h-10 w-10">
-          {'logo' in currentPlatform ? <PlatformLogo /> : null}
+          {renderLogo()}
         </div>
         <div>
           <h4 className="text-sm font-medium">{currentPlatform.name}</h4>
