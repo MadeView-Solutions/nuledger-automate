@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,7 +5,7 @@ import { Client } from "@/types/client";
 import ClientTasks from "./ClientTasks";
 import ClientDocuments from "./ClientDocuments";
 import ClientWorkflow from "./ClientWorkflow";
-import ClientQuickBooksSync from "./ClientQuickBooksSync";
+import ClientAccountingSync from "./ClientAccountingSync";
 import BusinessAdvisoryDashboard from "../advisory/BusinessAdvisoryDashboard";
 import AuditPreparationDashboard from "../audit/AuditPreparationDashboard";
 
@@ -58,8 +57,8 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ client }) => {
             </div>
           </div>
 
-          {/* Add QuickBooks Sync Component */}
-          <ClientQuickBooksSync client={client} />
+          {/* Add Accounting Integration Component */}
+          <ClientAccountingSync client={client} />
 
           <Tabs defaultValue="tasks" className="mt-6">
             <TabsList className="grid grid-cols-5 mb-6">
