@@ -1,7 +1,6 @@
 
 import React from "react";
 import Sidebar from "@/components/layout/Sidebar";
-import Footer from "@/components/layout/Footer";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -24,7 +23,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         />
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
-      <Footer />
     </div>
   );
 };
