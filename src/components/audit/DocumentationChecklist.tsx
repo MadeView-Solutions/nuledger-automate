@@ -17,7 +17,7 @@ const documentItems = [
   {
     id: 1,
     title: "Bank Statements",
-    status: "complete",
+    status: "complete" as const,
     category: "financial",
     icon: FileText,
     dueDate: null
@@ -25,7 +25,7 @@ const documentItems = [
   {
     id: 2,
     title: "Business Expense Receipts",
-    status: "complete",
+    status: "complete" as const,
     category: "financial",
     icon: Receipt,
     dueDate: null
@@ -33,7 +33,7 @@ const documentItems = [
   {
     id: 3,
     title: "Quarterly Tax Payments",
-    status: "complete",
+    status: "complete" as const,
     category: "tax",
     icon: PiggyBank,
     dueDate: null
@@ -41,7 +41,7 @@ const documentItems = [
   {
     id: 4,
     title: "Payroll Documentation",
-    status: "pending",
+    status: "pending" as const,
     category: "employees",
     icon: UserCheck,
     dueDate: "2024-06-30"
@@ -49,7 +49,7 @@ const documentItems = [
   {
     id: 5,
     title: "Business Formation Documents",
-    status: "complete",
+    status: "complete" as const,
     category: "legal",
     icon: Building2,
     dueDate: null
@@ -57,7 +57,7 @@ const documentItems = [
   {
     id: 6,
     title: "Investment Documentation",
-    status: "missing",
+    status: "missing" as const,
     category: "financial",
     icon: FileText,
     dueDate: "2024-06-15"
@@ -65,7 +65,7 @@ const documentItems = [
   {
     id: 7,
     title: "Prior Year Tax Returns",
-    status: "complete",
+    status: "complete" as const,
     category: "tax",
     icon: FileText,
     dueDate: null
@@ -73,7 +73,7 @@ const documentItems = [
   {
     id: 8,
     title: "Vehicle Expense Records",
-    status: "pending",
+    status: "pending" as const,
     category: "financial",
     icon: Receipt,
     dueDate: "2024-06-25"

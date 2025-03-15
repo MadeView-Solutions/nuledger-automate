@@ -1,4 +1,3 @@
-
 import { Client } from "@/types/client";
 import { AccountingIntegrationService, AccountingAuthState, AccountingConfig } from "./accountingBase";
 
@@ -17,7 +16,7 @@ const defaultConfig: AccountingConfig = {
 };
 
 export class QuickBooksService extends AccountingIntegrationService {
-  protected authState: QuickBooksAuthState;
+  protected declare authState: QuickBooksAuthState;
 
   constructor(config: Partial<AccountingConfig> = {}) {
     super({ ...defaultConfig, ...config }, 'qb');
