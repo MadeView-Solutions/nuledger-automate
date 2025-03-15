@@ -9,11 +9,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RefreshCw, AlertCircle, ChevronDown } from "lucide-react";
+import { 
+  RefreshCw, 
+  AlertCircle, 
+  ChevronDown, 
+  PlusCircle
+} from "lucide-react";
 import { Client } from "@/types/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useQuickBooks } from "@/hooks/useQuickBooks";
 import { quickbooksService } from "@/services/integrations/quickbooks";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Import logos
 import QuickbooksLogo from "@/components/integrations/logos/QuickbooksLogo";
@@ -45,22 +53,43 @@ const ClientAccountingSync: React.FC<ClientAccountingSyncProps> = ({ client }) =
   const [isSyncing, setIsSyncing] = useState(false);
   const [lastSynced, setLastSynced] = useState<Date | null>(null);
   const [selectedPlatform, setSelectedPlatform] = useState("quickbooks");
+  const [customPlatforms, setCustomPlatforms] = useState<{id: string, name: string}[]>([]);
+  const [newPlatformName, setNewPlatformName] = useState("");
+  const [isAddingPlatform, setIsAddingPlatform] = useState(false);
 
   // Get the currently selected platform details
-  const currentPlatform = accountingPlatforms.find(p => p.id === selectedPlatform) || accountingPlatforms[0];
+  const currentPlatform = [...accountingPlatforms, ...customPlatforms].find(p => p.id === selectedPlatform) || accountingPlatforms[0];
   
-  const PlatformLogo = currentPlatform.logo;
-  const platformAvailable = currentPlatform.available;
+  const PlatformLogo = 'logo' in currentPlatform ? currentPlatform.logo : QuickbooksLogo;
+  const platformAvailable = 'available' in currentPlatform ? currentPlatform.available : false;
 
   // Handle platform change
   const handlePlatformChange = (value: string) => {
     setSelectedPlatform(value);
     
-    if (value !== "quickbooks") {
+    if (value !== "quickbooks" && value !== "custom-platform") {
       toast({
-        title: `${accountingPlatforms.find(p => p.id === value)?.name} Integration`,
+        title: `${[...accountingPlatforms, ...customPlatforms].find(p => p.id === value)?.name} Integration`,
         description: "This integration is coming soon. Currently only QuickBooks Online is fully supported.",
         variant: "default",
+      });
+    }
+  };
+
+  const handleAddCustomPlatform = () => {
+    if (newPlatformName.trim()) {
+      const newPlatformId = `custom-${Date.now()}`;
+      setCustomPlatforms([...customPlatforms, { 
+        id: newPlatformId, 
+        name: newPlatformName.trim() 
+      }]);
+      setSelectedPlatform(newPlatformId);
+      setNewPlatformName("");
+      setIsAddingPlatform(false);
+      
+      toast({
+        title: "Custom Platform Added",
+        description: `${newPlatformName.trim()} has been added to your platforms list.`,
       });
     }
   };
@@ -114,34 +143,83 @@ const ClientAccountingSync: React.FC<ClientAccountingSyncProps> = ({ client }) =
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-medium">Accounting Integration</h3>
         
-        <Select value={selectedPlatform} onValueChange={handlePlatformChange}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select platform" />
-          </SelectTrigger>
-          <SelectContent>
-            {accountingPlatforms.map(platform => (
-              <SelectItem key={platform.id} value={platform.id} className="flex items-center">
-                <div className="flex items-center gap-2">
-                  <platform.logo />
-                  <span>{platform.name}</span>
-                  {!platform.available && (
-                    <span className="text-xs ml-2 text-muted-foreground">(Coming Soon)</span>
-                  )}
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-2">
+          <Select value={selectedPlatform} onValueChange={handlePlatformChange}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select platform" />
+            </SelectTrigger>
+            <SelectContent>
+              {accountingPlatforms.map(platform => (
+                <SelectItem key={platform.id} value={platform.id} className="flex items-center">
+                  <div className="flex items-center gap-2">
+                    <platform.logo />
+                    <span>{platform.name}</span>
+                    {!platform.available && (
+                      <span className="text-xs ml-2 text-muted-foreground">(Coming Soon)</span>
+                    )}
+                  </div>
+                </SelectItem>
+              ))}
+              
+              {customPlatforms.map(platform => (
+                <SelectItem key={platform.id} value={platform.id}>
+                  <div className="flex items-center gap-2">
+                    <span>{platform.name}</span>
+                    <span className="text-xs ml-2 text-muted-foreground">(Custom)</span>
+                  </div>
+                </SelectItem>
+              ))}
+              
+              <div className="px-2 py-1.5">
+                <Popover open={isAddingPlatform} onOpenChange={setIsAddingPlatform}>
+                  <PopoverTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="w-full justify-start text-sm font-normal"
+                    >
+                      <PlusCircle className="h-4 w-4 mr-2" />
+                      Add custom platform
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-72 p-4">
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Add Custom Platform</h4>
+                      <div className="space-y-2">
+                        <Label htmlFor="platform-name">Platform Name</Label>
+                        <Input 
+                          id="platform-name" 
+                          value={newPlatformName}
+                          onChange={(e) => setNewPlatformName(e.target.value)}
+                          placeholder="Enter platform name"
+                        />
+                      </div>
+                      <Button 
+                        size="sm" 
+                        onClick={handleAddCustomPlatform}
+                        disabled={!newPlatformName.trim()}
+                      >
+                        Add Platform
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       
       <div className="flex items-center mb-3 gap-2">
         <div className="h-10 w-10">
-          <PlatformLogo />
+          {'logo' in currentPlatform ? <PlatformLogo /> : null}
         </div>
         <div>
           <h4 className="text-sm font-medium">{currentPlatform.name}</h4>
           <Badge variant={platformAvailable && isConnected ? "default" : "outline"}>
-            {platformAvailable ? (isConnected ? "Connected" : "Not Connected") : "Coming Soon"}
+            {selectedPlatform.startsWith('custom-') 
+              ? "Custom Platform" 
+              : (platformAvailable ? (isConnected ? "Connected" : "Not Connected") : "Coming Soon")}
           </Badge>
         </div>
       </div>
@@ -159,10 +237,17 @@ const ClientAccountingSync: React.FC<ClientAccountingSyncProps> = ({ client }) =
         </div>
       )}
       
-      {selectedPlatform !== "quickbooks" && (
+      {selectedPlatform !== "quickbooks" && !selectedPlatform.startsWith('custom-') && (
         <div className="flex items-center text-sm text-amber-600 mb-4">
           <AlertCircle className="h-4 w-4 mr-2" />
           <span>{currentPlatform.name} integration is coming soon</span>
+        </div>
+      )}
+      
+      {selectedPlatform.startsWith('custom-') && (
+        <div className="flex items-center text-sm text-amber-600 mb-4">
+          <AlertCircle className="h-4 w-4 mr-2" />
+          <span>Custom platform integration development in progress</span>
         </div>
       )}
       
