@@ -1,26 +1,14 @@
 
 import { Client } from "@/types/client";
+import { AccountingIntegrationService, AccountingAuthState, AccountingConfig } from "./accountingBase";
 
-// QuickBooks API Configuration
-export interface QuickBooksConfig {
-  clientId: string;
-  clientSecret: string;
-  redirectUri: string;
-  environment: 'sandbox' | 'production';
-  scopes: string[];
-}
-
-// QuickBooks Auth State
-export interface QuickBooksAuthState {
-  accessToken: string | null;
-  refreshToken: string | null;
-  expiresAt: number | null;
+// QuickBooks specific auth state
+export interface QuickBooksAuthState extends AccountingAuthState {
   realmId: string | null; // QuickBooks company ID
-  isConnected: boolean;
 }
 
-// Default configuration
-const defaultConfig: QuickBooksConfig = {
+// Default configuration for QuickBooks
+const defaultConfig: AccountingConfig = {
   clientId: import.meta.env.VITE_QUICKBOOKS_CLIENT_ID || '',
   clientSecret: import.meta.env.VITE_QUICKBOOKS_CLIENT_SECRET || '',
   redirectUri: `${window.location.origin}/integrations/quickbooks/callback`,
@@ -28,22 +16,17 @@ const defaultConfig: QuickBooksConfig = {
   scopes: ['com.intuit.quickbooks.accounting', 'com.intuit.quickbooks.payment'],
 };
 
-// Initial auth state
-const initialAuthState: QuickBooksAuthState = {
-  accessToken: localStorage.getItem('qb_access_token'),
-  refreshToken: localStorage.getItem('qb_refresh_token'),
-  expiresAt: Number(localStorage.getItem('qb_expires_at')) || null,
-  realmId: localStorage.getItem('qb_realm_id'),
-  isConnected: Boolean(localStorage.getItem('qb_access_token')),
-};
-
-export class QuickBooksService {
-  private config: QuickBooksConfig;
+export class QuickBooksService extends AccountingIntegrationService {
   private authState: QuickBooksAuthState;
 
-  constructor(config: Partial<QuickBooksConfig> = {}) {
-    this.config = { ...defaultConfig, ...config };
-    this.authState = { ...initialAuthState };
+  constructor(config: Partial<AccountingConfig> = {}) {
+    super({ ...defaultConfig, ...config }, 'qb');
+    
+    // Initialize QuickBooks specific auth state
+    this.authState = {
+      ...this.authState,
+      realmId: localStorage.getItem('qb_realm_id'),
+    };
   }
 
   /**
@@ -85,6 +68,7 @@ export class QuickBooksService {
 
       // Update and store auth state
       this.authState = {
+        ...this.authState,
         accessToken: mockResponse.access_token,
         refreshToken: mockResponse.refresh_token,
         expiresAt: Date.now() + mockResponse.expires_in * 1000,
@@ -92,10 +76,8 @@ export class QuickBooksService {
         isConnected: true
       };
 
-      // Store in localStorage (in production, consider more secure storage)
-      localStorage.setItem('qb_access_token', this.authState.accessToken!);
-      localStorage.setItem('qb_refresh_token', this.authState.refreshToken!);
-      localStorage.setItem('qb_expires_at', this.authState.expiresAt!.toString());
+      // Store in localStorage
+      this.storeAuthState('qb');
       localStorage.setItem('qb_realm_id', realmId);
 
       return this.authState;
@@ -106,19 +88,11 @@ export class QuickBooksService {
   }
 
   /**
-   * Check if the current session is connected to QuickBooks
-   */
-  isConnected(): boolean {
-    return this.authState.isConnected && 
-           this.authState.accessToken !== null && 
-           (this.authState.expiresAt === null || this.authState.expiresAt > Date.now());
-  }
-
-  /**
    * Disconnect from QuickBooks
    */
   disconnect(): void {
     this.authState = {
+      ...this.authState,
       accessToken: null,
       refreshToken: null,
       expiresAt: null,
@@ -126,9 +100,7 @@ export class QuickBooksService {
       isConnected: false
     };
     
-    localStorage.removeItem('qb_access_token');
-    localStorage.removeItem('qb_refresh_token');
-    localStorage.removeItem('qb_expires_at');
+    this.clearAuthState('qb');
     localStorage.removeItem('qb_realm_id');
   }
 
@@ -204,8 +176,7 @@ export class QuickBooksService {
         expiresAt: Date.now() + 3600 * 1000
       };
 
-      localStorage.setItem('qb_access_token', this.authState.accessToken!);
-      localStorage.setItem('qb_expires_at', this.authState.expiresAt!.toString());
+      this.storeAuthState('qb');
       
       return true;
     } catch (error) {

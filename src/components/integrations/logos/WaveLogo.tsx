@@ -1,0 +1,20 @@
+
+import React from "react";
+
+const WaveLogo = () => {
+  return (
+    <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="24" height="24" rx="4" fill="#1E78E7" />
+      <path 
+        d="M7 12C7 9.23858 9.23858 7 12 7V17C9.23858 17 7 14.7614 7 12Z" 
+        fill="white" 
+      />
+      <path 
+        d="M17 12C17 14.7614 14.7614 17 12 17V7C14.7614 7 17 9.23858 17 12Z" 
+        fill="#E6F0FF" 
+      />
+    </svg>
+  );
+};
+
+export default WaveLogo;
