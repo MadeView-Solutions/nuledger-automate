@@ -66,10 +66,10 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ client }) => {
               <TabsTrigger value="workflow">Workflow</TabsTrigger>
             </TabsList>
             <TabsContent value="tasks">
-              <ClientTasks tasks={client.tasks || []} />
+              <ClientTasks client={client} />
             </TabsContent>
             <TabsContent value="documents">
-              <ClientDocuments documents={client.documents || []} />
+              <ClientDocuments client={client} />
             </TabsContent>
             <TabsContent value="workflow">
               <ClientWorkflow client={client} />
