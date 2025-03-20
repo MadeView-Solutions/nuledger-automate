@@ -16,6 +16,7 @@ import Settings from "@/pages/Settings";
 import NotFound from "@/pages/NotFound";
 import BankReconciliation from "@/pages/BankReconciliation";
 import Clients from "@/pages/Clients";
+import Reports from "@/pages/Reports";
 import QuickBooksCallback from "@/components/integrations/QuickBooksCallback";
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/bank-reconciliation" element={<BankReconciliation />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/clients/:id" element={<Clients />} />
+          <Route path="/reports" element={<Reports />} />
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/integrations/quickbooks/callback" element={<QuickBooksCallback />} />
           <Route path="/settings" element={<Settings />} />

@@ -13,6 +13,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             { href: "/invoicing", label: "Invoicing", icon: "FileText" },
             { href: "/tax-compliance", label: "Tax Compliance", icon: "FileCheck" },
             { href: "/financial-forecasting", label: "Financial Forecasting", icon: "TrendingUp" },
+            { href: "/reports", label: "Reports", icon: "BarChart" },
             { href: "/receipt-processing", label: "Receipt Processing", icon: "Receipt" },
             { href: "/payroll", label: "Payroll", icon: "Users" },
             { href: "/ai-bookkeeping", label: "AI Bookkeeping", icon: "BookText" },
