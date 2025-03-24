@@ -29,7 +29,7 @@ const iconMap: Record<string, React.ReactNode> = {
 
 const Sidebar = ({ links }: SidebarProps) => {
   return (
-    <aside className="w-64 bg-sidebar text-sidebar-foreground shrink-0 border-r border-border hidden md:block">
+    <aside className="w-64 bg-sidebar text-sidebar-foreground shrink-0 border-r border-border fixed h-screen hidden md:block">
       <div className="p-4 border-b border-sidebar-border">
         <div className="flex items-center space-x-2">
           <span className="h-8 w-8 rounded-lg bg-gradient-to-br from-nuledger-500 to-nuledger-700 flex items-center justify-center text-white font-medium">
@@ -38,7 +38,7 @@ const Sidebar = ({ links }: SidebarProps) => {
           <span className="font-semibold text-lg tracking-tight text-sidebar-foreground">NuLedger</span>
         </div>
       </div>
-      <nav className="p-4 space-y-1">
+      <nav className="p-4 space-y-1 h-[calc(100vh-5rem)] overflow-y-auto">
         {links.map((link) => (
           <NavLink
             key={link.href}

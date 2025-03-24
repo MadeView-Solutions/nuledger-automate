@@ -23,7 +23,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             { href: "/settings", label: "Settings", icon: "Settings" },
           ]}
         />
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto md:ml-64">{children}</main>
       </div>
     </div>
   );
