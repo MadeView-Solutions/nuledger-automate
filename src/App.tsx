@@ -18,6 +18,7 @@ import BankReconciliation from "@/pages/BankReconciliation";
 import Clients from "@/pages/Clients";
 import Reports from "@/pages/Reports";
 import QuickBooksCallback from "@/components/integrations/QuickBooksCallback";
+import DataMigration from "@/pages/DataMigration";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/reports" element={<Reports />} />
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/integrations/quickbooks/callback" element={<QuickBooksCallback />} />
+          <Route path="/data-migration" element={<DataMigration />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,7 +1,7 @@
 
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Home, FileText, FileCheck, TrendingUp, Receipt, Users, BookText, RefreshCcw, Link as LinkIcon, Settings, Briefcase, BarChart } from "lucide-react";
+import { Home, FileText, FileCheck, TrendingUp, Receipt, Users, BookText, RefreshCcw, Link as LinkIcon, Settings, Briefcase, BarChart, Database } from "lucide-react";
 
 interface SidebarProps {
   links: Array<{
@@ -24,6 +24,7 @@ const iconMap: Record<string, React.ReactNode> = {
   Link: <LinkIcon className="size-5 text-cyan-500" />,
   Settings: <Settings className="size-5 text-gray-500" />,
   BarChart: <BarChart className="size-5 text-red-500" />,
+  Database: <Database className="size-5 text-emerald-500" />,
 };
 
 const Sidebar = ({ links }: SidebarProps) => {
