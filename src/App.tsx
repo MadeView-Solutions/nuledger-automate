@@ -19,6 +19,8 @@ import Clients from "@/pages/Clients";
 import Reports from "@/pages/Reports";
 import QuickBooksCallback from "@/components/integrations/QuickBooksCallback";
 import DataMigration from "@/pages/DataMigration";
+import TrustAccounting from "@/pages/TrustAccounting";
+import SettlementDisbursement from "@/pages/SettlementDisbursement";
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/integrations/quickbooks/callback" element={<QuickBooksCallback />} />
           <Route path="/data-migration" element={<DataMigration />} />
+          <Route path="/trust-accounting" element={<TrustAccounting />} />
+          <Route path="/settlement-disbursement" element={<SettlementDisbursement />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
