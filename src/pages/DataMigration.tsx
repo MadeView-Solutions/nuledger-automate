@@ -65,8 +65,8 @@ const DataMigration = () => {
                 templateType="excel"
               />
               <DataTemplateCard 
-                title="Tax Information" 
-                description="Import historical tax filing data and schedules"
+                title="Trust Account Data" 
+                description="Import client trust balances and transaction history"
                 templateType="excel"
               />
             </div>

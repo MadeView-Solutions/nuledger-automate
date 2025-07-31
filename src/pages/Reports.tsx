@@ -4,9 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Container from "@/components/ui/Container";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import TaxComplianceStats from "@/components/tax/TaxComplianceStats";
-import TaxFormsTable from "@/components/tax/TaxFormsTable";
-import { taxForms } from "@/components/tax/taxFormsData";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Card, 
@@ -58,33 +55,12 @@ const Reports = () => {
           </div>
         </div>
 
-        <Tabs defaultValue="tax" className="w-full">
-          <TabsList className="grid grid-cols-4 mb-8">
-            <TabsTrigger value="tax">Tax Reports</TabsTrigger>
+        <Tabs defaultValue="financial" className="w-full">
+          <TabsList className="grid grid-cols-3 mb-8">
             <TabsTrigger value="financial">Financial Statements</TabsTrigger>
             <TabsTrigger value="compliance">Compliance Reports</TabsTrigger>
             <TabsTrigger value="forecasting">Forecasting Reports</TabsTrigger>
           </TabsList>
-          
-          <TabsContent value="tax" className="space-y-6">
-            <TaxComplianceStats />
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Tax Forms and Reports</CardTitle>
-                <CardDescription>
-                  View all your tax forms and reports in one place
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <TaxFormsTable 
-                  taxForms={taxForms}
-                  onGenerateForm={handleGenerateForm}
-                  onFileForm={handleFileForm}
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
           
           <TabsContent value="financial">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

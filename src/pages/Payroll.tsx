@@ -41,11 +41,6 @@ const Payroll = () => {
             </div>
           </TabsContent>
           
-          <TabsContent value="tax">
-            <div className="text-center py-16">
-              <p className="text-muted-foreground">Tax documents will appear here</p>
-            </div>
-          </TabsContent>
         </Tabs>
       </Container>
     </DashboardLayout>

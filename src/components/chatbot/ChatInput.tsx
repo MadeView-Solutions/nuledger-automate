@@ -47,7 +47,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
         </Button>
       </div>
       <div className="w-full mt-2 text-xs text-muted-foreground">
-        <p>Try asking: "What's my profit margin?" or "When is the tax deadline?"</p>
+        <p>Try asking: "What's my profit margin?" or "How do I track client trust funds?"</p>
       </div>
     </>
   );

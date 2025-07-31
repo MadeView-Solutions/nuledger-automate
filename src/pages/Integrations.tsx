@@ -6,7 +6,7 @@ import Container from "@/components/ui/Container";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import AccountingSoftware from "@/components/integrations/AccountingSoftware";
 import BankingPayments from "@/components/integrations/BankingPayments";
-import TaxCompliance from "@/components/integrations/TaxComplianceAPIs";
+
 import AIProcessing from "@/components/integrations/AIProcessing";
 import IntegrationsSummary from "@/components/integrations/IntegrationsSummary";
 
@@ -27,10 +27,9 @@ const Integrations = () => {
         </div>
 
         <Tabs defaultValue="accounting" className="w-full">
-          <TabsList className="grid grid-cols-4 mb-8">
+          <TabsList className="grid grid-cols-3 mb-8">
             <TabsTrigger value="accounting">Accounting Software</TabsTrigger>
             <TabsTrigger value="banking">Banking & Payments</TabsTrigger>
-            <TabsTrigger value="tax">Tax & Compliance</TabsTrigger>
             <TabsTrigger value="ai">AI & OCR Processing</TabsTrigger>
           </TabsList>
           
@@ -42,9 +41,6 @@ const Integrations = () => {
             <BankingPayments />
           </TabsContent>
           
-          <TabsContent value="tax">
-            <TaxCompliance />
-          </TabsContent>
           
           <TabsContent value="ai">
             <AIProcessing />

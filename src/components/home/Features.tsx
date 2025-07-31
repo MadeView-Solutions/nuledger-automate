@@ -34,8 +34,8 @@ const features = [
     textColor: "text-amber-700 dark:text-amber-400",
   },
   {
-    title: "Tax Compliance",
-    description: "Stay compliant with automated tax calculations, filing reminders, and built-in rules for different jurisdictions.",
+    title: "Trust Accounting",
+    description: "IOLTA-compliant trust accounting for law firms with client fund tracking and automated disbursements.",
     icon: ShieldCheck,
     color: "bg-red-100 dark:bg-red-900/20",
     textColor: "text-red-700 dark:text-red-400",

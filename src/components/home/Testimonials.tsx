@@ -14,7 +14,7 @@ const testimonials = [
   },
   {
     content:
-      "As a freelancer, keeping track of finances was always my biggest challenge. NuLedger has simplified everything from invoicing to tax preparation.",
+      "As a solo practitioner, keeping track of client trust funds was always my biggest challenge. NuLedger has simplified everything from invoicing to trust accounting.",
     author: "Michael Chen",
     role: "Independent Designer",
     rating: 5,
@@ -38,7 +38,7 @@ const testimonials = [
   },
   {
     content:
-      "The automated tax compliance feature alone is worth the investment. We're now confident that we're always meeting our tax obligations correctly and on time.",
+      "The automated trust accounting compliance feature alone is worth the investment. We're now confident that we're always meeting our IOLTA obligations correctly and on time.",
     author: "Priya Patel",
     role: "Head of Accounting",
     rating: 5,

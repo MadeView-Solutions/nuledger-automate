@@ -6,7 +6,7 @@ import { QuickBooksProvider } from "@/hooks/useQuickBooks";
 import Index from "@/pages/Index";
 import Dashboard from "@/pages/Dashboard";
 import Invoicing from "@/pages/Invoicing";
-import TaxCompliance from "@/pages/TaxCompliance";
+
 import FinancialForecasting from "@/pages/FinancialForecasting";
 import ReceiptProcessing from "@/pages/ReceiptProcessing";
 import Payroll from "@/pages/Payroll";
@@ -30,7 +30,7 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/invoicing" element={<Invoicing />} />
-          <Route path="/tax-compliance" element={<TaxCompliance />} />
+          
           <Route path="/financial-forecasting" element={<FinancialForecasting />} />
           <Route path="/receipt-processing" element={<ReceiptProcessing />} />
           <Route path="/payroll" element={<Payroll />} />

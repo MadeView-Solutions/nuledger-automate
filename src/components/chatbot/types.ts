@@ -11,8 +11,7 @@ export type Message = {
 // Sample pre-defined responses
 export const botResponses: Record<string, string> = {
   "hello": "Hello! I'm your AI financial assistant. How can I help you today?",
-  "help": "I can help with financial queries, accounting questions, tax information, and more. Just ask away!",
-  "tax deadline": "For most individuals in the US, the tax filing deadline is April 15th. However, if this falls on a weekend or holiday, it may be extended to the next business day.",
+  "help": "I can help with financial queries, accounting questions, trust accounting, and more. Just ask away!",
   "profit margin": "Profit margin is calculated by dividing your net profit by revenue, then multiplying by 100 to get a percentage. This shows how much of each dollar in revenue becomes profit.",
   "cash flow": "Cash flow is the net amount of cash moving in and out of your business. Positive cash flow indicates more money coming in than going out, which is essential for financial stability.",
   "depreciation": "Depreciation is an accounting method to allocate the cost of a tangible asset over its useful life. It represents how much of an asset's value has been used up over time.",
@@ -27,13 +26,13 @@ export const botResponses: Record<string, string> = {
 // Expanded categories for the Help dialog
 export const helpCategories = [
   {
-    name: "Tax",
+    name: "Trust Accounting",
     icon: "FileText",
     questions: [
-      "When is my tax deadline?",
-      "What tax deductions can I claim?",
-      "How do I file for a tax extension?",
-      "What is the difference between tax credits and deductions?"
+      "How do I track client trust funds?",
+      "What are IOLTA compliance requirements?",
+      "How do I process settlement disbursements?",
+      "What reports do I need for trust accounting?"
     ]
   },
   {

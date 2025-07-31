@@ -17,8 +17,8 @@ const Hero = () => {
             </span>
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Simplify your financial operations with AI-powered bookkeeping,
-            automated tax compliance, and real-time financial insights.
+            Streamline your legal accounting operations with AI-powered bookkeeping,
+            IOLTA trust accounting, and real-time financial insights.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/dashboard">
