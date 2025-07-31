@@ -9,7 +9,7 @@ import Dashboard from "@/pages/Dashboard";
 
 import FinancialForecasting from "@/pages/FinancialForecasting";
 import ReceiptProcessing from "@/pages/ReceiptProcessing";
-import Payroll from "@/pages/Payroll";
+
 import AIBookkeeping from "@/pages/AIBookkeeping";
 import Integrations from "@/pages/Integrations";
 import Settings from "@/pages/Settings";
@@ -33,7 +33,7 @@ function App() {
           
           <Route path="/financial-forecasting" element={<FinancialForecasting />} />
           <Route path="/receipt-processing" element={<ReceiptProcessing />} />
-          <Route path="/payroll" element={<Payroll />} />
+          
           <Route path="/ai-bookkeeping" element={<AIBookkeeping />} />
           <Route path="/bank-reconciliation" element={<BankReconciliation />} />
           <Route path="/clients" element={<Clients />} />

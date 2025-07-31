@@ -14,7 +14,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             { href: "/settlement-disbursement", label: "Settlement Disbursement Templates", icon: "FileCheck" },
             { href: "/trust-accounting", label: "Trust Accounting", icon: "TrendingUp" },
             { href: "/reports", label: "Reports", icon: "BarChart" },
-            { href: "/payroll", label: "Payroll", icon: "Users" },
+            
             { href: "/ai-bookkeeping", label: "AI Bookkeeping", icon: "BookText" },
             { href: "/bank-reconciliation", label: "Bank Reconciliation", icon: "RefreshCcw" },
             { href: "/data-migration", label: "Data Migration", icon: "Database" },
