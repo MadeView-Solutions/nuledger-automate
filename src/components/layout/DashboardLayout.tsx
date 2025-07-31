@@ -10,7 +10,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           links={[
             { href: "/dashboard", label: "Dashboard", icon: "Home" },
             { href: "/clients", label: "Client Cases", icon: "Briefcase" },
-            { href: "/invoicing", label: "Invoicing", icon: "FileText" },
+            
             { href: "/settlement-disbursement", label: "Settlement Disbursement Templates", icon: "FileCheck" },
             { href: "/trust-accounting", label: "Trust Accounting", icon: "TrendingUp" },
             { href: "/reports", label: "Reports", icon: "BarChart" },

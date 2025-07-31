@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { QuickBooksProvider } from "@/hooks/useQuickBooks";
 import Index from "@/pages/Index";
 import Dashboard from "@/pages/Dashboard";
-import Invoicing from "@/pages/Invoicing";
+
 
 import FinancialForecasting from "@/pages/FinancialForecasting";
 import ReceiptProcessing from "@/pages/ReceiptProcessing";
@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/invoicing" element={<Invoicing />} />
+          
           
           <Route path="/financial-forecasting" element={<FinancialForecasting />} />
           <Route path="/receipt-processing" element={<ReceiptProcessing />} />
