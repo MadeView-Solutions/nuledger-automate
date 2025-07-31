@@ -56,8 +56,9 @@ const Reports = () => {
         </div>
 
         <Tabs defaultValue="financial" className="w-full">
-          <TabsList className="grid grid-cols-3 mb-8">
+          <TabsList className="grid grid-cols-4 mb-8">
             <TabsTrigger value="financial">Financial Statements</TabsTrigger>
+            <TabsTrigger value="legal">Legal Reports</TabsTrigger>
             <TabsTrigger value="compliance">Compliance Reports</TabsTrigger>
             <TabsTrigger value="forecasting">Forecasting Reports</TabsTrigger>
           </TabsList>
@@ -87,6 +88,35 @@ const Reports = () => {
                 description="Analysis of outstanding customer invoices by age"
                 icon={Calendar}
                 lastUpdated="1 week ago"
+              />
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="legal">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ReportCard 
+                title="Settlement Summary by Claim Type" 
+                description="Breakdown of settlements by 3P, 1P, PIP, MedPay, and DV claims"
+                icon={TrendingUp}
+                lastUpdated="Today"
+              />
+              <ReportCard 
+                title="Time-to-Settlement Analysis" 
+                description="Average settlement duration analysis by claim type"
+                icon={Calendar}
+                lastUpdated="Yesterday"
+              />
+              <ReportCard 
+                title="Recovery Timeline Report" 
+                description="Analysis of check receipt times after settlement"
+                icon={FileSpreadsheet}
+                lastUpdated="2 days ago"
+              />
+              <ReportCard 
+                title="Outstanding Checks Report" 
+                description="Report of pending check receipts by claim type and payer"
+                icon={TrendingUp}
+                lastUpdated="Today"
               />
             </div>
           </TabsContent>
