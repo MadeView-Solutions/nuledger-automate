@@ -21,6 +21,7 @@ import QuickBooksCallback from "@/components/integrations/QuickBooksCallback";
 import DataMigration from "@/pages/DataMigration";
 import TrustAccounting from "@/pages/TrustAccounting";
 import SettlementDisbursement from "@/pages/SettlementDisbursement";
+import SettlementManagement from "@/pages/SettlementManagement";
 import CheckLedger from "@/pages/CheckLedger";
 import LegalAnalytics from "@/pages/LegalAnalytics";
 import FilevineIntegration from "@/pages/FilevineIntegration";
@@ -47,6 +48,7 @@ function App() {
           <Route path="/data-migration" element={<DataMigration />} />
           <Route path="/trust-accounting" element={<TrustAccounting />} />
           <Route path="/settlement-disbursement" element={<SettlementDisbursement />} />
+          <Route path="/settlement-management" element={<SettlementManagement />} />
           <Route path="/check-ledger" element={<CheckLedger />} />
           <Route path="/legal-analytics" element={<LegalAnalytics />} />
           <Route path="/filevine-integration" element={<FilevineIntegration />} />

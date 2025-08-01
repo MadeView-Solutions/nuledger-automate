@@ -12,6 +12,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             { href: "/clients", label: "Client Cases", icon: "Briefcase" },
             
             { href: "/settlement-disbursement", label: "Settlement Disbursement Templates", icon: "FileCheck" },
+            { href: "/settlement-management", label: "Settlement Management", icon: "Calculator" },
             { href: "/trust-accounting", label: "Trust Accounting", icon: "TrendingUp" },
             { href: "/check-ledger", label: "Check Ledger", icon: "Receipt" },
             { href: "/legal-analytics", label: "Legal Analytics", icon: "BarChart3" },
