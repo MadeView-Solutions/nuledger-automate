@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DisbursementBuilder from "@/components/settlement/DisbursementBuilder";
+import ESignatureIntegration from "@/components/settlement/ESignatureIntegration";
+import BatchCheckPrinting from "@/components/settlement/BatchCheckPrinting";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, FileText, Download, Eye, Edit } from "lucide-react";
+import { Plus, FileText, Download, Eye, Edit, Calculator, PenTool, Printer } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
 const SettlementDisbursement = () => {
+  const [activeTab, setActiveTab] = useState("builder");
   const [templateName, setTemplateName] = useState("");
   const [attorneyFeePercent, setAttorneyFeePercent] = useState("33");
   const [description, setDescription] = useState("");
@@ -79,9 +84,9 @@ const SettlementDisbursement = () => {
       <div className="container mx-auto p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Settlement Disbursement Templates</h1>
+            <h1 className="text-3xl font-bold">Settlement Disbursement</h1>
             <p className="text-muted-foreground">
-              Create and manage standardized settlement distribution templates
+              Build disbursements, collect signatures, and print checks
             </p>
           </div>
           <Button>
@@ -89,6 +94,40 @@ const SettlementDisbursement = () => {
             New Template
           </Button>
         </div>
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="builder" className="flex items-center gap-2">
+              <Calculator className="w-4 h-4" />
+              Builder
+            </TabsTrigger>
+            <TabsTrigger value="esignature" className="flex items-center gap-2">
+              <PenTool className="w-4 h-4" />
+              eSignature
+            </TabsTrigger>
+            <TabsTrigger value="printing" className="flex items-center gap-2">
+              <Printer className="w-4 h-4" />
+              Check Printing
+            </TabsTrigger>
+            <TabsTrigger value="templates" className="flex items-center gap-2">
+              <FileText className="w-4 h-4" />
+              Templates
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="builder" className="space-y-6">
+            <DisbursementBuilder />
+          </TabsContent>
+
+          <TabsContent value="esignature" className="space-y-6">
+            <ESignatureIntegration />
+          </TabsContent>
+
+          <TabsContent value="printing" className="space-y-6">
+            <BatchCheckPrinting />
+          </TabsContent>
+
+          <TabsContent value="templates" className="space-y-6">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Create New Template Form */}
@@ -247,6 +286,8 @@ const SettlementDisbursement = () => {
             </Table>
           </CardContent>
         </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </DashboardLayout>
   );
