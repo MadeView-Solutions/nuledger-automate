@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DisbursementBuilder from "@/components/settlement/DisbursementBuilder";
+import CheckWriter from "@/components/settlement/CheckWriter";
 import ESignatureIntegration from "@/components/settlement/ESignatureIntegration";
 import BatchCheckPrinting from "@/components/settlement/BatchCheckPrinting";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -96,10 +97,14 @@ const SettlementDisbursement = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="builder" className="flex items-center gap-2">
               <Calculator className="w-4 h-4" />
               Builder
+            </TabsTrigger>
+            <TabsTrigger value="writer" className="flex items-center gap-2">
+              <Edit className="w-4 h-4" />
+              Write Check
             </TabsTrigger>
             <TabsTrigger value="esignature" className="flex items-center gap-2">
               <PenTool className="w-4 h-4" />
@@ -107,7 +112,7 @@ const SettlementDisbursement = () => {
             </TabsTrigger>
             <TabsTrigger value="printing" className="flex items-center gap-2">
               <Printer className="w-4 h-4" />
-              Check Printing
+              Batch Print
             </TabsTrigger>
             <TabsTrigger value="templates" className="flex items-center gap-2">
               <FileText className="w-4 h-4" />
@@ -117,6 +122,10 @@ const SettlementDisbursement = () => {
 
           <TabsContent value="builder" className="space-y-6">
             <DisbursementBuilder />
+          </TabsContent>
+
+          <TabsContent value="writer" className="space-y-6">
+            <CheckWriter />
           </TabsContent>
 
           <TabsContent value="esignature" className="space-y-6">
