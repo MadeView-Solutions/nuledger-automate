@@ -26,6 +26,7 @@ import CheckLedger from "@/pages/CheckLedger";
 import LegalAnalytics from "@/pages/LegalAnalytics";
 import FilevineIntegration from "@/pages/FilevineIntegration";
 import ExpenseManagement from "@/pages/ExpenseManagement";
+import TestCases from "@/pages/TestCases";
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path="/legal-analytics" element={<LegalAnalytics />} />
           <Route path="/filevine-integration" element={<FilevineIntegration />} />
           <Route path="/expense-management" element={<ExpenseManagement />} />
+          <Route path="/test-cases" element={<TestCases />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
