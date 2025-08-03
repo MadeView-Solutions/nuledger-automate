@@ -18,6 +18,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             { href: "/legal-analytics", label: "Legal Analytics", icon: "BarChart3" },
             { href: "/filevine-integration", label: "Filevine Integration", icon: "Link" },
             { href: "/reports", label: "Reports", icon: "BarChart" },
+            { href: "/expense-management", label: "Expense & Performance", icon: "Receipt" },
             
             { href: "/ai-bookkeeping", label: "AI Bookkeeping", icon: "BookText" },
             { href: "/bank-reconciliation", label: "Bank Reconciliation", icon: "RefreshCcw" },
