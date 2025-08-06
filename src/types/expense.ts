@@ -45,6 +45,10 @@ export interface NegotiatorPerformance {
   averageSettlementValue: number;
   feeRecoveryRatio: number;
   monthlyVolume: number;
+  totalAttorneyFees: number;
+  averageCaseDuration: number;
+  bonusEarned: number;
+  bonusEligible: boolean;
 }
 
 export interface TrustAlert {
@@ -56,4 +60,20 @@ export interface TrustAlert {
   amount?: number;
   dueDate?: string;
   resolved: boolean;
+}
+
+export interface BonusSettings {
+  id: string;
+  type: 'percentage_fees' | 'milestone_bonus' | 'hybrid';
+  percentageRate?: number; // % of attorney fees
+  milestones?: BonusMilestone[];
+  minSettlements?: number; // minimum settlements required
+  minTotalValue?: number; // minimum total value required
+  isActive: boolean;
+}
+
+export interface BonusMilestone {
+  threshold: number; // settlement count or value threshold
+  bonusAmount: number;
+  type: 'settlement_count' | 'total_value';
 }

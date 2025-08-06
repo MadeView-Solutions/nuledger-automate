@@ -5,8 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
-import { Award, TrendingUp, Clock, DollarSign, Target, Calendar } from "lucide-react";
-import { NegotiatorPerformance } from "@/types/expense";
+import { Award, TrendingUp, Clock, DollarSign, Target, Calendar, Star } from "lucide-react";
+import { NegotiatorPerformance, BonusSettings } from "@/types/expense";
 import { formatCurrency } from "@/utils/formatters";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
 
@@ -14,7 +14,34 @@ const NegotiatorDashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState("month");
   const [selectedNegotiator, setSelectedNegotiator] = useState("all");
 
-  // Mock data
+  // Mock bonus settings
+  const bonusSettings: BonusSettings = {
+    id: "default",
+    type: "percentage_fees",
+    percentageRate: 5, // 5% of attorney fees
+    minSettlements: 15,
+    minTotalValue: 1500000,
+    isActive: true
+  };
+
+  // Function to calculate bonus
+  const calculateBonus = (negotiator: Omit<NegotiatorPerformance, 'bonusEarned' | 'bonusEligible'>): { bonusEarned: number; bonusEligible: boolean } => {
+    const meetsMinRequirements = negotiator.totalSettlements >= (bonusSettings.minSettlements || 0) && 
+                                 negotiator.totalValue >= (bonusSettings.minTotalValue || 0);
+    
+    if (!meetsMinRequirements) {
+      return { bonusEarned: 0, bonusEligible: false };
+    }
+
+    let bonusEarned = 0;
+    if (bonusSettings.type === 'percentage_fees' && bonusSettings.percentageRate) {
+      bonusEarned = negotiator.totalAttorneyFees * (bonusSettings.percentageRate / 100);
+    }
+
+    return { bonusEarned, bonusEligible: true };
+  };
+
+  // Mock data with calculated bonus
   const negotiators: NegotiatorPerformance[] = [
     {
       negotiatorId: "N001",
@@ -24,7 +51,21 @@ const NegotiatorDashboard = () => {
       averageTimeToSettle: 35,
       averageSettlementValue: 102083,
       feeRecoveryRatio: 0.87,
-      monthlyVolume: 8
+      monthlyVolume: 8,
+      totalAttorneyFees: 367500, // 15% of total value
+      averageCaseDuration: 45,
+      ...calculateBonus({
+        negotiatorId: "N001",
+        negotiatorName: "Sarah Johnson",
+        totalSettlements: 24,
+        totalValue: 2450000,
+        averageTimeToSettle: 35,
+        averageSettlementValue: 102083,
+        feeRecoveryRatio: 0.87,
+        monthlyVolume: 8,
+        totalAttorneyFees: 367500,
+        averageCaseDuration: 45
+      })
     },
     {
       negotiatorId: "N002", 
@@ -34,7 +75,21 @@ const NegotiatorDashboard = () => {
       averageTimeToSettle: 42,
       averageSettlementValue: 105000,
       feeRecoveryRatio: 0.82,
-      monthlyVolume: 6
+      monthlyVolume: 6,
+      totalAttorneyFees: 283500, // 15% of total value
+      averageCaseDuration: 52,
+      ...calculateBonus({
+        negotiatorId: "N002",
+        negotiatorName: "Michael Chen",
+        totalSettlements: 18,
+        totalValue: 1890000,
+        averageTimeToSettle: 42,
+        averageSettlementValue: 105000,
+        feeRecoveryRatio: 0.82,
+        monthlyVolume: 6,
+        totalAttorneyFees: 283500,
+        averageCaseDuration: 52
+      })
     },
     {
       negotiatorId: "N003",
@@ -44,7 +99,21 @@ const NegotiatorDashboard = () => {
       averageTimeToSettle: 38,
       averageSettlementValue: 100000,
       feeRecoveryRatio: 0.85,
-      monthlyVolume: 7
+      monthlyVolume: 7,
+      totalAttorneyFees: 315000, // 15% of total value
+      averageCaseDuration: 48,
+      ...calculateBonus({
+        negotiatorId: "N003",
+        negotiatorName: "David Wilson",
+        totalSettlements: 21,
+        totalValue: 2100000,
+        averageTimeToSettle: 38,
+        averageSettlementValue: 100000,
+        feeRecoveryRatio: 0.85,
+        monthlyVolume: 7,
+        totalAttorneyFees: 315000,
+        averageCaseDuration: 48
+      })
     }
   ];
 
@@ -64,14 +133,16 @@ const NegotiatorDashboard = () => {
   const totalVolume = negotiators.reduce((sum, n) => sum + n.totalValue, 0);
   const totalSettlements = negotiators.reduce((sum, n) => sum + n.totalSettlements, 0);
   const avgTimeToSettle = negotiators.reduce((sum, n) => sum + n.averageTimeToSettle, 0) / negotiators.length;
+  const totalBonuses = negotiators.reduce((sum, n) => sum + n.bonusEarned, 0);
+  const totalAttorneyFees = negotiators.reduce((sum, n) => sum + n.totalAttorneyFees, 0);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Negotiator Performance Dashboard</h2>
+          <h2 className="text-2xl font-bold">Negotiator Performance & Bonus Dashboard</h2>
           <p className="text-muted-foreground">
-            Settlement volume, value, and efficiency metrics by negotiator
+            Settlement volume, attorney fees, bonus eligibility, and performance metrics by negotiator
           </p>
         </div>
         <div className="flex gap-2">
@@ -93,7 +164,7 @@ const NegotiatorDashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Volume</CardTitle>
@@ -135,13 +206,26 @@ const NegotiatorDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Recovery Rate</CardTitle>
-            <Target className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Attorney Fees</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">85%</div>
+            <div className="text-2xl font-bold">{formatCurrency(totalAttorneyFees)}</div>
             <p className="text-xs text-muted-foreground">
-              Average across team
+              Total generated
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Bonuses Earned</CardTitle>
+            <Star className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatCurrency(totalBonuses)}</div>
+            <p className="text-xs text-muted-foreground">
+              {negotiators.filter(n => n.bonusEligible).length} eligible
             </p>
           </CardContent>
         </Card>
@@ -202,11 +286,11 @@ const NegotiatorDashboard = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Negotiator</TableHead>
-                <TableHead>Total Value</TableHead>
                 <TableHead>Settlements</TableHead>
-                <TableHead>Avg Value</TableHead>
-                <TableHead>Avg Time</TableHead>
-                <TableHead>Recovery Rate</TableHead>
+                <TableHead>Attorney Fees</TableHead>
+                <TableHead>Avg Duration</TableHead>
+                <TableHead>Bonus Earned</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead>Performance</TableHead>
               </TableRow>
             </TableHeader>
@@ -216,23 +300,38 @@ const NegotiatorDashboard = () => {
                   <TableCell>
                     <div className="font-medium">{negotiator.negotiatorName}</div>
                     <div className="text-sm text-muted-foreground">
+                      {formatCurrency(negotiator.totalValue)} total value
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="font-medium">{negotiator.totalSettlements}</div>
+                    <div className="text-sm text-muted-foreground">
                       {negotiator.monthlyVolume} per month
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">
-                    {formatCurrency(negotiator.totalValue)}
+                    {formatCurrency(negotiator.totalAttorneyFees)}
                   </TableCell>
-                  <TableCell>{negotiator.totalSettlements}</TableCell>
-                  <TableCell>{formatCurrency(negotiator.averageSettlementValue)}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1">
                       <Clock className="h-3 w-3 text-muted-foreground" />
-                      <span>{negotiator.averageTimeToSettle} days</span>
+                      <span>{negotiator.averageCaseDuration} days</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={negotiator.feeRecoveryRatio > 0.85 ? "default" : "secondary"}>
-                      {(negotiator.feeRecoveryRatio * 100).toFixed(0)}%
+                    <div className="font-medium text-green-600">
+                      {formatCurrency(negotiator.bonusEarned)}
+                    </div>
+                    {negotiator.bonusEligible && (
+                      <div className="text-xs text-muted-foreground">
+                        {bonusSettings.percentageRate}% of fees
+                      </div>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant={negotiator.bonusEligible ? "default" : "secondary"}>
+                      <Star className="h-3 w-3 mr-1" />
+                      {negotiator.bonusEligible ? "Eligible" : "Not Eligible"}
                     </Badge>
                   </TableCell>
                   <TableCell>
