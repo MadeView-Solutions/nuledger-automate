@@ -24,7 +24,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             { href: "/ai-bookkeeping", label: "AI Bookkeeping", icon: "BookText" },
             { href: "/bank-reconciliation", label: "Bank Reconciliation", icon: "RefreshCcw" },
             { href: "/data-migration", label: "Data Migration", icon: "Database" },
-            { href: "/integrations", label: "Integrations", icon: "Link" },
             { href: "/settings", label: "Settings", icon: "Settings" },
           ]}
         />
