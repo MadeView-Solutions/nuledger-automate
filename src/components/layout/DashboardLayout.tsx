@@ -10,20 +10,17 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           links={[
             { href: "/dashboard", label: "Dashboard", icon: "Home" },
             { href: "/clients", label: "Client Cases", icon: "Briefcase" },
-            
-            { href: "/settlement-disbursement", label: "Settlement Disbursement Templates", icon: "FileCheck" },
+            { href: "/expense-management", label: "Expense & Performance", icon: "Receipt" },
             { href: "/settlement-management", label: "Settlement Management", icon: "Calculator" },
+            { href: "/settlement-disbursement", label: "Settlement Disbursement Templates", icon: "FileCheck" },
             { href: "/trust-accounting", label: "Trust Accounting", icon: "TrendingUp" },
             { href: "/check-ledger", label: "Check Ledger", icon: "Receipt" },
-            { href: "/legal-analytics", label: "Legal Analytics", icon: "BarChart3" },
-            { href: "/filevine-integration", label: "Filevine Integration", icon: "Link" },
-            { href: "/reports", label: "Reports", icon: "BarChart" },
-            { href: "/expense-management", label: "Expense & Performance", icon: "Receipt" },
-            { href: "/test-cases", label: "Test Cases", icon: "FileText" },
-            
             { href: "/ai-bookkeeping", label: "AI Bookkeeping", icon: "BookText" },
             { href: "/bank-reconciliation", label: "Bank Reconciliation", icon: "RefreshCcw" },
+            { href: "/reports", label: "Reports", icon: "BarChart" },
+            { href: "/legal-analytics", label: "Legal Analytics", icon: "BarChart3" },
             { href: "/data-migration", label: "Data Migration", icon: "Database" },
+            { href: "/test-cases", label: "Test Cases", icon: "FileText" },
             { href: "/settings", label: "Settings", icon: "Settings" },
           ]}
         />
