@@ -78,6 +78,19 @@ export const mockClients: Client[] = [
       fiscalYearEnd: "12-31",
       accountingMethod: "accrual",
       accountingPeriods: "quarterly"
+    },
+    caseInfo: {
+      caseNumber: "AC-2023-001",
+      caseManager: "Jennifer Martinez",
+      dateOfLoss: "2023-01-15",
+      dateSettled: "2023-05-20",
+      claimAmount: 750000,
+      settlementAmount: 625000,
+      caseType: "workers-comp",
+      opposingParty: "National Insurance Co.",
+      opposingCounsel: "Smith & Associates",
+      courtJurisdiction: "Los Angeles County",
+      statute: "Workers' Compensation"
     }
   },
   {
@@ -121,6 +134,17 @@ export const mockClients: Client[] = [
     financialData: {
       taxRate: 24,
       accountingMethod: "cash"
+    },
+    caseInfo: {
+      caseNumber: "SW-2023-002",
+      caseManager: "Robert Chen",
+      dateOfLoss: "2022-11-08",
+      claimAmount: 125000,
+      caseType: "personal-injury",
+      opposingParty: "Metro Transit Authority",
+      opposingCounsel: "City Legal Department",
+      courtJurisdiction: "San Francisco County",
+      statute: "Personal Injury"
     }
   },
   {
@@ -177,6 +201,17 @@ export const mockClients: Client[] = [
       fiscalYearEnd: "12-31",
       accountingMethod: "accrual",
       accountingPeriods: "monthly"
+    },
+    caseInfo: {
+      caseNumber: "TS-2023-003",
+      caseManager: "David Johnson",
+      dateOfLoss: "2023-03-22",
+      claimAmount: 85000,
+      caseType: "auto-accident",
+      opposingParty: "Direct Insurance Group",
+      opposingCounsel: "Austin Legal Partners",
+      courtJurisdiction: "Travis County",
+      statute: "Motor Vehicle Accident"
     }
   },
   {

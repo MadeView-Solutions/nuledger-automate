@@ -21,6 +21,61 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ client }) => {
           <CardTitle>{client.name}</CardTitle>
         </CardHeader>
         <CardContent>
+          {/* Case Overview Section */}
+          {client.caseInfo && (
+            <div className="mb-6 p-4 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg border border-primary/20">
+              <h3 className="text-lg font-semibold mb-4 text-primary">Case Overview</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="space-y-1">
+                  <h4 className="text-xs font-medium uppercase text-muted-foreground">Case Manager</h4>
+                  <p className="text-sm font-medium">{client.caseInfo.caseManager}</p>
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-medium uppercase text-muted-foreground">Date of Loss</h4>
+                  <p className="text-sm font-medium">
+                    {new Date(client.caseInfo.dateOfLoss).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-medium uppercase text-muted-foreground">Date Settled</h4>
+                  <p className="text-sm font-medium">
+                    {client.caseInfo.dateSettled 
+                      ? new Date(client.caseInfo.dateSettled).toLocaleDateString()
+                      : 'Pending'
+                    }
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-xs font-medium uppercase text-muted-foreground">Case Type</h4>
+                  <p className="text-sm font-medium capitalize">
+                    {client.caseInfo.caseType.replace('-', ' ')}
+                  </p>
+                </div>
+              </div>
+              
+              {(client.caseInfo.claimAmount || client.caseInfo.settlementAmount) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-primary/20">
+                  {client.caseInfo.claimAmount && (
+                    <div className="space-y-1">
+                      <h4 className="text-xs font-medium uppercase text-muted-foreground">Claim Amount</h4>
+                      <p className="text-lg font-semibold text-primary">
+                        ${client.caseInfo.claimAmount.toLocaleString()}
+                      </p>
+                    </div>
+                  )}
+                  {client.caseInfo.settlementAmount && (
+                    <div className="space-y-1">
+                      <h4 className="text-xs font-medium uppercase text-muted-foreground">Settlement Amount</h4>
+                      <p className="text-lg font-semibold text-green-600">
+                        ${client.caseInfo.settlementAmount.toLocaleString()}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div>
               <h3 className="text-sm font-medium mb-1">Contact Information</h3>

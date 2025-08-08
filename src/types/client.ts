@@ -5,7 +5,7 @@ export interface Client {
   email: string;
   phone: string;
   type: 'business' | 'individual';
-  status: 'active' | 'inactive' | 'pending';
+  status: 'active' | 'inactive' | 'pending' | 'settled' | 'closed';
   taxId?: string;
   businessName?: string;
   industry?: string;
@@ -28,6 +28,20 @@ export interface Client {
   tasks?: ClientTask[];
   documents?: ClientDocument[];
   financialData?: FinancialData;
+  // Legal case specific fields
+  caseInfo?: {
+    caseNumber?: string;
+    caseManager: string;
+    dateOfLoss: string;
+    dateSettled?: string;
+    claimAmount?: number;
+    settlementAmount?: number;
+    caseType: 'personal-injury' | 'workers-comp' | 'auto-accident' | 'medical-malpractice' | 'other';
+    opposingParty?: string;
+    opposingCounsel?: string;
+    courtJurisdiction?: string;
+    statute?: string;
+  };
 }
 
 export interface ClientTask {
