@@ -1,12 +1,7 @@
 import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Client } from "@/types/client";
-import ClientDocuments from "./ClientDocuments";
-import ClientWorkflow from "./ClientWorkflow";
 import ClientUpcomingDeadlines from "./ClientUpcomingDeadlines";
-import BusinessAdvisoryDashboard from "../advisory/BusinessAdvisoryDashboard";
-import AuditPreparationDashboard from "../audit/AuditPreparationDashboard";
 
 interface ClientDetailsProps {
   client: Client;
@@ -113,27 +108,6 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ client }) => {
 
           {/* Upcoming Deadlines Section */}
           <ClientUpcomingDeadlines client={client} />
-
-          <Tabs defaultValue="documents" className="mt-6">
-            <TabsList className="grid grid-cols-4 mb-6">
-              <TabsTrigger value="documents">Documents</TabsTrigger>
-              <TabsTrigger value="workflow">Workflow</TabsTrigger>
-              <TabsTrigger value="advisory">Advisory</TabsTrigger>
-              <TabsTrigger value="audit">Audit Prep</TabsTrigger>
-            </TabsList>
-            <TabsContent value="documents">
-              <ClientDocuments client={client} />
-            </TabsContent>
-            <TabsContent value="workflow">
-              <ClientWorkflow client={client} />
-            </TabsContent>
-            <TabsContent value="advisory">
-              <BusinessAdvisoryDashboard />
-            </TabsContent>
-            <TabsContent value="audit">
-              <AuditPreparationDashboard />
-            </TabsContent>
-          </Tabs>
         </CardContent>
       </Card>
     </div>
