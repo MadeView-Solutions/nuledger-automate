@@ -2,10 +2,9 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Client } from "@/types/client";
-import ClientTasks from "./ClientTasks";
 import ClientDocuments from "./ClientDocuments";
 import ClientWorkflow from "./ClientWorkflow";
-import ClientAccountingSync from "./ClientAccountingSync";
+import ClientUpcomingDeadlines from "./ClientUpcomingDeadlines";
 import BusinessAdvisoryDashboard from "../advisory/BusinessAdvisoryDashboard";
 import AuditPreparationDashboard from "../audit/AuditPreparationDashboard";
 
@@ -112,20 +111,16 @@ const ClientDetails: React.FC<ClientDetailsProps> = ({ client }) => {
             </div>
           </div>
 
-          {/* Add Accounting Integration Component */}
-          <ClientAccountingSync client={client} />
+          {/* Upcoming Deadlines Section */}
+          <ClientUpcomingDeadlines client={client} />
 
-          <Tabs defaultValue="tasks" className="mt-6">
-            <TabsList className="grid grid-cols-5 mb-6">
-              <TabsTrigger value="tasks">Tasks</TabsTrigger>
+          <Tabs defaultValue="documents" className="mt-6">
+            <TabsList className="grid grid-cols-4 mb-6">
               <TabsTrigger value="documents">Documents</TabsTrigger>
               <TabsTrigger value="workflow">Workflow</TabsTrigger>
               <TabsTrigger value="advisory">Advisory</TabsTrigger>
               <TabsTrigger value="audit">Audit Prep</TabsTrigger>
             </TabsList>
-            <TabsContent value="tasks">
-              <ClientTasks client={client} />
-            </TabsContent>
             <TabsContent value="documents">
               <ClientDocuments client={client} />
             </TabsContent>
