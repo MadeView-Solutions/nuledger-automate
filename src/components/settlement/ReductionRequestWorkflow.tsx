@@ -220,7 +220,7 @@ const ReductionRequestWorkflow = () => {
               <TableRow>
                 <TableHead>Creditor</TableHead>
                 <TableHead>Original Amount</TableHead>
-                <TableHead>Requested Amount</TableHead>
+                <TableHead>Reduced Amount</TableHead>
                 <TableHead>Final Amount</TableHead>
                 <TableHead>Savings</TableHead>
                 <TableHead>Status</TableHead>

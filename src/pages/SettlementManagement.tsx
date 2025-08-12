@@ -21,7 +21,7 @@ const SettlementManagement = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="vendors" className="flex items-center gap-2">
               <Building2 className="w-4 h-4" />
               Vendors
@@ -33,10 +33,6 @@ const SettlementManagement = () => {
             <TabsTrigger value="reductions" className="flex items-center gap-2">
               <TrendingDown className="w-4 h-4" />
               Reductions
-            </TabsTrigger>
-            <TabsTrigger value="documents" className="flex items-center gap-2">
-              <FileText className="w-4 h-4" />
-              Documents
             </TabsTrigger>
           </TabsList>
 
@@ -50,10 +46,6 @@ const SettlementManagement = () => {
 
           <TabsContent value="reductions" className="space-y-6">
             <ReductionRequestWorkflow />
-          </TabsContent>
-
-          <TabsContent value="documents" className="space-y-6">
-            <DocumentUploadWithInstructions />
           </TabsContent>
         </Tabs>
       </div>
