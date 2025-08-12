@@ -12,7 +12,15 @@ import {
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card";
-import { TrendingUp, Download, FileSpreadsheet, Calendar } from "lucide-react";
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from "@/components/ui/table";
+import { TrendingUp, Download, FileSpreadsheet, Calendar, Users, Clock, Target } from "lucide-react";
 
 const Reports = () => {
   const { toast } = useToast();
@@ -38,6 +46,54 @@ const Reports = () => {
     });
   };
 
+  // Mock settlement analytics data
+  const settlementAnalytics = [
+    {
+      id: 1,
+      negotiator: "Sarah Johnson",
+      clientName: "Johnson Family Trust",
+      signedDate: "2024-01-15",
+      settledDate: "2024-06-20",
+      daysToSettle: 156,
+      settlementAmount: 250000,
+      policyLimits: 300000,
+      recoveryPercentage: 83.3,
+    },
+    {
+      id: 2,
+      negotiator: "Michael Chen",
+      clientName: "ABC Construction Inc.",
+      signedDate: "2024-02-01",
+      settledDate: "2024-07-15",
+      daysToSettle: 165,
+      settlementAmount: 185000,
+      policyLimits: 250000,
+      recoveryPercentage: 74.0,
+    },
+    {
+      id: 3,
+      negotiator: "Emily Rodriguez",
+      clientName: "Martinez Personal Injury",
+      signedDate: "2024-03-10",
+      settledDate: "2024-08-05",
+      daysToSettle: 148,
+      settlementAmount: 425000,
+      policyLimits: 500000,
+      recoveryPercentage: 85.0,
+    },
+    {
+      id: 4,
+      negotiator: "David Thompson",
+      clientName: "Thompson vs. State Farm",
+      signedDate: "2024-01-20",
+      settledDate: "2024-05-30",
+      daysToSettle: 131,
+      settlementAmount: 125000,
+      policyLimits: 100000,
+      recoveryPercentage: 125.0,
+    },
+  ];
+
   return (
     <DashboardLayout>
       <Container className="p-6 max-w-full">
@@ -55,14 +111,121 @@ const Reports = () => {
           </div>
         </div>
 
-        <Tabs defaultValue="financial" className="w-full">
-          <TabsList className="grid grid-cols-4 mb-8">
+        <Tabs defaultValue="settlement" className="w-full">
+          <TabsList className="grid grid-cols-5 mb-8">
+            <TabsTrigger value="settlement">Settlement Analytics</TabsTrigger>
             <TabsTrigger value="financial">Financial Statements</TabsTrigger>
             <TabsTrigger value="legal">Legal Reports</TabsTrigger>
             <TabsTrigger value="compliance">Compliance Reports</TabsTrigger>
             <TabsTrigger value="forecasting">Forecasting Reports</TabsTrigger>
           </TabsList>
           
+          <TabsContent value="settlement">
+            <div className="space-y-6">
+              {/* Summary Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-sm font-medium">Average Settlement Time</CardTitle>
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">150 days</div>
+                    <p className="text-xs text-muted-foreground">From signing to settlement</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-sm font-medium">Average Recovery Rate</CardTitle>
+                      <Target className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">91.8%</div>
+                    <p className="text-xs text-muted-foreground">Of policy limits recovered</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-sm font-medium">Active Negotiators</CardTitle>
+                      <Users className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">4</div>
+                    <p className="text-xs text-muted-foreground">Settlement negotiators</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Settlement Analytics Table */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Settlement Performance Analytics</CardTitle>
+                  <CardDescription>
+                    Detailed breakdown of settlement negotiations and performance metrics
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Negotiator</TableHead>
+                        <TableHead>Client Name</TableHead>
+                        <TableHead>Days to Settle</TableHead>
+                        <TableHead>Settlement Amount</TableHead>
+                        <TableHead>Policy Limits</TableHead>
+                        <TableHead>Recovery %</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {settlementAnalytics.map((settlement) => (
+                        <TableRow key={settlement.id}>
+                          <TableCell className="font-medium">{settlement.negotiator}</TableCell>
+                          <TableCell>{settlement.clientName}</TableCell>
+                          <TableCell>
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-3 w-3 text-muted-foreground" />
+                              {settlement.daysToSettle} days
+                            </div>
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            ${settlement.settlementAmount.toLocaleString()}
+                          </TableCell>
+                          <TableCell>
+                            ${settlement.policyLimits.toLocaleString()}
+                          </TableCell>
+                          <TableCell>
+                            <div className={`font-medium ${
+                              settlement.recoveryPercentage >= 100 
+                                ? 'text-green-600' 
+                                : settlement.recoveryPercentage >= 80 
+                                ? 'text-yellow-600' 
+                                : 'text-red-600'
+                            }`}>
+                              {settlement.recoveryPercentage.toFixed(1)}%
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Button variant="outline" size="sm">
+                              <Download className="h-3 w-3 mr-1" />
+                              Export
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
           <TabsContent value="financial">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <ReportCard 
