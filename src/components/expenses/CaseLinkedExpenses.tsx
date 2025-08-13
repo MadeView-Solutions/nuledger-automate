@@ -10,11 +10,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Plus, Receipt, Link2, Search } from "lucide-react";
 import { Expense, ExpenseCategory } from "@/types/expense";
 import { formatCurrency, formatDate } from "@/utils/formatters";
+import ExpenseDetailDialog from "./ExpenseDetailDialog";
 
 const CaseLinkedExpenses = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCase, setSelectedCase] = useState<string>("all");
   const [selectedType, setSelectedType] = useState<string>("all");
+  const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
 
   // Mock data
   const expenses: Expense[] = [
@@ -239,7 +242,14 @@ const CaseLinkedExpenses = () => {
             </TableHeader>
             <TableBody>
               {filteredExpenses.map((expense) => (
-                <TableRow key={expense.id}>
+                <TableRow 
+                  key={expense.id}
+                  className="cursor-pointer hover:bg-muted/50 transition-colors"
+                  onClick={() => {
+                    setSelectedExpense(expense);
+                    setIsDetailDialogOpen(true);
+                  }}
+                >
                   <TableCell>{formatDate(expense.date)}</TableCell>
                   <TableCell>
                     <div>
@@ -281,6 +291,12 @@ const CaseLinkedExpenses = () => {
           </Table>
         </CardContent>
       </Card>
+
+      <ExpenseDetailDialog
+        expense={selectedExpense}
+        open={isDetailDialogOpen}
+        onOpenChange={setIsDetailDialogOpen}
+      />
     </div>
   );
 };
