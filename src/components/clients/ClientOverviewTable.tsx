@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -18,9 +19,9 @@ interface FilterState {
 const ClientOverviewTable = () => {
   const [filters, setFilters] = useState<FilterState>({
     search: "",
-    caseManager: "",
-    status: "",
-    signedRelease: "",
+    caseManager: "all",
+    status: "all",
+    signedRelease: "all",
   });
 
   // Get unique values for filter dropdowns
@@ -44,13 +45,13 @@ const ClientOverviewTable = () => {
         client.email.toLowerCase().includes(filters.search.toLowerCase());
       
       const matchesCaseManager = 
-        !filters.caseManager || client.caseInfo?.caseManager === filters.caseManager;
+        filters.caseManager === "all" || client.caseInfo?.caseManager === filters.caseManager;
       
       const matchesStatus = 
-        !filters.status || client.status === filters.status;
+        filters.status === "all" || client.status === filters.status;
       
       const matchesSignedRelease = 
-        !filters.signedRelease || 
+        filters.signedRelease === "all" || 
         (filters.signedRelease === "yes" && client.status === "settled") ||
         (filters.signedRelease === "no" && client.status !== "settled");
 
@@ -108,7 +109,7 @@ const ClientOverviewTable = () => {
                 <SelectValue placeholder="Case Manager" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Managers</SelectItem>
+                <SelectItem value="all">All Managers</SelectItem>
                 {uniqueCaseManagers.map((manager) => (
                   <SelectItem key={manager} value={manager!}>{manager}</SelectItem>
                 ))}
@@ -123,7 +124,7 @@ const ClientOverviewTable = () => {
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Statuses</SelectItem>
+                <SelectItem value="all">All Statuses</SelectItem>
                 {uniqueStatuses.map((status) => (
                   <SelectItem key={status} value={status}>{status}</SelectItem>
                 ))}
@@ -138,7 +139,7 @@ const ClientOverviewTable = () => {
                 <SelectValue placeholder="Signed Release" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All</SelectItem>
+                <SelectItem value="all">All</SelectItem>
                 <SelectItem value="yes">Yes</SelectItem>
                 <SelectItem value="no">No</SelectItem>
               </SelectContent>
