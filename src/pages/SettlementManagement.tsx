@@ -4,11 +4,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import VendorDirectory from "@/components/vendors/VendorDirectory";
 import PayablesTracker from "@/components/vendors/PayablesTracker";
 import ReductionRequestWorkflow from "@/components/settlement/ReductionRequestWorkflow";
+import SettlementCalculator from "@/components/settlement/SettlementCalculator";
 import DocumentUploadWithInstructions from "@/components/documents/DocumentUploadWithInstructions";
-import { Building2, DollarSign, TrendingDown, FileText } from "lucide-react";
+import { Building2, DollarSign, TrendingDown, FileText, Calculator } from "lucide-react";
 
 const SettlementManagement = () => {
-  const [activeTab, setActiveTab] = useState("vendors");
+  const [activeTab, setActiveTab] = useState("calculator");
 
   return (
     <DashboardLayout>
@@ -21,7 +22,11 @@ const SettlementManagement = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="calculator" className="flex items-center gap-2">
+              <Calculator className="w-4 h-4" />
+              Calculator
+            </TabsTrigger>
             <TabsTrigger value="vendors" className="flex items-center gap-2">
               <Building2 className="w-4 h-4" />
               Vendors
@@ -35,6 +40,10 @@ const SettlementManagement = () => {
               Reductions
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="calculator" className="space-y-6">
+            <SettlementCalculator />
+          </TabsContent>
 
           <TabsContent value="vendors" className="space-y-6">
             <VendorDirectory />
