@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,18 +7,33 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Switch } from "@/components/ui/switch";
-import { AlertCircle, CheckCircle, RefreshCw, Settings, RotateCcw, AlertTriangle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AlertCircle, CheckCircle, RefreshCw, Settings, RotateCcw, AlertTriangle, Download, Users, Building } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FilevineCase } from "@/types/legal";
+import { filevineService, type FilevineAuthResponse } from "@/services/filevineService";
+import { toast } from "sonner";
 
 const FilevineIntegration = () => {
-  const [apiKey, setApiKey] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isTesting, setIsTesting] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [autoSync, setAutoSync] = useState(true);
   const [syncInterval, setSyncInterval] = useState("daily");
+  const [authData, setAuthData] = useState<FilevineAuthResponse | null>(null);
+  const [selectedOrgId, setSelectedOrgId] = useState<string>("");
+  const [cases, setCases] = useState<any[]>([]);
+  const [syncStats, setSyncStats] = useState({
+    successRate: 85,
+    totalSyncs: 24,
+    successfulSyncs: 20,
+    failedSyncs: 4,
+    lastSync: new Date().toISOString()
+  });
 
-  // Mock sync data
-  const syncHistory: FilevineCase[] = [
+  // Mock sync history with real sync data
+  const [syncHistory, setSyncHistory] = useState<FilevineCase[]>([
     {
       filevineId: "FV001",
       caseId: "CASE001",
@@ -44,7 +59,117 @@ const FilevineIntegration = () => {
       lastSyncDate: "2024-07-25 14:15:00", 
       syncStatus: "pending"
     }
-  ];
+  ]);
+
+  // Check for existing connection on component mount
+  useEffect(() => {
+    checkExistingConnection();
+  }, []);
+
+  const checkExistingConnection = async () => {
+    try {
+      const result = await filevineService.testConnection();
+      if (result.success) {
+        setIsConnected(true);
+        const authResult = await filevineService.authenticate();
+        if (authResult.success) {
+          setAuthData(authResult);
+          if (authResult.userOrgs?.organizations.length) {
+            const activeOrg = authResult.userOrgs.organizations.find(org => org.isActive);
+            if (activeOrg) {
+              setSelectedOrgId(activeOrg.orgId);
+              filevineService.setActiveOrganization(activeOrg.orgId, authResult.userOrgs.userId);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.log('No existing connection found');
+    }
+  };
+
+  const handleConnect = async () => {
+    setIsConnecting(true);
+    try {
+      const result = await filevineService.authenticate();
+      if (result.success) {
+        setIsConnected(true);
+        setAuthData(result);
+        toast.success("Successfully connected to Filevine!");
+        
+        if (result.userOrgs?.organizations.length) {
+          const activeOrg = result.userOrgs.organizations.find(org => org.isActive);
+          if (activeOrg) {
+            setSelectedOrgId(activeOrg.orgId);
+            filevineService.setActiveOrganization(activeOrg.orgId, result.userOrgs.userId);
+          }
+        }
+      } else {
+        toast.error(result.error || "Failed to connect to Filevine");
+      }
+    } catch (error) {
+      toast.error("Connection failed. Please check your configuration.");
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  const handleDisconnect = () => {
+    setIsConnected(false);
+    setAuthData(null);
+    setSelectedOrgId("");
+    setCases([]);
+    toast.info("Disconnected from Filevine");
+  };
+
+  const handleTestConnection = async () => {
+    setIsTesting(true);
+    try {
+      const result = await filevineService.testConnection();
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      toast.error("Connection test failed");
+    } finally {
+      setIsTesting(false);
+    }
+  };
+
+  const handleSyncNow = async () => {
+    setIsSyncing(true);
+    try {
+      const result = await filevineService.syncAllCases();
+      setSyncStats(prev => ({
+        ...prev,
+        totalSyncs: prev.totalSyncs + result.success + result.failed,
+        successfulSyncs: prev.successfulSyncs + result.success,
+        failedSyncs: prev.failedSyncs + result.failed,
+        successRate: Math.round(((prev.successfulSyncs + result.success) / (prev.totalSyncs + result.success + result.failed)) * 100),
+        lastSync: new Date().toISOString()
+      }));
+      
+      if (result.success > 0) {
+        toast.success(`Successfully synced ${result.success} cases`);
+      }
+      if (result.failed > 0) {
+        toast.error(`Failed to sync ${result.failed} cases`);
+      }
+    } catch (error) {
+      toast.error("Sync failed. Please try again.");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  const handleOrgChange = (orgId: string) => {
+    setSelectedOrgId(orgId);
+    if (authData?.userOrgs) {
+      filevineService.setActiveOrganization(orgId, authData.userOrgs.userId);
+    }
+  };
 
   const getSyncStatusBadge = (status: string) => {
     switch (status) {
@@ -59,9 +184,6 @@ const FilevineIntegration = () => {
     }
   };
 
-  const successfulSyncs = syncHistory.filter(s => s.syncStatus === "success").length;
-  const failedSyncs = syncHistory.filter(s => s.syncStatus === "failed").length;
-  const syncSuccessRate = Math.round((successfulSyncs / syncHistory.length) * 100);
 
   return (
     <DashboardLayout>
@@ -73,9 +195,12 @@ const FilevineIntegration = () => {
               Sync case status and financial updates with Filevine
             </p>
           </div>
-          <Button disabled={!isConnected}>
-            <RotateCcw className="w-4 h-4 mr-2" />
-            Sync Now
+          <Button 
+            disabled={!isConnected || isSyncing} 
+            onClick={handleSyncNow}
+          >
+            <RotateCcw className={`w-4 h-4 mr-2 ${isSyncing ? 'animate-spin' : ''}`} />
+            {isSyncing ? 'Syncing...' : 'Sync Now'}
           </Button>
         </div>
 
@@ -86,6 +211,9 @@ const FilevineIntegration = () => {
               <Settings className="w-5 h-5 mr-2" />
               Connection Settings
             </CardTitle>
+            <CardDescription>
+              Connect to Filevine using Personal Access Token (PAT) authentication
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {!isConnected ? (
@@ -93,6 +221,7 @@ const FilevineIntegration = () => {
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>
                   Connect to Filevine to enable automatic case and financial data synchronization.
+                  Make sure your environment variables are configured: FILEVINE_CLIENT_ID, FILEVINE_CLIENT_SECRET, and FILEVINE_PAT.
                 </AlertDescription>
               </Alert>
             ) : (
@@ -100,24 +229,19 @@ const FilevineIntegration = () => {
                 <CheckCircle className="h-4 w-4 text-green-600" />
                 <AlertDescription className="text-green-800">
                   Successfully connected to Filevine. Auto-sync is {autoSync ? "enabled" : "disabled"}.
+                  {authData?.userOrgs && (
+                    <span className="block mt-1">
+                      Found {authData.userOrgs.organizations.length} organization(s).
+                    </span>
+                  )}
                 </AlertDescription>
               </Alert>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="apiKey">Filevine API Key</Label>
-                <Input
-                  id="apiKey"
-                  type="password"
-                  placeholder="Enter your Filevine API key"
-                  value={apiKey}
-                  onChange={(e) => setApiKey(e.target.value)}
-                />
-              </div>
-              <div className="space-y-2">
                 <Label>Connection Status</Label>
-                <div className="flex items-center space-x-2 mt-2">
+                <div className="flex items-center space-x-2">
                   {isConnected ? (
                     <Badge className="bg-green-100 text-green-800">
                       <CheckCircle className="w-3 h-3 mr-1" />
@@ -131,18 +255,61 @@ const FilevineIntegration = () => {
                   )}
                 </div>
               </div>
+
+              {isConnected && authData?.userOrgs && (
+                <div className="space-y-2">
+                  <Label>Active Organization</Label>
+                  <Select value={selectedOrgId} onValueChange={handleOrgChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select organization" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {authData.userOrgs.organizations.map((org) => (
+                        <SelectItem key={org.orgId} value={org.orgId}>
+                          <div className="flex items-center">
+                            <Building className="w-4 h-4 mr-2" />
+                            {org.orgName}
+                            {org.isActive && <span className="ml-2 text-green-600">(Active)</span>}
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
 
             <div className="flex space-x-4">
               <Button 
-                onClick={() => setIsConnected(!isConnected)}
+                onClick={isConnected ? handleDisconnect : handleConnect}
                 variant={isConnected ? "outline" : "default"}
+                disabled={isConnecting}
               >
-                {isConnected ? "Disconnect" : "Connect to Filevine"}
+                {isConnecting ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                    Connecting...
+                  </>
+                ) : isConnected ? (
+                  "Disconnect"
+                ) : (
+                  "Connect to Filevine"
+                )}
               </Button>
               {isConnected && (
-                <Button variant="outline">
-                  Test Connection
+                <Button 
+                  variant="outline" 
+                  onClick={handleTestConnection}
+                  disabled={isTesting}
+                >
+                  {isTesting ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                      Testing...
+                    </>
+                  ) : (
+                    "Test Connection"
+                  )}
                 </Button>
               )}
             </div>
@@ -195,25 +362,27 @@ const FilevineIntegration = () => {
             <Card>
               <CardHeader className="pb-2">
                 <CardDescription>Success Rate</CardDescription>
-                <CardTitle className="text-2xl text-green-600">{syncSuccessRate}%</CardTitle>
+                <CardTitle className="text-2xl text-green-600">{syncStats.successRate}%</CardTitle>
               </CardHeader>
             </Card>
             <Card>
               <CardHeader className="pb-2">
                 <CardDescription>Successful Syncs</CardDescription>
-                <CardTitle className="text-2xl">{successfulSyncs}</CardTitle>
+                <CardTitle className="text-2xl">{syncStats.successfulSyncs}</CardTitle>
               </CardHeader>
             </Card>
             <Card>
               <CardHeader className="pb-2">
                 <CardDescription>Failed Syncs</CardDescription>
-                <CardTitle className="text-2xl text-red-600">{failedSyncs}</CardTitle>
+                <CardTitle className="text-2xl text-red-600">{syncStats.failedSyncs}</CardTitle>
               </CardHeader>
             </Card>
             <Card>
               <CardHeader className="pb-2">
                 <CardDescription>Last Sync</CardDescription>
-                <CardTitle className="text-lg">2 min ago</CardTitle>
+                <CardTitle className="text-lg">
+                  {new Date(syncStats.lastSync).toLocaleString()}
+                </CardTitle>
               </CardHeader>
             </Card>
           </div>
@@ -265,28 +434,61 @@ const FilevineIntegration = () => {
         {!isConnected && (
           <Card>
             <CardHeader>
-              <CardTitle>Getting Started</CardTitle>
-              <CardDescription>How to connect NuLedger with Filevine</CardDescription>
+              <CardTitle className="flex items-center">
+                <Download className="w-5 h-5 mr-2" />
+                Setup Instructions
+              </CardTitle>
+              <CardDescription>Configure your Filevine integration with NuLedger</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               <div className="space-y-2">
-                <h4 className="font-medium">1. Get your Filevine API Key</h4>
-                <p className="text-sm text-muted-foreground">
-                  Log into your Filevine account and navigate to Settings → API to generate an API key.
+                <h4 className="font-medium flex items-center">
+                  <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">1</span>
+                  Generate Personal Access Token (PAT)
+                </h4>
+                <p className="text-sm text-muted-foreground ml-8">
+                  Log into your Filevine account → Settings → API → Personal Access Tokens.
+                  Create a new token with the following permissions:
+                </p>
+                <ul className="text-sm text-muted-foreground ml-8 list-disc list-inside space-y-1">
+                  <li>Cases: Read, Write</li>
+                  <li>Contacts: Read, Write</li>
+                  <li>Financial: Read, Write (if needed)</li>
+                </ul>
+              </div>
+              
+              <div className="space-y-2">
+                <h4 className="font-medium flex items-center">
+                  <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">2</span>
+                  Configure Environment Variables
+                </h4>
+                <p className="text-sm text-muted-foreground ml-8">
+                  Add these environment variables to your Supabase project:
+                </p>
+                <div className="ml-8 bg-muted p-3 rounded-md font-mono text-sm">
+                  <div>FILEVINE_CLIENT_ID=your_client_id</div>
+                  <div>FILEVINE_CLIENT_SECRET=your_client_secret</div>
+                  <div>FILEVINE_PAT=your_personal_access_token</div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="font-medium flex items-center">
+                  <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm mr-2">3</span>
+                  Test Connection
+                </h4>
+                <p className="text-sm text-muted-foreground ml-8">
+                  Click "Connect to Filevine" above to establish the connection and verify your setup.
                 </p>
               </div>
-              <div className="space-y-2">
-                <h4 className="font-medium">2. Configure Permissions</h4>
-                <p className="text-sm text-muted-foreground">
-                  Ensure your API key has permissions to read and write case data and financial information.
-                </p>
-              </div>
-              <div className="space-y-2">
-                <h4 className="font-medium">3. Test Connection</h4>
-                <p className="text-sm text-muted-foreground">
-                  Enter your API key above and click "Connect to Filevine" to establish the connection.
-                </p>
-              </div>
+
+              <Alert>
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  <strong>Security Note:</strong> All API credentials are securely stored as environment variables 
+                  and never exposed in your frontend code. The integration uses OAuth2 with automatic token refresh.
+                </AlertDescription>
+              </Alert>
             </CardContent>
           </Card>
         )}
