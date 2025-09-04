@@ -130,20 +130,34 @@ export abstract class AccountingIntegrationService {
 }
 
 /**
- * Factory function to create an accounting integration service
- * This can be extended to support different services
+ * Factory function to create an accounting integration service (async, ESM-friendly)
+ * Uses dynamic import to avoid require() in the browser
  */
-export const createAccountingService = (type: string): AccountingIntegrationService | null => {
-  // This would be expanded to include all supported integrations
-  // For now, we only support QuickBooks
+export const createAccountingServiceAsync = async (
+  type: string
+): Promise<AccountingIntegrationService | null> => {
   switch (type.toLowerCase()) {
-    case 'quickbooks':
-    case 'quickbooksonline':
-      const { QuickBooksService } = require('./quickbooks');
-      return new QuickBooksService();
-    // Additional cases would be added for other services
+    case "quickbooks":
+    case "quickbooksonline": {
+      try {
+        const mod = await import("./quickbooks");
+        const { QuickBooksService } = mod as any;
+        return new QuickBooksService();
+      } catch (e) {
+        console.error("Failed to load QuickBooks integration module:", e);
+        return null;
+      }
+    }
     default:
       console.warn(`Accounting service type '${type}' not supported`);
       return null;
   }
+};
+
+// Backward-compat sync factory (returns null to avoid require() in ESM)
+export const createAccountingService = (_type: string): AccountingIntegrationService | null => {
+  console.warn(
+    "createAccountingService is now async. Use createAccountingServiceAsync instead. Returning null."
+  );
+  return null;
 };

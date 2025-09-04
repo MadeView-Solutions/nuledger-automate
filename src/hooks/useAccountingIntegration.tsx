@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { AccountingAuthState, AccountingIntegrationService, createAccountingService } from '@/services/integrations/accountingBase';
-import { useToast } from '@/components/ui/use-toast';
+import { AccountingAuthState, AccountingIntegrationService, createAccountingServiceAsync } from '@/services/integrations/accountingBase';
+import { useToast } from '@/hooks/use-toast';
 import { Client } from '@/types/client';
 
 interface AccountingIntegrationContextType {
@@ -42,24 +42,29 @@ export const AccountingIntegrationProvider: React.FC<AccountingIntegrationProvid
 
   // Initialize the accounting service
   useEffect(() => {
-    try {
-      const accountingService = createAccountingService(serviceName);
-      setService(accountingService);
-      
-      if (accountingService) {
-        setAuthState({
-          accessToken: localStorage.getItem(`${serviceName.toLowerCase()}_access_token`),
-          refreshToken: localStorage.getItem(`${serviceName.toLowerCase()}_refresh_token`),
-          expiresAt: Number(localStorage.getItem(`${serviceName.toLowerCase()}_expires_at`)) || null,
-          isConnected: accountingService.isConnected(),
-        });
+    let mounted = true;
+    (async () => {
+      try {
+        const accountingService = await createAccountingServiceAsync(serviceName);
+        if (!mounted) return;
+        setService(accountingService);
+        
+        if (accountingService) {
+          setAuthState({
+            accessToken: localStorage.getItem(`${serviceName.toLowerCase()}_access_token`),
+            refreshToken: localStorage.getItem(`${serviceName.toLowerCase()}_refresh_token`),
+            expiresAt: Number(localStorage.getItem(`${serviceName.toLowerCase()}_expires_at`)) || null,
+            isConnected: accountingService.isConnected(),
+          });
+        }
+      } catch (err) {
+        console.error(`Error initializing ${serviceName} service:`, err);
+        setError(`Failed to initialize ${serviceName} service`);
+      } finally {
+        if (mounted) setIsLoading(false);
       }
-    } catch (err) {
-      console.error(`Error initializing ${serviceName} service:`, err);
-      setError(`Failed to initialize ${serviceName} service`);
-    } finally {
-      setIsLoading(false);
-    }
+    })();
+    return () => { mounted = false };
   }, [serviceName]);
 
   const connect = () => {
@@ -208,9 +213,8 @@ export const useAccountingIntegration = (serviceName?: string) => {
   
   if (context === undefined) {
     if (serviceName) {
-      // If no context but serviceName is provided, we might be outside the provider
-      // Create a temporary service for limited functionality
-      const service = createAccountingService(serviceName);
+      // Create a temporary placeholder (no dynamic import outside provider)
+      const service: AccountingIntegrationService | null = null;
       
       return {
         serviceName,
