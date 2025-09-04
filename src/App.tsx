@@ -18,7 +18,7 @@ import BankReconciliation from "@/pages/BankReconciliation";
 import Clients from "@/pages/Clients";
 import Reports from "@/pages/Reports";
 import QuickBooksCallback from "@/components/integrations/QuickBooksCallback";
-import DataMigration from "@/pages/DataMigration";
+import MigrationSync from "@/pages/MigrationSync";
 import TrustAccounting from "@/pages/TrustAccounting";
 import SettlementDisbursement from "@/pages/SettlementDisbursement";
 import SettlementManagement from "@/pages/SettlementManagement";
@@ -47,7 +47,7 @@ function App() {
           <Route path="/reports" element={<Reports />} />
           <Route path="/integrations" element={<Integrations />} />
           <Route path="/integrations/quickbooks/callback" element={<QuickBooksCallback />} />
-          <Route path="/data-migration" element={<DataMigration />} />
+          <Route path="/migration-sync" element={<MigrationSync />} />
           <Route path="/trust-accounting" element={<TrustAccounting />} />
           <Route path="/settlement-disbursement" element={<SettlementDisbursement />} />
           <Route path="/settlement-management" element={<SettlementManagement />} />
