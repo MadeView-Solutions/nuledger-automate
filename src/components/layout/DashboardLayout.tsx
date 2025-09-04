@@ -19,7 +19,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             { href: "/bank-reconciliation", label: "Bank Reconciliation", icon: "RefreshCcw" },
             { href: "/reports", label: "Reports", icon: "BarChart" },
             { href: "/legal-analytics", label: "Legal Analytics", icon: "BarChart3" },
-            { href: "/filevine-integration", label: "Filevine Integration", icon: "Link" },
             { href: "/migration-sync", label: "Migration & Sync", icon: "Database" },
             { href: "/test-cases", label: "Test Cases", icon: "FileText" },
             { href: "/settings", label: "Settings", icon: "Settings" },
