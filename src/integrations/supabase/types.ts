@@ -56,6 +56,13 @@ export type Database = {
             foreignKeyName: "accounts_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -140,6 +147,13 @@ export type Database = {
             foreignKeyName: "journal_entries_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "journal_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -180,6 +194,63 @@ export type Database = {
             columns: ["entry_id"]
             isOneToOne: false
             referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      kpis_daily: {
+        Row: {
+          ap: number
+          ar: number
+          cases_open: number
+          date: string
+          op_balance: number
+          organization_id: string
+          settled_this_month: number
+          trust_balance: number
+          updated_at: string
+          utilization: number
+          write_offs: number
+        }
+        Insert: {
+          ap?: number
+          ar?: number
+          cases_open?: number
+          date: string
+          op_balance?: number
+          organization_id: string
+          settled_this_month?: number
+          trust_balance?: number
+          updated_at?: string
+          utilization?: number
+          write_offs?: number
+        }
+        Update: {
+          ap?: number
+          ar?: number
+          cases_open?: number
+          date?: string
+          op_balance?: number
+          organization_id?: string
+          settled_this_month?: number
+          trust_balance?: number
+          updated_at?: string
+          utilization?: number
+          write_offs?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kpis_daily_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "kpis_daily_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -318,6 +389,13 @@ export type Database = {
             foreignKeyName: "org_members_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "org_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -407,6 +485,13 @@ export type Database = {
             foreignKeyName: "user_roles_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "user_roles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -414,7 +499,21 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      mv_kpis_daily: {
+        Row: {
+          ap: number | null
+          ar: number | null
+          cases_open: number | null
+          date: string | null
+          op_balance: number | null
+          organization_id: string | null
+          settled_this_month: number | null
+          trust_balance: number | null
+          utilization: number | null
+          write_offs: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
@@ -425,6 +524,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      refresh_kpis_daily: { Args: never; Returns: undefined }
       user_organizations: { Args: { _user_id: string }; Returns: string[] }
     }
     Enums: {
