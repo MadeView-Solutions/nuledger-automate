@@ -1,1 +1,4 @@
 project_id = "mcvxcleslvgntufnrqds"
+
+[functions.refresh-kpis]
+verify_jwt = false
