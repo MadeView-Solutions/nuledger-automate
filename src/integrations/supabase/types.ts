@@ -63,6 +63,13 @@ export type Database = {
             foreignKeyName: "accounts_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -72,6 +79,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "accounts"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "accounts_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "mv_gl_detail"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "accounts_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trial_balance"
+            referencedColumns: ["account_id"]
           },
         ]
       }
@@ -112,6 +133,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "ai_rules_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -163,6 +191,13 @@ export type Database = {
             foreignKeyName: "ai_suggestions_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "ai_suggestions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -172,6 +207,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "accounts"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_suggestions_suggested_account_id_fkey"
+            columns: ["suggested_account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_gl_detail"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "ai_suggestions_suggested_account_id_fkey"
+            columns: ["suggested_account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trial_balance"
+            referencedColumns: ["account_id"]
           },
         ]
       }
@@ -218,10 +267,31 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "bank_accounts_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_gl_detail"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "bank_accounts_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trial_balance"
+            referencedColumns: ["account_id"]
+          },
+          {
             foreignKeyName: "bank_accounts_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "bank_accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -280,6 +350,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "bank_feeds_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -358,6 +435,13 @@ export type Database = {
             foreignKeyName: "bank_transactions_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -397,6 +481,13 @@ export type Database = {
             foreignKeyName: "case_accounts_case_id_fkey"
             columns: ["case_id"]
             isOneToOne: true
+            referencedRelation: "mv_case_profitability"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "case_accounts_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: true
             referencedRelation: "v_case_costs"
             referencedColumns: ["case_id"]
           },
@@ -408,11 +499,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "case_accounts_operating_account_id_fkey"
+            columns: ["operating_account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_gl_detail"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "case_accounts_operating_account_id_fkey"
+            columns: ["operating_account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trial_balance"
+            referencedColumns: ["account_id"]
+          },
+          {
             foreignKeyName: "case_accounts_trust_account_id_fkey"
             columns: ["trust_account_id"]
             isOneToOne: false
             referencedRelation: "accounts"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_accounts_trust_account_id_fkey"
+            columns: ["trust_account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_gl_detail"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "case_accounts_trust_account_id_fkey"
+            columns: ["trust_account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trial_balance"
+            referencedColumns: ["account_id"]
           },
         ]
       }
@@ -466,6 +585,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -539,6 +665,13 @@ export type Database = {
             foreignKeyName: "checks_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "checks_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -578,6 +711,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "clients_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -629,6 +769,20 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "disbursement_template_lines_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_gl_detail"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "disbursement_template_lines_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trial_balance"
+            referencedColumns: ["account_id"]
+          },
+          {
             foreignKeyName: "disbursement_template_lines_template_id_fkey"
             columns: ["template_id"]
             isOneToOne: false
@@ -665,6 +819,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "disbursement_templates_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -728,6 +889,13 @@ export type Database = {
             foreignKeyName: "expenses_case_id_fkey"
             columns: ["case_id"]
             isOneToOne: false
+            referencedRelation: "mv_case_profitability"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "expenses_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
             referencedRelation: "v_case_costs"
             referencedColumns: ["case_id"]
           },
@@ -736,6 +904,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "expenses_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -786,6 +961,78 @@ export type Database = {
         }
         Relationships: []
       }
+      import_maps: {
+        Row: {
+          column_map: Json
+          created_at: string
+          id: string
+          organization_id: string
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          column_map?: Json
+          created_at?: string
+          id?: string
+          organization_id: string
+          source: string
+          updated_at?: string
+        }
+        Update: {
+          column_map?: Json
+          created_at?: string
+          id?: string
+          organization_id?: string
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      imports: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          file_url: string | null
+          id: string
+          log: string | null
+          organization_id: string
+          records_failed: number | null
+          records_success: number | null
+          records_total: number | null
+          source: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          file_url?: string | null
+          id?: string
+          log?: string | null
+          organization_id: string
+          records_failed?: number | null
+          records_success?: number | null
+          records_total?: number | null
+          source: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          file_url?: string | null
+          id?: string
+          log?: string | null
+          organization_id?: string
+          records_failed?: number | null
+          records_success?: number | null
+          records_total?: number | null
+          source?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       journal_entries: {
         Row: {
           case_id: string | null
@@ -829,6 +1076,13 @@ export type Database = {
             foreignKeyName: "journal_entries_case_id_fkey"
             columns: ["case_id"]
             isOneToOne: false
+            referencedRelation: "mv_case_profitability"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "journal_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
             referencedRelation: "v_case_costs"
             referencedColumns: ["case_id"]
           },
@@ -837,6 +1091,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "journal_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -877,6 +1138,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "accounts"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journal_lines_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_gl_detail"
+            referencedColumns: ["account_id"]
+          },
+          {
+            foreignKeyName: "journal_lines_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trial_balance"
+            referencedColumns: ["account_id"]
           },
           {
             foreignKeyName: "journal_lines_entry_id_fkey"
@@ -940,6 +1215,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "kpis_daily_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -1092,6 +1374,13 @@ export type Database = {
             foreignKeyName: "org_members_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "org_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -1168,6 +1457,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "reconciliations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -1269,6 +1565,13 @@ export type Database = {
             foreignKeyName: "settlements_case_id_fkey"
             columns: ["case_id"]
             isOneToOne: false
+            referencedRelation: "mv_case_profitability"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "settlements_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
             referencedRelation: "v_case_costs"
             referencedColumns: ["case_id"]
           },
@@ -1277,6 +1580,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -1373,6 +1683,13 @@ export type Database = {
             foreignKeyName: "time_entries_case_id_fkey"
             columns: ["case_id"]
             isOneToOne: false
+            referencedRelation: "mv_case_profitability"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "time_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
             referencedRelation: "v_case_costs"
             referencedColumns: ["case_id"]
           },
@@ -1381,6 +1698,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -1444,6 +1768,13 @@ export type Database = {
             foreignKeyName: "trust_checks_case_id_fkey"
             columns: ["case_id"]
             isOneToOne: false
+            referencedRelation: "mv_case_profitability"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "trust_checks_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
             referencedRelation: "v_case_costs"
             referencedColumns: ["case_id"]
           },
@@ -1452,6 +1783,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "trust_checks_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -1497,6 +1835,13 @@ export type Database = {
             foreignKeyName: "user_roles_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "user_roles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -1504,6 +1849,111 @@ export type Database = {
       }
     }
     Views: {
+      mv_case_cycle: {
+        Row: {
+          avg_open_to_settle_days: number | null
+          case_count: number | null
+          max_days: number | null
+          median_days: number | null
+          min_days: number | null
+          organization_id: string | null
+          practice_area: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_case_profitability: {
+        Row: {
+          case_id: string | null
+          case_no: string | null
+          expenses: number | null
+          net_profit: number | null
+          organization_id: string | null
+          period: string | null
+          revenue: number | null
+          time_cost: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_gl_detail: {
+        Row: {
+          account_id: string | null
+          code: string | null
+          name: string | null
+          net_change: number | null
+          organization_id: string | null
+          period: string | null
+          total_credits: number | null
+          total_debits: number | null
+          transaction_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       mv_kpis_daily: {
         Row: {
           ap: number | null
@@ -1518,6 +1968,39 @@ export type Database = {
           write_offs: number | null
         }
         Relationships: []
+      }
+      mv_liens_recovery_rate: {
+        Row: {
+          avg_lien_ratio: number | null
+          case_count: number | null
+          organization_id: string | null
+          practice_area: string | null
+          total_liens: number | null
+          total_settlements: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       mv_perf_weekly: {
         Row: {
@@ -1541,10 +2024,131 @@ export type Database = {
             foreignKeyName: "time_entries_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
+      }
+      mv_referral_roi: {
+        Row: {
+          avg_revenue_per_case: number | null
+          cases_count: number | null
+          organization_id: string | null
+          referral_source: string | null
+          total_revenue: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_settlement_distribution: {
+        Row: {
+          avg_client_net: number | null
+          avg_fee: number | null
+          avg_gross: number | null
+          avg_liens: number | null
+          organization_id: string | null
+          practice_area: string | null
+          quarter: string | null
+          settlement_count: number | null
+          total_client_net: number | null
+          total_fees: number | null
+          total_gross: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_trial_balance: {
+        Row: {
+          account_id: string | null
+          as_of: string | null
+          balance: number | null
+          code: string | null
+          name: string | null
+          organization_id: string | null
+          type: Database["public"]["Enums"]["account_type"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mv_trust_three_way: {
+        Row: {
+          as_of: string | null
+          bank_balance: number | null
+          client_ledger_total: number | null
+          control_account: number | null
+          organization_id: string | null
+        }
+        Relationships: []
       }
       v_case_costs: {
         Row: {
@@ -1561,6 +2165,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -1592,6 +2203,13 @@ export type Database = {
             foreignKeyName: "time_entries_case_id_fkey"
             columns: ["case_id"]
             isOneToOne: false
+            referencedRelation: "mv_case_profitability"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "time_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
             referencedRelation: "v_case_costs"
             referencedColumns: ["case_id"]
           },
@@ -1600,6 +2218,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -1636,6 +2261,13 @@ export type Database = {
             foreignKeyName: "journal_entries_case_id_fkey"
             columns: ["case_id"]
             isOneToOne: false
+            referencedRelation: "mv_case_profitability"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "journal_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
             referencedRelation: "v_case_costs"
             referencedColumns: ["case_id"]
           },
@@ -1644,6 +2276,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "journal_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
             referencedColumns: ["organization_id"]
           },
           {
@@ -1701,6 +2340,13 @@ export type Database = {
             foreignKeyName: "bank_transactions_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -1727,6 +2373,13 @@ export type Database = {
             foreignKeyName: "time_entries_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
@@ -1738,6 +2391,12 @@ export type Database = {
         Args: { _settlement_id: string; _template_id: string }
         Returns: undefined
       }
+      fn_generate_report: {
+        Args: { _params?: Json; _report_type: string }
+        Returns: {
+          report_data: Json
+        }[]
+      }
       fn_issue_check: { Args: { _check_id: string }; Returns: string }
       fn_match_transactions: {
         Args: { _organization_id: string }
@@ -1747,6 +2406,7 @@ export type Database = {
         Args: { _settlement_id: string }
         Returns: undefined
       }
+      fn_refresh_reports: { Args: never; Returns: undefined }
       fn_trust_deposit: {
         Args: {
           _amount: number
