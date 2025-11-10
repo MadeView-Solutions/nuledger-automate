@@ -2,3 +2,9 @@ project_id = "mcvxcleslvgntufnrqds"
 
 [functions.refresh-kpis]
 verify_jwt = false
+
+[functions.ai-categorize]
+verify_jwt = false
+
+[functions.webhook-plaid]
+verify_jwt = false

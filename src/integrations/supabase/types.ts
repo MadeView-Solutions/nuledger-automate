@@ -75,6 +75,294 @@ export type Database = {
           },
         ]
       }
+      ai_rules: {
+        Row: {
+          action_jsonb: Json
+          created_at: string
+          id: string
+          is_active: boolean | null
+          match_jsonb: Json
+          name: string
+          organization_id: string
+          updated_at: string
+        }
+        Insert: {
+          action_jsonb: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          match_jsonb: Json
+          name: string
+          organization_id: string
+          updated_at?: string
+        }
+        Update: {
+          action_jsonb?: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          match_jsonb?: Json
+          name?: string
+          organization_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_rules_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "ai_rules_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_suggestions: {
+        Row: {
+          applied: boolean | null
+          confidence: number | null
+          created_at: string
+          id: string
+          organization_id: string
+          suggested_account_id: string | null
+          transaction_id: string
+        }
+        Insert: {
+          applied?: boolean | null
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          organization_id: string
+          suggested_account_id?: string | null
+          transaction_id: string
+        }
+        Update: {
+          applied?: boolean | null
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          organization_id?: string
+          suggested_account_id?: string | null
+          transaction_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_suggestions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "ai_suggestions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_suggestions_suggested_account_id_fkey"
+            columns: ["suggested_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bank_accounts: {
+        Row: {
+          account_id: string | null
+          created_at: string
+          id: string
+          institution: string | null
+          last4: string | null
+          name: string
+          organization_id: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          created_at?: string
+          id?: string
+          institution?: string | null
+          last4?: string | null
+          name: string
+          organization_id: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          created_at?: string
+          id?: string
+          institution?: string | null
+          last4?: string | null
+          name?: string
+          organization_id?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_accounts_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "bank_accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bank_feeds: {
+        Row: {
+          access_token: string | null
+          bank_account_id: string | null
+          created_at: string
+          id: string
+          last_sync: string | null
+          organization_id: string
+          provider: Database["public"]["Enums"]["bank_feed_provider"]
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          access_token?: string | null
+          bank_account_id?: string | null
+          created_at?: string
+          id?: string
+          last_sync?: string | null
+          organization_id: string
+          provider: Database["public"]["Enums"]["bank_feed_provider"]
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          access_token?: string | null
+          bank_account_id?: string | null
+          created_at?: string
+          id?: string
+          last_sync?: string | null
+          organization_id?: string
+          provider?: Database["public"]["Enums"]["bank_feed_provider"]
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_feeds_bank_account_id_fkey"
+            columns: ["bank_account_id"]
+            isOneToOne: false
+            referencedRelation: "bank_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_feeds_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "bank_feeds_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bank_transactions: {
+        Row: {
+          amount: number
+          bank_account_id: string | null
+          created_at: string
+          date: string
+          description: string | null
+          external_id: string | null
+          id: string
+          matched_entry_id: string | null
+          organization_id: string
+        }
+        Insert: {
+          amount: number
+          bank_account_id?: string | null
+          created_at?: string
+          date: string
+          description?: string | null
+          external_id?: string | null
+          id?: string
+          matched_entry_id?: string | null
+          organization_id: string
+        }
+        Update: {
+          amount?: number
+          bank_account_id?: string | null
+          created_at?: string
+          date?: string
+          description?: string | null
+          external_id?: string | null
+          id?: string
+          matched_entry_id?: string | null
+          organization_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_transactions_bank_account_id_fkey"
+            columns: ["bank_account_id"]
+            isOneToOne: false
+            referencedRelation: "bank_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_matched_entry_id_fkey"
+            columns: ["matched_entry_id"]
+            isOneToOne: false
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_matched_entry_id_fkey"
+            columns: ["matched_entry_id"]
+            isOneToOne: false
+            referencedRelation: "v_uncleared_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       case_accounts: {
         Row: {
           case_id: string
@@ -182,6 +470,73 @@ export type Database = {
           },
           {
             foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      checks: {
+        Row: {
+          amount: number
+          attachment_url: string | null
+          bank_account_id: string | null
+          created_at: string
+          date: string
+          id: string
+          memo: string | null
+          number: string | null
+          organization_id: string
+          payee: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          attachment_url?: string | null
+          bank_account_id?: string | null
+          created_at?: string
+          date: string
+          id?: string
+          memo?: string | null
+          number?: string | null
+          organization_id: string
+          payee: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          attachment_url?: string | null
+          bank_account_id?: string | null
+          created_at?: string
+          date?: string
+          id?: string
+          memo?: string | null
+          number?: string | null
+          organization_id?: string
+          payee?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "checks_bank_account_id_fkey"
+            columns: ["bank_account_id"]
+            isOneToOne: false
+            referencedRelation: "bank_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "checks_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "checks_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
@@ -530,6 +885,13 @@ export type Database = {
             referencedRelation: "journal_entries"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "journal_lines_entry_id_fkey"
+            columns: ["entry_id"]
+            isOneToOne: false
+            referencedRelation: "v_uncleared_entries"
+            referencedColumns: ["id"]
+          },
         ]
       }
       kpis_daily: {
@@ -759,6 +1121,64 @@ export type Database = {
         }
         Relationships: []
       }
+      reconciliations: {
+        Row: {
+          bank_account_id: string | null
+          created_at: string
+          ending_balance: number
+          id: string
+          organization_id: string
+          statement_end: string
+          statement_start: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          bank_account_id?: string | null
+          created_at?: string
+          ending_balance: number
+          id?: string
+          organization_id: string
+          statement_end: string
+          statement_start: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          bank_account_id?: string | null
+          created_at?: string
+          ending_balance?: number
+          id?: string
+          organization_id?: string
+          statement_end?: string
+          statement_start?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reconciliations_bank_account_id_fkey"
+            columns: ["bank_account_id"]
+            isOneToOne: false
+            referencedRelation: "bank_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reconciliations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "reconciliations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       settlement_items: {
         Row: {
           amount: number
@@ -972,6 +1392,77 @@ export type Database = {
           },
         ]
       }
+      trust_checks: {
+        Row: {
+          amount: number
+          case_id: string | null
+          check_no: string | null
+          created_at: string
+          date: string
+          id: string
+          memo: string | null
+          organization_id: string
+          payee: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          case_id?: string | null
+          check_no?: string | null
+          created_at?: string
+          date: string
+          id?: string
+          memo?: string | null
+          organization_id: string
+          payee: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          case_id?: string | null
+          check_no?: string | null
+          created_at?: string
+          date?: string
+          id?: string
+          memo?: string | null
+          organization_id?: string
+          payee?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trust_checks_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trust_checks_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "v_case_costs"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "trust_checks_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "trust_checks_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -1120,6 +1611,101 @@ export type Database = {
           },
         ]
       }
+      v_uncleared_entries: {
+        Row: {
+          case_id: string | null
+          created_at: string | null
+          created_by: string | null
+          credit: number | null
+          debit: number | null
+          entry_date: string | null
+          id: string | null
+          memo: string | null
+          organization_id: string | null
+          updated_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journal_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journal_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "v_case_costs"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "journal_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "journal_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_unmatched_bank: {
+        Row: {
+          amount: number | null
+          bank_account_id: string | null
+          bank_account_name: string | null
+          created_at: string | null
+          date: string | null
+          description: string | null
+          external_id: string | null
+          id: string | null
+          matched_entry_id: string | null
+          organization_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_transactions_bank_account_id_fkey"
+            columns: ["bank_account_id"]
+            isOneToOne: false
+            referencedRelation: "bank_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_matched_entry_id_fkey"
+            columns: ["matched_entry_id"]
+            isOneToOne: false
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_matched_entry_id_fkey"
+            columns: ["matched_entry_id"]
+            isOneToOne: false
+            referencedRelation: "v_uncleared_entries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       v_utilization: {
         Row: {
           billable_hours: number | null
@@ -1152,9 +1738,32 @@ export type Database = {
         Args: { _settlement_id: string; _template_id: string }
         Returns: undefined
       }
+      fn_issue_check: { Args: { _check_id: string }; Returns: string }
+      fn_match_transactions: {
+        Args: { _organization_id: string }
+        Returns: number
+      }
       fn_post_settlement: {
         Args: { _settlement_id: string }
         Returns: undefined
+      }
+      fn_trust_deposit: {
+        Args: {
+          _amount: number
+          _case_id: string
+          _memo: string
+          _organization_id: string
+        }
+        Returns: string
+      }
+      fn_trust_withdraw: {
+        Args: {
+          _amount: number
+          _case_id: string
+          _memo: string
+          _organization_id: string
+        }
+        Returns: string
       }
       has_role: {
         Args: {
@@ -1170,6 +1779,7 @@ export type Database = {
     Enums: {
       account_type: "asset" | "liability" | "equity" | "revenue" | "expense"
       app_role: "owner" | "admin" | "staff" | "read_only"
+      bank_feed_provider: "plaid" | "qbo" | "manual"
       settlement_item_type: "fee" | "lien" | "expense" | "client"
     }
     CompositeTypes: {
@@ -1300,6 +1910,7 @@ export const Constants = {
     Enums: {
       account_type: ["asset", "liability", "equity", "revenue", "expense"],
       app_role: ["owner", "admin", "staff", "read_only"],
+      bank_feed_provider: ["plaid", "qbo", "manual"],
       settlement_item_type: ["fee", "lien", "expense", "client"],
     },
   },
