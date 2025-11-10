@@ -75,6 +75,158 @@ export type Database = {
           },
         ]
       }
+      case_accounts: {
+        Row: {
+          case_id: string
+          created_at: string
+          id: string
+          operating_account_id: string | null
+          trust_account_id: string | null
+        }
+        Insert: {
+          case_id: string
+          created_at?: string
+          id?: string
+          operating_account_id?: string | null
+          trust_account_id?: string | null
+        }
+        Update: {
+          case_id?: string
+          created_at?: string
+          id?: string
+          operating_account_id?: string | null
+          trust_account_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "case_accounts_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: true
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_accounts_operating_account_id_fkey"
+            columns: ["operating_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "case_accounts_trust_account_id_fkey"
+            columns: ["trust_account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cases: {
+        Row: {
+          case_no: string
+          client_id: string
+          created_at: string
+          id: string
+          opened_on: string
+          organization_id: string
+          practice_area: string | null
+          settled_on: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          case_no: string
+          client_id: string
+          created_at?: string
+          id?: string
+          opened_on?: string
+          organization_id: string
+          practice_area?: string | null
+          settled_on?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          case_no?: string
+          client_id?: string
+          created_at?: string
+          id?: string
+          opened_on?: string
+          organization_id?: string
+          practice_area?: string | null
+          settled_on?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cases_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          organization_id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          organization_id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          organization_id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clients_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "clients_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       field_mappings: {
         Row: {
           created_at: string
@@ -116,6 +268,7 @@ export type Database = {
       }
       journal_entries: {
         Row: {
+          case_id: string | null
           created_at: string
           created_by: string
           entry_date: string
@@ -125,6 +278,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          case_id?: string | null
           created_at?: string
           created_by: string
           entry_date: string
@@ -134,6 +288,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          case_id?: string | null
           created_at?: string
           created_by?: string
           entry_date?: string
@@ -143,6 +298,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "journal_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "journal_entries_organization_id_fkey"
             columns: ["organization_id"]
