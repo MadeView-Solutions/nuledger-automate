@@ -8,3 +8,9 @@ verify_jwt = false
 
 [functions.webhook-plaid]
 verify_jwt = false
+
+[functions.import-csv]
+verify_jwt = false
+
+[functions.sync-qbo]
+verify_jwt = false

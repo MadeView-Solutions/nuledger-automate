@@ -26,15 +26,15 @@ Deno.serve(async (req) => {
       }
     );
 
-    // Call the refresh function
-    const { error } = await supabaseAdmin.rpc('refresh_kpis_daily');
+    // Call the refresh function for daily KPIs
+    const { error: kpiError } = await supabaseAdmin.rpc('refresh_kpis_daily');
     
-    if (error) {
-      console.error('Error refreshing KPIs:', error);
+    if (kpiError) {
+      console.error('Error refreshing KPIs:', kpiError);
       return new Response(
         JSON.stringify({ 
           success: false, 
-          error: error.message 
+          error: kpiError.message 
         }),
         {
           status: 500,
@@ -45,10 +45,30 @@ Deno.serve(async (req) => {
 
     console.log('KPI refresh completed successfully');
     
+    // Refresh all materialized views for reports
+    console.log('Starting reports refresh...');
+    const { error: reportsError } = await supabaseAdmin.rpc('fn_refresh_reports');
+    
+    if (reportsError) {
+      console.error('Error refreshing reports:', reportsError);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: reportsError.message 
+        }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    console.log('Reports refresh completed successfully');
+    
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: 'KPIs refreshed successfully',
+        message: 'KPIs and report materialized views refreshed successfully',
         timestamp: new Date().toISOString()
       }),
       {
