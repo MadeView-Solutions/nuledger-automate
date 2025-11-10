@@ -106,6 +106,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "case_accounts_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: true
+            referencedRelation: "v_case_costs"
+            referencedColumns: ["case_id"]
+          },
+          {
             foreignKeyName: "case_accounts_operating_account_id_fkey"
             columns: ["operating_account_id"]
             isOneToOne: false
@@ -227,6 +234,164 @@ export type Database = {
           },
         ]
       }
+      disbursement_template_lines: {
+        Row: {
+          account_id: string | null
+          created_at: string
+          fixed_amount: number | null
+          id: string
+          item_type: Database["public"]["Enums"]["settlement_item_type"]
+          label: string
+          pct: number | null
+          template_id: string
+        }
+        Insert: {
+          account_id?: string | null
+          created_at?: string
+          fixed_amount?: number | null
+          id?: string
+          item_type: Database["public"]["Enums"]["settlement_item_type"]
+          label: string
+          pct?: number | null
+          template_id: string
+        }
+        Update: {
+          account_id?: string | null
+          created_at?: string
+          fixed_amount?: number | null
+          id?: string
+          item_type?: Database["public"]["Enums"]["settlement_item_type"]
+          label?: string
+          pct?: number | null
+          template_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "disbursement_template_lines_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "disbursement_template_lines_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "disbursement_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      disbursement_templates: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          organization_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          organization_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          organization_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "disbursement_templates_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "disbursement_templates_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expenses: {
+        Row: {
+          amount: number
+          case_id: string | null
+          category: string | null
+          created_at: string
+          date: string
+          id: string
+          memo: string | null
+          organization_id: string
+          reimbursable: boolean | null
+          updated_at: string
+          vendor_id: string | null
+        }
+        Insert: {
+          amount: number
+          case_id?: string | null
+          category?: string | null
+          created_at?: string
+          date: string
+          id?: string
+          memo?: string | null
+          organization_id: string
+          reimbursable?: boolean | null
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Update: {
+          amount?: number
+          case_id?: string | null
+          category?: string | null
+          created_at?: string
+          date?: string
+          id?: string
+          memo?: string | null
+          organization_id?: string
+          reimbursable?: boolean | null
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "v_case_costs"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "expenses_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "expenses_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       field_mappings: {
         Row: {
           created_at: string
@@ -304,6 +469,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "cases"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journal_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "v_case_costs"
+            referencedColumns: ["case_id"]
           },
           {
             foreignKeyName: "journal_entries_organization_id_fkey"
@@ -587,6 +759,115 @@ export type Database = {
         }
         Relationships: []
       }
+      settlement_items: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          label: string
+          settlement_id: string
+          type: Database["public"]["Enums"]["settlement_item_type"]
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          label: string
+          settlement_id: string
+          type: Database["public"]["Enums"]["settlement_item_type"]
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          label?: string
+          settlement_id?: string
+          type?: Database["public"]["Enums"]["settlement_item_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "settlement_items_settlement_id_fkey"
+            columns: ["settlement_id"]
+            isOneToOne: false
+            referencedRelation: "settlements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      settlements: {
+        Row: {
+          case_id: string
+          client_net: number | null
+          created_at: string
+          fee_amount: number | null
+          fee_pct: number | null
+          gross_amount: number
+          id: string
+          liens_total: number | null
+          organization_id: string
+          received_date: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          case_id: string
+          client_net?: number | null
+          created_at?: string
+          fee_amount?: number | null
+          fee_pct?: number | null
+          gross_amount: number
+          id?: string
+          liens_total?: number | null
+          organization_id: string
+          received_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          case_id?: string
+          client_net?: number | null
+          created_at?: string
+          fee_amount?: number | null
+          fee_pct?: number | null
+          gross_amount?: number
+          id?: string
+          liens_total?: number | null
+          organization_id?: string
+          received_date?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "settlements_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "settlements_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "v_case_costs"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "settlements_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sync_config: {
         Row: {
           auto_sync_enabled: boolean
@@ -619,6 +900,77 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      time_entries: {
+        Row: {
+          billable: boolean | null
+          case_id: string | null
+          created_at: string
+          date: string
+          description: string | null
+          hours: number
+          id: string
+          organization_id: string
+          rate: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          billable?: boolean | null
+          case_id?: string | null
+          created_at?: string
+          date: string
+          description?: string | null
+          hours: number
+          id?: string
+          organization_id: string
+          rate?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          billable?: boolean | null
+          case_id?: string | null
+          created_at?: string
+          date?: string
+          description?: string | null
+          hours?: number
+          id?: string
+          organization_id?: string
+          rate?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "time_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "v_case_costs"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -676,8 +1028,134 @@ export type Database = {
         }
         Relationships: []
       }
+      mv_perf_weekly: {
+        Row: {
+          active_cases: number | null
+          avg_billable_rate: number | null
+          billable_hours: number | null
+          organization_id: string | null
+          total_hours: number | null
+          total_revenue: number | null
+          week_start: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_case_costs: {
+        Row: {
+          case_id: string | null
+          case_no: string | null
+          organization_id: string | null
+          total_cost: number | null
+          total_expenses: number | null
+          total_time_cost: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "cases_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_realization: {
+        Row: {
+          billed_amount: number | null
+          case_id: string | null
+          collected_amount: number | null
+          organization_id: string | null
+          realization_rate: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "cases"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "time_entries_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "v_case_costs"
+            referencedColumns: ["case_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_utilization: {
+        Row: {
+          billable_hours: number | null
+          organization_id: string | null
+          total_hours: number | null
+          user_id: string | null
+          utilization_rate: number | null
+          week_start: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "time_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
+      fn_apply_disbursement_template: {
+        Args: { _settlement_id: string; _template_id: string }
+        Returns: undefined
+      }
+      fn_post_settlement: {
+        Args: { _settlement_id: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _org_id: string
@@ -692,6 +1170,7 @@ export type Database = {
     Enums: {
       account_type: "asset" | "liability" | "equity" | "revenue" | "expense"
       app_role: "owner" | "admin" | "staff" | "read_only"
+      settlement_item_type: "fee" | "lien" | "expense" | "client"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -821,6 +1300,7 @@ export const Constants = {
     Enums: {
       account_type: ["asset", "liability", "equity", "revenue", "expense"],
       app_role: ["owner", "admin", "staff", "read_only"],
+      settlement_item_type: ["fee", "lien", "expense", "client"],
     },
   },
 } as const
