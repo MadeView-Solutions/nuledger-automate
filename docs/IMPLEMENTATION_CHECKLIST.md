@@ -26,13 +26,13 @@ All tables have RLS enabled with policies using `has_role()` and `user_organizat
 - ✅ Read-only access based on organization membership
 
 ### Seed Data Status
-**⚠️ ACTION REQUIRED:** Run seed script to create initial organization
+✅ **COMPLETE** - Demo organization seeded automatically
+- Organization: Demo Law Firm (ID: 00000000-0000-0000-0000-000000000001)
+- Chart of Accounts: Personal Injury practice area loaded
+- Bank Accounts: Trust and Operating accounts created
+- Test Scenario: Default scenario ready for execution
 
-```sql
--- See docs/SEED_TRAINING_ORG.sql
-```
-
-**Location:** `docs/SEED_TRAINING_ORG.sql`
+**Note:** User accounts must be created manually in Supabase Auth, then roles assigned via `user_roles` table
 
 ---
 
@@ -76,30 +76,26 @@ All tables have RLS enabled with policies using `has_role()` and `user_organizat
 | ✅ `imports` | No | Yes | CSV files for bulk import |
 
 ### Storage RLS Policies
-**⚠️ ACTION REQUIRED:** Configure storage policies
+✅ **COMPLETE** - All storage policies configured
 
-Default Supabase storage policies need to be configured per bucket. Recommended policies:
+**Attachments bucket:**
+- Users can view attachments in their organization's cases
+- Staff can upload attachments to their organization's cases
+- Admins can delete attachments from their organization's cases
 
-```sql
--- Example for attachments bucket
-CREATE POLICY "Users can view attachments in their org"
-ON storage.objects FOR SELECT
-USING (
-  bucket_id = 'attachments' AND
-  (SELECT organization_id FROM cases WHERE id::text = (storage.foldername(name))[1])
-  IN (SELECT user_organizations(auth.uid()))
-);
+**Exports bucket:**
+- Users can view exports from their organization
+- Staff can upload exports for their organization
+- Admins can delete exports from their organization
 
-CREATE POLICY "Staff can upload attachments"
-ON storage.objects FOR INSERT
-WITH CHECK (
-  bucket_id = 'attachments' AND
-  (SELECT organization_id FROM cases WHERE id::text = (storage.foldername(name))[1])
-  IN (SELECT user_organizations(auth.uid()))
-);
-```
+**Templates bucket:**
+- Users can view templates in their organization
+- Admins can manage (create/update/delete) templates
 
-**Status:** Buckets exist, but policies should be added via Supabase Dashboard → Storage → Policies
+**Imports bucket:**
+- Users can view imports in their organization
+- Staff can upload imports for their organization
+- Admins can delete imports from their organization
 
 ### Signed URLs
 - ✅ Available via `supabase.storage.from('bucket').createSignedUrl()`
@@ -264,13 +260,14 @@ Pre-configured scenarios in seed script:
 7. Test case generation function
 
 ### ⚠️ Requires Configuration (User Action)
-1. **Seed Initial Organization**
-   - Run: `docs/SEED_TRAINING_ORG.sql`
-   - Creates org, roles, preferences, accounts
+1. **✅ Seed Initial Organization - COMPLETE**
+   - Demo organization automatically seeded
+   - Chart of accounts loaded
+   - Bank accounts created
 
-2. **Storage Bucket Policies**
-   - Configure via Supabase Dashboard → Storage
-   - Templates provided in this document
+2. **✅ Storage Bucket Policies - COMPLETE**
+   - All storage policies configured
+   - Organization-scoped access control enabled
 
 3. **Integration Secrets**
    - Add Filevine credentials (if using)
