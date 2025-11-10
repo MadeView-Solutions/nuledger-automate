@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_templates: {
+        Row: {
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          is_default: boolean
+          name: string
+          parent_code: string | null
+          practice_area: string
+          type: Database["public"]["Enums"]["account_type"]
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_default?: boolean
+          name: string
+          parent_code?: string | null
+          practice_area: string
+          type: Database["public"]["Enums"]["account_type"]
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_default?: boolean
+          name?: string
+          parent_code?: string | null
+          practice_area?: string
+          type?: Database["public"]["Enums"]["account_type"]
+        }
+        Relationships: []
+      }
       accounts: {
         Row: {
           code: string
@@ -1410,6 +1446,61 @@ export type Database = {
         }
         Relationships: []
       }
+      preferences: {
+        Row: {
+          case_prefix: string | null
+          created_at: string
+          currency: string
+          fiscal_start_month: number
+          number_format: string
+          organization_id: string
+          timezone: string
+          updated_at: string
+        }
+        Insert: {
+          case_prefix?: string | null
+          created_at?: string
+          currency?: string
+          fiscal_start_month?: number
+          number_format?: string
+          organization_id: string
+          timezone?: string
+          updated_at?: string
+        }
+        Update: {
+          case_prefix?: string | null
+          created_at?: string
+          currency?: string
+          fiscal_start_month?: number
+          number_format?: string
+          organization_id?: string
+          timezone?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "preferences_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "preferences_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "preferences_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reconciliations: {
         Row: {
           bank_account_id: string | null
@@ -1630,6 +1721,99 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      test_runs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          executed_by: string
+          id: string
+          log: string | null
+          passed: boolean | null
+          scenario_id: string
+          started_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          executed_by: string
+          id?: string
+          log?: string | null
+          passed?: boolean | null
+          scenario_id: string
+          started_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          executed_by?: string
+          id?: string
+          log?: string | null
+          passed?: boolean | null
+          scenario_id?: string
+          started_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_runs_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "test_scenarios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      test_scenarios: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          organization_id: string
+          seed_jsonb: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          organization_id: string
+          seed_jsonb?: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          organization_id?: string
+          seed_jsonb?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_scenarios_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_kpis_daily"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "test_scenarios_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_trust_three_way"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "test_scenarios_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       time_entries: {
         Row: {
@@ -2407,6 +2591,7 @@ export type Database = {
         Returns: undefined
       }
       fn_refresh_reports: { Args: never; Returns: undefined }
+      fn_seed_scenario: { Args: { _scenario_id: string }; Returns: string }
       fn_trust_deposit: {
         Args: {
           _amount: number
