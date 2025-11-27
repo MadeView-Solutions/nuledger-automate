@@ -1,3 +1,6 @@
+private
+supabase/.temp
+
 # Logs
 logs
 *.log
