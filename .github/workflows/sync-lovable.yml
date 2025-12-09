@@ -1,15 +1,18 @@
-name: Sync Lovable to Code
+name: Sync Lovable Changes to Code
 
 on:
-  workflow_dispatch: # Run manually when you finish a Lovable session
+  workflow_dispatch: # Button to click manually after vibe coding
 
 jobs:
-  extract-changes:
+  extract-schema:
+    name: Detect Drift in Training
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: training # Checkout the training branch
 
       - uses: supabase/setup-cli@v1
         with:
@@ -19,29 +22,35 @@ jobs:
         run: supabase link --project-ref ${{ secrets.TRAINING_PROJECT_ID }} --password ${{ secrets.TRAINING_DB_PASSWORD }}
 
       - name: Generate Migration
+        id: diff
         run: |
-          # Create timestamped filename
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          FILENAME="supabase/migrations/${TIMESTAMP}_lovable_sync.sql"
+          MIGRATION_NAME="${TIMESTAMP}_lovable_sync"
           
-          # Generate Diff
-          supabase db diff --schema public,storage,auth > $FILENAME
+          # This runs successfully on GitHub Actions (Docker is available)
+          # We purposefully exclude auth/storage schemas to avoid permission errors
+          supabase db diff --schema public -f $MIGRATION_NAME
           
-          # Check if file is empty (no changes)
-          if [ ! -s $FILENAME ]; then
-            rm $FILENAME
+          # Check if file exists and is not empty
+          FILE_PATH="supabase/migrations/${TIMESTAMP}_lovable_sync.sql"
+          if [ -s "$FILE_PATH" ]; then
+            echo "New changes detected."
+            echo "file_path=$FILE_PATH" >> $GITHUB_OUTPUT
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
             echo "No changes detected."
-            exit 0
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            # Cleanup empty file if created
+            rm -f "$FILE_PATH" || true
           fi
-          
-          # Configure Git
-          git config --global user.name "Supabase Sync Bot"
-          git config --global user.email "bot@noreply.github.com"
-          
-          # Commit and Push
-          git add $FILENAME
-          git commit -m "chore: sync DB changes from Lovable [skip ci]"
-          git push
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          
+
+      - name: Commit and Push
+        if: steps.diff.outputs.has_changes == 'true'
+        run: |
+          git config --global user.name "NuLedger Bot"
+          git config --global user.email "bot@nuledger.com"
+          git add ${{ steps.diff.outputs.file_path }}
+          git commit -m "chore: sync db changes from Lovable"
+          git push origin training
