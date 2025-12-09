@@ -1,0 +1,47 @@
+name: Sync Lovable to Code
+
+on:
+  workflow_dispatch: # Run manually when you finish a Lovable session
+
+jobs:
+  extract-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Link to Training DB
+        run: supabase link --project-ref ${{ secrets.TRAINING_PROJECT_ID }} --password ${{ secrets.TRAINING_DB_PASSWORD }}
+
+      - name: Generate Migration
+        run: |
+          # Create timestamped filename
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          FILENAME="supabase/migrations/${TIMESTAMP}_lovable_sync.sql"
+          
+          # Generate Diff
+          supabase db diff --schema public,storage,auth > $FILENAME
+          
+          # Check if file is empty (no changes)
+          if [ ! -s $FILENAME ]; then
+            rm $FILENAME
+            echo "No changes detected."
+            exit 0
+          fi
+          
+          # Configure Git
+          git config --global user.name "Supabase Sync Bot"
+          git config --global user.email "bot@noreply.github.com"
+          
+          # Commit and Push
+          git add $FILENAME
+          git commit -m "chore: sync DB changes from Lovable [skip ci]"
+          git push
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          
